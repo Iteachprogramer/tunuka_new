@@ -40,7 +40,7 @@ class Formatter extends YiiFormatter
 
     public function asSum($value)
     {
-        if ($value == null) {
+        if ($value === null) {
             return "";
         }
         return $this->asInteger($value) . " " . Yii::t('site', "sum");
@@ -59,7 +59,7 @@ class Formatter extends YiiFormatter
     public function asThumbnail($value = null, $size = '75px', $options = [])
     {
         $class = isBs4() ? "img-thumbnail" : 'thumbnail';
-        if ($value == null) {
+        if ($value === null) {
             return $this->nullDisplay;
         }
         Html::addCssClass($options, $class);
@@ -98,7 +98,7 @@ class Formatter extends YiiFormatter
 
     public function asFileSize($value = null)
     {
-        if ($value == null) {
+        if ($value === null) {
             return $this->nullDisplay;
         }
         $size = intval($value);
@@ -126,8 +126,8 @@ class Formatter extends YiiFormatter
      */
     public function asDateUz($value = null)
     {
-        if ($value == null) {
-            return null;
+        if ($value === null) {
+            return $this->nullDisplay;
         }
         $month = Yii::t('site', date('M', $value));
 
@@ -140,8 +140,8 @@ class Formatter extends YiiFormatter
      */
     public function asFullDateUz($value = null)
     {
-        if ($value == null) {
-            return null;
+        if ($value === null) {
+            return $this->nullDisplay;
         }
         $month = $this->fullMonthName(date('F', $value));
         return date('d', $value) . "-" . $month . "-" . date('Y', $value);
@@ -153,8 +153,8 @@ class Formatter extends YiiFormatter
      */
     public function asTimeUz($value = null)
     {
-        if ($value == null) {
-            return null;
+        if ($value === null) {
+            return $this->nullDisplay;
         }
 
         return date('H:i', $value);
@@ -166,8 +166,8 @@ class Formatter extends YiiFormatter
      */
     public function asDateTimeUz($value = null)
     {
-        if ($value == null) {
-            return null;
+        if ($value === null) {
+            return $this->nullDisplay;
         }
 
         return $this->asDateUz($value) . " " . $this->asTimeUz($value);
@@ -179,8 +179,8 @@ class Formatter extends YiiFormatter
      */
     public function asFullDateTimeUz($value = null)
     {
-        if ($value == null) {
-            return null;
+        if ($value === null) {
+            return $this->nullDisplay;
         }
 
         return $this->asFullDateUz($value) . " " . $this->asTimeUz($value);
@@ -222,8 +222,8 @@ class Formatter extends YiiFormatter
 
     public function asGmtime($value = null)
     {
-        if ($value == null) {
-            return "";
+        if ($value === null) {
+            return $this->nullDisplay;
         }
         $value = intval($value);
         $format = $value >= 3600 ? "H:i:s" : "i:s";

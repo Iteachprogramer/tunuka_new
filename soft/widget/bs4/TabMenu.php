@@ -7,7 +7,7 @@ use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+use soft\helpers\Html;
 
 class TabMenu extends Widget
 {
@@ -168,8 +168,12 @@ class TabMenu extends Widget
         return false;
     }
 
+    /**
+     * @throws \Exception
+     */
     private function renderIcon($item)
     {
+
         $icon = ArrayHelper::getValue($item, 'icon');
 
         if (is_array($icon)) {
@@ -177,7 +181,7 @@ class TabMenu extends Widget
             return Html::tag($tag, '', $icon);
         }
 
-        return $icon;
+        return Html::icon($icon);
 
     }
 

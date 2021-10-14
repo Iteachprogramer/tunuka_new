@@ -5,7 +5,7 @@ namespace soft\behaviors;
 use Yii;
 use yii\base\Behavior;
 use yii\base\InvalidArgumentException;
-use yii\db\ActiveRecord;
+use yii\db\BaseActiveRecord;
 
 class TimestampConvertorBehavior extends Behavior
 {
@@ -25,7 +25,8 @@ class TimestampConvertorBehavior extends Behavior
     public function events()
     {
         return [
-            ActiveRecord::EVENT_BEFORE_VALIDATE => 'convertToTimestamp',
+            BaseActiveRecord::EVENT_BEFORE_INSERT => 'convertToTimestamp',
+            BaseActiveRecord::EVENT_BEFORE_UPDATE => 'convertToTimestamp',
         ];
     }
 

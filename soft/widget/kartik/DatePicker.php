@@ -35,16 +35,19 @@ class DatePicker extends \kartik\widgets\DatePicker
     private function normalizeValues()
     {
         if ($this->hasModel()) {
-            $value = $this->value;
-            if (!empty($value) && is_integer($value)) {
 
-                if (!preg_match(Html::$attributeRegex, $this->attribute, $matches)) {
-                    throw new InvalidArgumentException('Attribute name must contain word characters only.');
-                }
-                $attribute = $matches[2];
+            if (!preg_match(Html::$attributeRegex, $this->attribute, $matches)) {
+                throw new InvalidArgumentException('Attribute name must contain word characters only.');
+            }
+
+            $attribute = $matches[2];
+            $value = $this->value ?? $this->model->$attribute;
+
+            if (!empty($value) && is_integer($value)) {
                 $this->value = date($this->dateFormat, $value);
                 $this->model->$attribute = date($this->dateFormat, $value);
             }
+
         } else {
 
             $value = $this->value;

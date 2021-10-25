@@ -109,7 +109,6 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 
     /**
     * Creates a new <?= $modelClass ?> model.
-    * If creation is successful, the browser will be redirected to the 'view' page.
     * @return string
     */
     public function actionCreate()
@@ -120,7 +119,6 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 
     /**
     * Updates an existing <?= $modelClass ?> model.
-    * If update is successful, the browser will be redirected to the 'view' page.
     * <?= implode("\n     * ", $actionParamComments) . "\n" ?>
     * @return string
     * @throws NotFoundHttpException if the model cannot be found
@@ -133,7 +131,6 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 
     /**
     * Deletes an existing <?= $modelClass ?> model.
-    * If deletion is successful, the browser will be redirected to the 'index' page.
     * <?= implode("\n     * ", $actionParamComments) . "\n" ?>
     * @return mixed
     * @throws NotFoundHttpException if the model cannot be found
@@ -146,9 +143,6 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
 
     /**
     * Delete multiple existing <?= $modelClass ?> model.
-    * For ajax request will return json object
-    * and for non-ajax request if deletion is successful,
-    * the browser will be redirected to the 'index' page.
     * <?= implode("\n     * ", $actionParamComments) . "\n" ?>
     * @return mixed
     */

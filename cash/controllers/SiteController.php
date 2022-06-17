@@ -1,6 +1,6 @@
 <?php
 
-namespace sale\controllers;
+namespace cash\controllers;
 
 use Yii;
 use soft\web\SoftController;
@@ -29,7 +29,7 @@ class SiteController extends SoftController
                     [
                         'actions' => ['logout', 'error', 'index', 'cache-flush'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['cash'],
                     ],
                 ],
             ],
@@ -96,6 +96,7 @@ class SiteController extends SoftController
 
         return $this->redirect('/site/index');
     }
+
 
     public function actionCacheFlush()
     {

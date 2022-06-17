@@ -37,8 +37,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             return '<span class="badge badge-danger">' . 'Admin' . '</span>';
                         } elseif ($model->type_id == User::TYPE_SALE) {
                             return '<span class="badge badge-success">' . 'Sotuvchi' . '</span>';
-                        } elseif ($model->type_id == User::TYPE_FACTORY) {
+                        } elseif ($model->type_id == User::TYPE_CASH) {
+                            return '<span class="badge badge-info">' . 'Kassa' . '</span>';
+                        }
+                        elseif ($model->type_id == User::TYPE_FACTORY) {
                             return '<span class="badge badge-warning">' . 'Ishlab chiqarish' . '</span>';
+
                         }
                     }
                 ],

@@ -17,4 +17,6 @@ RewriteRule ^sale/(.+)?$ sale/web/$1 [L,PT]
 RewriteRule ^factory(/.+)?$ factory/web/$1 [L,PT]
 RewriteRule ^factory/(.+)?$ factory/web/$1 [L,PT]
 
+RewriteRule ^cash(/.+)?$ cash/web/$1 [L,PT]
+RewriteRule ^cash/(.+)?$ cash/web/$1 [L,PT]
 RewriteRule ^(.+)?$ frontend/web/$1

@@ -53,6 +53,7 @@ if (!$model->isNewRecord) {
                     User::TYPE_ADMIN => 'Admin',
                     User::TYPE_FACTORY => 'Ishlab chiqarish',
                     User::TYPE_SALE => 'Sotuvchi',
+                    User::TYPE_CASH => 'Kassa',
                 ]) ?>
             </div>
             <div class="col-6">

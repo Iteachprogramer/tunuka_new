@@ -82,6 +82,8 @@ class SiteController extends Controller
 
             } elseif (Yii::$app->user->can('factory')) {
                 return $this->redirect('/factory/');
+            }  elseif (Yii::$app->user->can('cash')) {
+                return $this->redirect('/cash');
             } else {
                 return $this->redirect('/sale');
             }
@@ -93,7 +95,9 @@ class SiteController extends Controller
 
                 return $this->redirect('/admin');
             } elseif (Yii::$app->user->can('factory')) {
-                return $this->redirect('/factory/');
+                return $this->redirect('/factory');
+            }elseif (Yii::$app->user->can('cash')) {
+                return $this->redirect('/cash');
             } else {
                 return $this->redirect('/sale');
             }

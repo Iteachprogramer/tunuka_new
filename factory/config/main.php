@@ -12,6 +12,7 @@ return [
     'controllerNamespace' => 'factory\controllers',
     'bootstrap' => ['log'],
     'language' => 'uz',
+    'name'=>'Ishlab chiqarish',
     'homeUrl' => '/factory',
     'modules' => [
         'profilemanager' => [

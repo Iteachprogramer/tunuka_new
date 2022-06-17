@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\ExpenseType;
 use common\models\search\ExpenseTypeSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,15 +23,25 @@ class ExpenseTypeController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulkdelete' => ['post'],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
                 ],
             ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                    'delete-account' => ['POST'],
+                ]
+            ]
         ];
     }
+
 
     /**
      * Lists all ExpenseType models.

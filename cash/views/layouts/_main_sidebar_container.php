@@ -35,26 +35,10 @@ $endDate = date('t.m.Y');
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= Url::to(['/client']) ?>" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
+                    <a href="<?= Url::to(['/account']) ?>" class="nav-link">
+                        <i class="nav-icon fas fa-coins"></i>
                         <p>
-                            Klient
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?= Url::to(['/outcome-group']) ?>" class="nav-link">
-                        <i class="nav-icon fas fa-upload"></i>
-                        <p>
-                            Yuk sotish
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="<?= Url::to(['/product-list']) ?>" class="nav-link">
-                        <i class="nav-icon fas fa-store-alt"></i>
-                        <p>
-                            Tovarlar
+                            Kassa
                         </p>
                     </a>
                 </li>

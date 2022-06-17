@@ -13,6 +13,7 @@ return [
     'bootstrap' => ['log'],
     'language' => 'uz',
     'homeUrl' => '/admin',
+    'name'=>'Sotuv bo\'limi',
     'modules' => [
         'profilemanager' => [
             'class' => 'sale\modules\profilemanager\Module',

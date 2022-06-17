@@ -5,6 +5,8 @@ namespace factory\modules\profilemanager\controllers;
 use factory\modules\profilemanager\models\ChangePasswordForm;
 use factory\modules\profilemanager\models\ProfileUser;
 use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -18,16 +20,24 @@ class DefaultController extends Controller
     {
         return [
             'access' => [
-                'class' => \yii\filters\AccessControl::className(),
+                'class' => AccessControl::className(),
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['factory'],
                     ],
                 ],
             ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                    'delete-account' => ['POST'],
+                ]
+            ]
         ];
     }
+
 
     /**
      * Renders the index view for the module

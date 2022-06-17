@@ -7,7 +7,7 @@
 use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
 
-$this->title = 'Login';
+$this->title = 'Kirish';
 ?>
 <div class="login-box" style="margin: 20px auto">
     <div class="login-logo">

@@ -13,6 +13,7 @@ use soft\web\AjaxCrudController;
 use Yii;
 use common\models\OutcomeGroup;
 use common\models\search\OutcomeGroupSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -30,15 +31,25 @@ class OutcomeGroupController extends AjaxCrudController
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulkdelete' => ['post'],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
                 ],
             ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                    'delete-account' => ['POST'],
+                ]
+            ]
         ];
     }
+
     public function actionIndex()
     {
         $searchModel = new OutcomeGroupSearch();

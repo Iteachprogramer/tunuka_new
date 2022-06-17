@@ -12,6 +12,7 @@ return [
     'controllerNamespace' => 'cash\controllers',
     'bootstrap' => ['log'],
     'language' => 'uz',
+    'name'=>'Kassa',
     'homeUrl' => '/cash',
     'modules' => [
         'profilemanager' => [

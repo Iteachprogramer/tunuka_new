@@ -24,11 +24,11 @@ class AccountController extends AjaxCrudController
                     [
                         'actions' => ['view'],
                         'allow' => true,
-                        'roles' => ['@']
+                        'roles' => ['admin']
                     ],
                     [
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],

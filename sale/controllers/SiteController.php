@@ -29,7 +29,7 @@ class SiteController extends SoftController
                     [
                         'actions' => ['logout', 'error', 'index', 'cache-flush'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['sale'],
                     ],
                 ],
             ],

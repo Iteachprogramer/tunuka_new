@@ -1,4 +1,9 @@
 <?php
+/*
+ * @author Shukurullo Odilov
+ * @link telegram: https://t.me/yii2_dasturchi
+ * @date 24.07.2021, 10:07
+ */
 
 namespace soft\components;
 
@@ -346,9 +351,11 @@ class AjaxCrud extends \yii\base\Component
             if ($model->load($request->post()) && $model->save()) {
 
                 $forceClose = ArrayHelper::getValue($params, 'forceClose', true);
-                if ($forceClose) {
+                if ($forceClose)
+                {
                     return $this->closeModal();
-                } else {
+                }
+                else {
                     return $this->viewAction($model, [ 'footer' => $this->afterCreateFooter(), 'forceReload' => '#crud-datatable-pjax']);
                 }
 

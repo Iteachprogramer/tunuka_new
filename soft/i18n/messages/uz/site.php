@@ -70,6 +70,7 @@ return [
     'Download' => "Yuklab olish",
     'Upload' => "Yuklash",
     'Back' => 'Ortga',
+    'Select...' => 'Tanlng...',
 
     'DD.MM.YYYY' => 'KK.OO.YYYY',
 

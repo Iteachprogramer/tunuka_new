@@ -14,20 +14,11 @@ return [
     'language' => 'uz',
     'homeUrl' => '/admin',
     'modules' => [
-        'smsmanager' => [
-            'class' => 'backend\modules\smsmanager\Module',
-        ],
-        'region-manager' => [
-            'class' => 'backend\modules\regionmanager\RegionModule',
-        ],
         'profilemanager' => [
             'class' => 'backend\modules\profilemanager\Module',
         ],
         'usermanager' => [
             'class' => 'backend\modules\usermanager\Module',
-        ],
-        'translate-manager' => [
-            'class' => 'backend\modules\translationmanager\TranslationManager',
         ],
         'gridview' => [
             'class' => 'kartik\grid\Module'
@@ -35,21 +26,19 @@ return [
 
     ],
     'components' => [
-        'sms' => [
-            'class' => 'backend\modules\smsmanager\models\Sms'
-        ],
         'request' => [
             'csrfParam' => '_csrf-backend',
             'baseUrl' => '/admin',
         ],
+
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-sugar', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-common', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
-            'name' => 'advanced-backend',
+            'name' => 'advanced-common',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -75,34 +64,35 @@ return [
             'bundles' => [
                 'yii\web\JqueryAsset' => [
                     'sourcePath' => null,
-                    'baseUrl' => '@homeUrl/template/adminlte3/base-assets',
-                    'js' => ['js/jquery.min.js']
-                ],
-
-                'yii\bootstrap\BootstrapAsset' => [
-                    'sourcePath' => null,
-                    'baseUrl' => '@homeUrl/template/adminlte3/base-assets',
-                    'css' => [
-                        'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback',
-                        'fontawesome-free/css/all.min.css',
-                        'css/adminlte.min.css',
-                    ]
-                ],
-
-                'yii\bootstrap\BootstrapPluginAsset' => [
-                    'sourcePath' => null,
-                    'baseUrl' => '@homeUrl/template/adminlte3/base-assets',
-                    'js' => ['js/bootstrap.bundle.min.js',]
-                ],
-                'yii\bootstrap4\BootstrapPluginAsset' => [
-                    'sourcePath' => null,
-                    'js' => [],
+                    'baseUrl' => '@web/adminLte3',
+                    'js' => [
+                        '/frontend/web/adminLte3/js/jquery.min.js'
+                    ],
                 ],
                 'yii\bootstrap4\BootstrapAsset' => [
                     'sourcePath' => null,
-                    'css' => [],
+                    'baseUrl' => '@web/adminLte3',
+                    'css' => [
+                        '/frontend/web/adminLte3/css/fontawesome-free/css/all.min.css',
+                        '/frontend/web/adminLte3/css/adminlte.min.css',
+                    ],
                 ],
-            ]
+                'yii\bootstrap\BootstrapAsset' => [
+                    'sourcePath' => null,
+                    'baseUrl' => '@web/adminLte3',
+                    'css' => [
+                        '/frontend/web/adminLte3/css/fontawesome-free/css/all.min.css',
+                        '/frontend/web/adminLte3/css/adminlte.min.css',
+                    ],
+                ],
+                'yii\bootstrap4\BootstrapPluginAsset' => [
+                    'sourcePath' => null,
+                    'baseUrl' => '@web/adminLte3',
+                    'js' => [
+                        '/frontend/web/adminLte3/js/bootstrap.bundle.min.js',
+                    ],
+                ],
+            ],
         ],
 
     ],

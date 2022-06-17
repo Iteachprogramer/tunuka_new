@@ -7,16 +7,8 @@ return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'bootstrap' => ['gii'],
     'language' => 'uz',
-    'name' => 'Smart Doctor',
+    'name' => 'Shablon',
     'components' => [
-
-        'authManager' => [
-            'class' => 'yii\rbac\PhpManager',
-            'itemFile' => '@common/rbac/items.php',
-            'assignmentFile' => '@common/rbac/assignments.php',
-            'ruleFile' => '@common/rbac/rules.php',
-        ],
-
         'i18n' => [
             'translations' => [
                 'site*' => [
@@ -31,7 +23,9 @@ return [
                 ],
             ],
         ],
-
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
             'cachePath' => '@common/runtime/cache'

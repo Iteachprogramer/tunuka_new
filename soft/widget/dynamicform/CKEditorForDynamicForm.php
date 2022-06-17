@@ -2,6 +2,12 @@
 /*
  * @author Shukurullo Odilov
  * @link telegram: https://t.me/yii2_dasturchi
+ * @date 24.07.2021, 10:06
+ */
+
+/*
+ * @author Shukurullo Odilov
+ * @link telegram: https://t.me/yii2_dasturchi
  * @date 26.06.2021, 16:58
  */
 

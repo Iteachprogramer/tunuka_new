@@ -7,7 +7,6 @@
 
 return [
 
-
     'Cancel' => 'Cancel',
     'Close' => 'Close',
     'Update' => "Update",
@@ -75,6 +74,7 @@ return [
     'Download' => "Download",
     'Upload' => "Upload",
     'Back' => 'Ortga',
+    'Select...' => 'Select...',
 
     'DD.MM.YYYY' => 'DD.MM.YYYY',
 

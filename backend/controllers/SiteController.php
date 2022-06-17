@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Client;
+use soft\helpers\ArrayHelper;
 use Yii;
 use soft\web\SoftController;
 use common\models\LoginForm;
@@ -30,7 +31,7 @@ class SiteController extends SoftController
                     [
                         'actions' => ['logout', 'error', 'index', 'cache-flush'],
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -62,8 +63,12 @@ class SiteController extends SoftController
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $allClients = Client::find()->all();
+        return $this->render('index', [
+            'allClients' => $allClients,
+        ]);
     }
+
 
     /**
      * Login action.
@@ -78,11 +83,7 @@ class SiteController extends SoftController
         $this->layout = 'blank';
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            if (Yii::$app->user->can('admin')) {
                 return $this->goBack();
-            } else {
-                Yii::$app->user->logout();
-            }
         }
         $model->password = '';
         return $this->render('login', [
@@ -99,7 +100,7 @@ class SiteController extends SoftController
     {
         Yii::$app->user->logout();
 
-        return $this->goHome();
+        return $this->redirect('/site/index');
     }
 
     public function actionCacheFlush()

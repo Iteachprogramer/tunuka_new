@@ -1,71 +1,32 @@
 <?php
 
 /* @var $this yii\web\View */
+/* @var $form yii\bootstrap\ActiveForm */
+/* @var $model LoginForm */
 
-use yii\helpers\Url;
+use common\models\LoginForm;
+use soft\helpers\Url;
+use soft\widget\input\VisiblePasswordInput;
+use soft\widget\kartik\ActiveForm;
+use yii\helpers\Html;
+
 $this->title = Yii::$app->name;
-
 ?>
-<div class="site-index">
+<div class="site-login">
 
-    <div class="jumbotron text-center bg-transparent mt-5">
-        <h1 class="display-4">
-            <?= $this->title ?>
-        </h1>
+    <h1 class="text-center"><?= Html::encode($this->title) ?></h1>
 
-        <p class="lead">Web saytimizga xush kelibsiz</p>
+    <?php $form = ActiveForm::begin(['action' => Url::to(['site/login'])]); ?>
 
-        <p><a class="btn btn-lg btn-success" href="<?= Url::to(['/branch']) ?>">
-                Filialga o'tish
-            </a></p>
+    <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+
+    <?= $form->field($model, 'password')->widget(VisiblePasswordInput::class) ?>
+
+    <?= $form->field($model, 'rememberMe')->checkbox() ?>
+
+    <div class="form-group">
+        <?= Html::submitButton('Kirish', ['class' => 'btn btn-primary btn-block', 'name' => 'login-button']) ?>
     </div>
 
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/doc/">Yii Documentation
-                        &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a>
-                </p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
-                    et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                    dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-outline-secondary" href="http://www.yiiframework.com/extensions/">Yii Extensions
-                        &raquo;</a></p>
-            </div>
-        </div>
-
-    </div>
+    <?php ActiveForm::end(); ?>
 </div>

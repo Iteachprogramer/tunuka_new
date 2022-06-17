@@ -11,7 +11,6 @@
 }(jQuery));
 
 
-
 function ModalRemote(modalId) {
 
     this.defaults = {
@@ -139,9 +138,10 @@ function ModalRemote(modalId) {
 
     /**
      * Add button to footer
-     * @param string label The label of button
-     * @param string classes The class of button
-     * @param callable callback the callback when button click
+     * @param  label The label of button
+     * @param  type
+     * @param  classes
+     * @param  callback the callback when button click
      */
     this.addFooterButton = function (label, type, classes, callback) {
         buttonElm = document.createElement('button');
@@ -267,33 +267,44 @@ function ModalRemote(modalId) {
             console.warn('Modal has form but does not have a submit button');
         } else {
             var instance = this;
+            $(modalForm).submit(function (event) {
+                event.preventDefault();
+                instance.submitForm(modalForm);
+            });
 
-            $(modalForm).find('input').keyup(function(event) {
+            $(modalForm).find('input').keyup(function (event) {
                 if (event.keyCode === 13) {
-                    $(modalFormSubmitBtn).click();
+                    event.preventDefault();
+                    instance.submitForm(modalForm);
                 }
             });
 
             // Submit form when user clicks submit button
             $(modalFormSubmitBtn).click(function (e) {
-                var data;
-
-                // Test if browser supports FormData which handles uploads
-                if (window.FormData) {
-                    data = new FormData($(modalForm)[0]);
-                } else {
-                    // Fallback to serialize
-                    data = $(modalForm).serializeArray();
-                }
-
-                instance.doRemote(
-                    $(modalForm).attr('action'),
-                    $(modalForm).hasAttr('method') ? $(modalForm).attr('method') : 'GET',
-                    data
-                );
+                instance.submitForm(modalForm);
             });
         }
     };
+
+    this.submitForm = function (modalForm) {
+        var data;
+        var instance = this;
+
+        // Test if browser supports FormData which handles uploads
+        if (window.FormData) {
+            data = new FormData($(modalForm)[0]);
+        } else {
+            // Fallback to serialize
+            data = $(modalForm).serializeArray();
+        }
+
+        instance.doRemote(
+            $(modalForm).attr('action'),
+            $(modalForm).hasAttr('method') ? $(modalForm).attr('method') : 'GET',
+            data
+        );
+    }
+
 
     /**
      * Show the confirm dialog
@@ -314,7 +325,7 @@ function ModalRemote(modalId) {
             this.setTitle(title);
         }
         // Add form for user input if required
-        this.setContent('<form id="ModalRemoteConfirmForm">'+message);
+        this.setContent('<form id="ModalRemoteConfirmForm">' + message);
 
         var instance = this;
         this.addFooterButton(
@@ -348,7 +359,7 @@ function ModalRemote(modalId) {
         this.addFooterButton(
             cancelLabel === undefined ? this.defaults.cancelLabel : cancelLabel,
             'button',
-            'btn btn-default pull-left',
+            'btn btn-default pull-right',
             function (e) {
                 this.hide();
             }
@@ -380,7 +391,7 @@ function ModalRemote(modalId) {
          * Show either a local confirm modal or get modal content through ajax
          */
         if ($(elm).hasAttr('data-confirm-title') || $(elm).hasAttr('data-confirm-message')) {
-            this.confirmModal (
+            this.confirmModal(
                 $(elm).attr('data-confirm-title'),
                 $(elm).attr('data-confirm-message'),
                 $(elm).attr('data-confirm-ok'),

@@ -9,10 +9,12 @@ use yii\helpers\StringHelper;
 $urlParams = $generator->generateUrlParams();
 $nameAttribute = $generator->getNameAttribute();
 
+$baseModelClass = Inflector::camelize(StringHelper::basename($generator->modelClass));
+
 echo "<?php\n";
 ?>
 
-use soft\helpers\Html;
+use <?= $generator->modelClass ?>;
 
 /* @var $this soft\web\View */
 <?= !empty($generator->searchModelClass) ? "/* @var \$searchModel " . ltrim($generator->searchModelClass, '\\') . " */\n" : '' ?>
@@ -34,13 +36,7 @@ $this->registerAjaxCrudAssets();
                 'modal' => true,
             ]
         ],
-        'bulkButtonsTemplate' => '{delete}',
-        'bulkButtons' => [
-            'delete' => [
-                /** @see soft\widget\button\BulkButton for other configurations */
-            ],
-        ],
-        'cols' => [<?= "\n" ?>
+        'columns' => [<?= "\n" ?>
         <?php
         $count = 0;
         if (($tableSchema = $generator->getTableSchema()) === false) {

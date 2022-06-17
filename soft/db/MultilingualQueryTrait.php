@@ -20,38 +20,19 @@ trait MultilingualQueryTrait
     /**
      * Scope for querying by languages.
      *
+     * @param bool $forceLocalized
      * @param $language
      * @return $this
      */
-    public function localized($language = null)
+    public function localized($forceLocalized = true, $language = null)
     {
         if (!$language) {
             $language = Yii::$app->language;
         }
 
-        if (!isset($this->with['translations'])){
-            $this->with(['translation' => function ($query) use ($language) {
-                $query->where([$this->languageField => $language]);
-            }]);
+        if ($forceLocalized){
+            $this->without('translations');
         }
-
-
-        return $this;
-    }
-
-    /**
-     * Scope for querying by languages.
-     *
-     * @param $language
-     * @return $this
-     */
-    public function forceLocalized($language = null)
-    {
-        if (!$language) {
-            $language = Yii::$app->language;
-        }
-
-        $this->without('translations');
 
         $this->with(['translation' => function ($query) use ($language) {
             $query->where([$this->languageField => $language]);
@@ -70,12 +51,11 @@ trait MultilingualQueryTrait
         $this->without('translation');
         $this->without('translations');
 
-        if ($indexBy){
-            $this->with(['translations' => function($query){
+        if ($indexBy) {
+            $this->with(['translations' => function ($query) {
                 return $query->indexBy($this->languageField);
             }]);
-        }
-        else{
+        } else {
             $this->with(['translations']);
         }
         return $this;

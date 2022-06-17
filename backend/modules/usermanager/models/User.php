@@ -1,9 +1,4 @@
 <?php
-/*
- * @author Shukurullo Odilov
- * @link telegram: https://t.me/yii2_dasturchi
- * @date 06.07.2021, 15:07
- */
 
 namespace backend\modules\usermanager\models;
 
@@ -12,7 +7,7 @@ use Yii;
 class User extends \common\models\User
 {
 
-    public function assignRole(string $roleName)
+    public function assignRole(string  $roleName)
     {
         $auth = Yii::$app->authManager;
         $workerRole = $auth->getRole($roleName);
@@ -30,15 +25,20 @@ class User extends \common\models\User
         }
 
         $auth = Yii::$app->authManager;
-        $permissions = ['admin', 'worker'];
+        $permissions = ['admin', 'factory','sale'];
         foreach ($permissions as $permissionName) {
             $role = $auth->getRole($permissionName);
-            if ($role) {
+            if ($role){
                 $auth->revoke($role, $this->getId());
             }
         }
         return true;
     }
 
+
+    public function getfullname()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 
 }

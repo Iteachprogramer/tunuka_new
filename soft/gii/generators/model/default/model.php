@@ -67,6 +67,17 @@ class <?= $className ?> extends <?= '\\' . ltrim($generator->baseClass, '\\') . 
     /**
     * {@inheritdoc}
     */
+    public function behaviors()
+    {
+        return [
+            'yii\behaviors\TimestampBehavior',
+            'yii\behaviors\BlameableBehavior',
+        ];
+    }
+
+    /**
+    * {@inheritdoc}
+    */
     public function labels()
     {
         return [

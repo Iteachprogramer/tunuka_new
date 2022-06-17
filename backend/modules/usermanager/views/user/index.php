@@ -1,60 +1,59 @@
 <?php
 
 use backend\modules\usermanager\models\User;
-use common\models\Branch;
+use common\models\Category;
+use soft\grid\GridView;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\widgets\Pjax;
 
-/* @var $this soft\web\View */
-/* @var $searchModel backend\modules\usermanager\models\search\UserSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-
-$this->title = 'Xodimlar';
+/** @var \common\models\User $dataProvider */
+/** @var \common\models\User $searchModel */
+$this->title = 'Foydalanuvchilar';
 $this->params['breadcrumbs'][] = $this->title;
-$this->registerAjaxCrudAssets();
-$branches_map = map(Branch::find()->all(), 'id', 'name');
 ?>
-<?= \soft\grid\GridView::widget([
-    'id' => 'crud-datatable',
-    'dataProvider' => $dataProvider,
-    'filterModel' => $searchModel,
-    'toolbarTemplate' => '{create}',
-    'toolbarButtons' => [
-        'create' => [
-            'modal' => false,
-            'pjax' => false,
-            'cssClass' => 'btn btn-info',
-            'content' => "Yangi qo'shish",
-            'icon' => 'user-plus,fas'
-        ]
-    ],
-    'cols' => [
-        'username',
-        'firstname',
-        'lastname',
-        [
-            'attribute' => 'type_id',
-            'format' => 'raw',
-            'value' => 'typeName',
-            'filter' => User::types()
-        ],
-        [
-            'attribute' => 'branch_id',
-            'format' => 'raw',
-            'value' => 'branch.name',
-            'label' => 'Filial nomi',
-            'filter' => $branches_map,
-        ],
-        [
-            'attribute' => 'status',
-            'filter' => User::statuses(),
-            'format' => 'raw',
-            'value' => function ($model) {
-                /** @var User $model */
-                return $model->statusBadge;
-            }
-        ],
-        'created_at',
+
+        <?php Pjax::begin(); ?>
+        <?= GridView::widget([
+            'options' => [
+                'class' => 'table-sm'
+            ],
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'columns' => [
+                'username',
+                 [
+                     'attribute'=>'fullName',
+                     'value' => function ($model) {
+                         return $model->firstname . ' ' . $model->lastname;
+                     }
+                 ],
+                [
+                    'attribute' => 'type_id',
+                    'format' => 'raw',
+                    'filter' => User::types(),
+                    'value' => function (User $model) {
+                        if ($model->type_id == User::TYPE_ADMIN) {
+                            return '<span class="badge badge-danger">' . 'Admin' . '</span>';
+                        } elseif ($model->type_id == User::TYPE_SALE) {
+                            return '<span class="badge badge-success">' . 'Sotuvchi' . '</span>';
+                        } elseif ($model->type_id == User::TYPE_FACTORY) {
+                            return '<span class="badge badge-warning">' . 'Ishlab chiqarish' . '</span>';
+                        }
+                    }
+                ],
+                [
+                    'attribute' => 'created_at',
+                    'format' => 'raw',
+                    'value' => function ($data) {
+                        return date('d.m.Y', $data->created_at);
+                    }
+                ],
 //        'updated_at',
-        'actionColumn',
-    ],
-]); ?>
-    
+                [
+                    'class' => 'kartik\grid\ActionColumn',
+                    'width' => '120px',
+                ],
+            ],
+        ]); ?>
+        <?php Pjax::end(); ?>

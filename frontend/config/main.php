@@ -11,17 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
-    'homeUrl' => ['branch/'],
-    'modules' => [
-        'branch' => [
-            'class' => 'frontend\modules\branch\BranchModule',
-            'layout' => 'main',
-        ],
-        'user' => [
-            'class' => 'frontend\modules\user\Module',
-            'layout' => 'main',
-        ],
-    ],
+    'homeUrl' => ['site/index'],
     'components' => [
         'request' => [
             'baseUrl' => '/',
@@ -30,11 +20,11 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
+            'identityCookie' => ['name' => '_identity-common', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            'name' => 'advanced-common',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,

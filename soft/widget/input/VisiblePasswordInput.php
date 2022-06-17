@@ -33,6 +33,9 @@ class VisiblePasswordInput extends InputWidget
     public $addonContainerOptions = [];
     public $addonTextOptions = [];
 
+    /**
+     * @throws \yii\base\InvalidConfigException
+     */
     public function init()
     {
         parent::init();
@@ -45,6 +48,9 @@ class VisiblePasswordInput extends InputWidget
         }
     }
 
+    /**
+     * @return string
+     */
     public function run()
     {
         Html::addCssClass($this->options, 'vp-input');
@@ -55,14 +61,22 @@ class VisiblePasswordInput extends InputWidget
         return Html::tag('div', $input . "\n" . $addon, $this->containerOptions);
     }
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
     private function renderAddon()
     {
         $tag = ArrayHelper::remove($this->addonContainerOptions, 'tag', 'div');
-        Html::addCssClass($this->addonContainerOptions, ['input-group-append', 'vp-append']);
+        $addonClass = isBs3() ? 'input-group-addon' : 'input-group-append';
+        Html::addCssClass($this->addonContainerOptions, [$addonClass, 'vp-append']);
         $addonText = $this->renderAddonText();
         return Html::tag($tag, $addonText, $this->addonContainerOptions);
     }
 
+    /**
+     * @return string
+     */
     private function renderAddonText()
     {
         $tag = ArrayHelper::remove($this->addonTextOptions, 'tag', 'span');
@@ -71,12 +85,18 @@ class VisiblePasswordInput extends InputWidget
         return Html::tag($tag, $icon, $this->addonTextOptions);
     }
 
+    /**
+     * Registers scripts
+     */
     private function registeAssets()
     {
         $this->registerStyles();
         $this->registerScripts();
     }
 
+    /**
+     * Registers css style
+     */
     private function registerStyles()
     {
         $css = <<<CSS
@@ -88,6 +108,9 @@ CSS;
 
     }
 
+    /**
+     * Registers js scripts
+     */
     private function registerScripts()
     {
         $textInput = self::INPUT_TEXT;
@@ -109,6 +132,5 @@ CSS;
 
         $this->view->registerJs($js, View::POS_READY, 'vp_styles');
     }
-
 
 }

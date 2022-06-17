@@ -11,4 +11,10 @@ RewriteEngine On
 RewriteRule ^admin(/.+)?$ backend/web/$1 [L,PT]
 RewriteRule ^admin/(.+)?$ backend/web/$1 [L,PT]
 
+RewriteRule ^sale(/.+)?$ sale/web/$1 [L,PT]
+RewriteRule ^sale/(.+)?$ sale/web/$1 [L,PT]
+
+RewriteRule ^factory(/.+)?$ factory/web/$1 [L,PT]
+RewriteRule ^factory/(.+)?$ factory/web/$1 [L,PT]
+
 RewriteRule ^(.+)?$ frontend/web/$1

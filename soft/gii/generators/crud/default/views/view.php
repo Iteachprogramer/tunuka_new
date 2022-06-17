@@ -20,10 +20,8 @@ $this->params['breadcrumbs'][] = ['label' => <?= $generator->generateString(Infl
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-
     <?= "<?= " ?>\soft\widget\bs4\DetailView::widget([
         'model' => $model,
-        'panel' => $this->isAjax ? false : [],
         'attributes' => [
 <?php
 if (($tableSchema = $generator->getTableSchema()) === false) {
@@ -35,6 +33,8 @@ if (($tableSchema = $generator->getTableSchema()) === false) {
             echo "              '".$column->name."', \n";
     }
 }
+echo "'created_at',\n'createdBy.fullname',\n'updated_at',\n'updatedBy.fullname'";
+
 ?>
         ],
     ]) ?>

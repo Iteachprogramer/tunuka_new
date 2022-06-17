@@ -9,7 +9,7 @@ class UploadBehavior extends \mohorev\file\UploadBehavior
 {
 
     /**
-     * @var boolean|callable If `true` current attribute file will be deleted after model deletion.
+     * @var boolean|callable If `true`, old file will be deleted after model updating.
      * Usage:
      *      unlinkOnSave => function($model){
      *          return ... ;
@@ -25,7 +25,6 @@ class UploadBehavior extends \mohorev\file\UploadBehavior
      *      }
      */
     public $unlinkOnDelete = true;
-
 
     public function beforeSave()
     {

@@ -2,12 +2,13 @@
 
 namespace backend\modules\usermanager\controllers;
 
+use backend\modules\usermanager\models\search\DoctorSearch;
 use backend\modules\usermanager\models\search\UserSearch;
 use backend\modules\usermanager\models\User;
-use soft\web\SoftController;
+use yii\web\Controller;
 use Yii;
 
-class UserController extends SoftController
+class UserController extends Controller
 {
 
     public function behaviors()
@@ -44,16 +45,25 @@ class UserController extends SoftController
     public function actionCreate()
     {
         $model = new User();
-        $model->scenario = User::SCENARIO_CREATE_BY_ADMIN;
         $model->status = User::STATUS_ACTIVE;
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->password_hash = Yii::$app->security->generatePasswordHash($model->password);
             $model->auth_key = Yii::$app->security->generateRandomString();
-            if ($model->save(false)) {
+            if ($model->save()) {
+                $auth = \Yii::$app->authManager;
+                $authorRole1 = $auth->getRole('admin');
+                $authorRole = $auth->getRole('factory');
+                $authorRole2 = $auth->getRole('sale');
+                if ($model->type_id == User::TYPE_ADMIN) {
+                    $auth->assign($authorRole1, $model->getId());
+                } elseif ($model->type_id == User::TYPE_FACTORY) {
+                    $auth->assign($authorRole, $model->getId());
+                } elseif ($model->type_id == User::TYPE_SALE) {
+                    $auth->assign($authorRole2, $model->getId());
+                }
                 return $this->redirect(['index']);
             }
         }
-
         return $this->render('create', ['model' => $model]);
     }
 
@@ -65,9 +75,7 @@ class UserController extends SoftController
     {
         $model = $this->findModel($id);
         $model->status = User::STATUS_ACTIVE;
-        $model->scenario = User::SCENARIO_UPDATE_BY_ADMIN;
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-
             if (!empty($model->password)) {
                 $model->password_hash = Yii::$app->security->generatePasswordHash($model->password);
                 $model->auth_key = Yii::$app->security->generateRandomString();
@@ -84,38 +92,27 @@ class UserController extends SoftController
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        return $this->ajaxCrud->viewAction($model);
+        return $this->render('view', [
+            'model' => $model
+        ]);
     }
 
     public function actionDelete($id)
     {
-        $model = $this->findModel($id);
-        $model->delete();
-        if ($this->isAjax) {
-            $this->formatJson();
-            return $this->ajaxCrud->closeModalResponse();
-        }
-        return redirect('index');
+        $this->findModel($id)->delete();
+        return $this->redirect(['index']);
     }
-
     //</editor-fold>
 
     /**
      * @return User
      * @throws \yii\web\NotFoundHttpException
-     * @throws \yii\web\ForbiddenHttpException|\yii\base\InvalidConfigException
      */
     private function findModel($id)
     {
-        /** @var User $model */
-
-        $model = User::find()->id($id)->andWhere(['!=', 'is_deleted', '1'])->one();
+        $model = User::findOne($id);
         if ($model == null) {
             not_found();
-        }
-
-        if ($model->id == 1) {
-            forbidden();
         }
 
         return $model;

@@ -41,6 +41,9 @@ class Button extends SoftWidgetBase
      */
     public $toggle = Toggle::TYPE_TOOLTIP;
 
+    /**
+     * @var array
+     */
     public $toggleOptions = [];
 
     /**

@@ -14,14 +14,13 @@ class Select2Column extends DataColumn
 
     public $filterType = '\kartik\select2\Select2';
 
-    public $data = [];
+    public $data;
 
     public $allowClear = true;
 
     public $placeholder = 'Танланг...';
 
     public $pluginOptions = [];
-
 
     public function init()
     {
@@ -38,7 +37,7 @@ class Select2Column extends DataColumn
     private function generateOptions()
     {
         return [
-            'data' => $this->data,
+            'data' => (array)$this->data,
             'pluginOptions' => [
                 'allowClear' => $this->allowClear,
                 'placeholder' => $this->placeholder,

@@ -3,8 +3,8 @@
 
 namespace soft\helpers\language;
 
+use soft\helpers\SiteHelper;
 use Yii;
-use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -12,7 +12,6 @@ use yii\helpers\Url;
 
 class LanguageSwitcher extends Widget
 {
-
 
     /**
      * @var array HTML attributes for widget container
@@ -57,14 +56,11 @@ class LanguageSwitcher extends Widget
         parent::init();
 
         if (empty($this->languages)){
-
-            $this->languages = LanguageHelper::LANGUAGES;
-
+            $this->languages = SiteHelper::languages();
         }
 
         if ($this->languageParam == null){
-
-            $this->languageParam = LanguageHelper::LANGUAGE_PARAM;
+            $this->languageParam = SiteHelper::LANGUAGE_PARAM;
         }
     }
 

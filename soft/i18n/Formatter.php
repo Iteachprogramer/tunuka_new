@@ -10,34 +10,31 @@ use Yii;
 class Formatter extends YiiFormatter
 {
 
-    public $nullDisplay = '<i class="text-danger">null</i>';
+    public $nullDisplay = '';
 
-    //<editor-fold desc="Status" defaultstate="collapsed">
+    public $dateFormat = 'php:d.m.Y';
+    public $datetimeFormat = 'php:d.m.Y H:i';
 
-    public function asStatus($value)
-    {
-        switch ($value) {
-            case 1:
-            case 10:
-                return '<span class="badge badge-success">' . Yii::t('site', 'Active') . '</span>';
-            case 0:
-                return '<span class="badge badge-danger">' . Yii::t('site', 'Inactive') . '</span>';
-            case 2:
-                return '<span class="badge badge-warning">' . Yii::t('site', 'Archived') . '</span>';
-            default:
-                return $value;
-        }
-    }
-
-    //</editor-fold>
+    public $thousandSeparator = ' ';
 
     //<editor-fold desc="Currency" defaultstate="collapsed">
 
+    /**
+     * @param $value mixed
+     * @return string
+     */
     public function asDollar($value)
     {
-        return $this->asDecimal($value, 1) . "$";
+        if ($value === null) {
+            return $this->nullDisplay;
+        }
+        return $this->asDecimal($value) . " $";
     }
 
+    /**
+     * @param $value mixed
+     * @return string
+     */
     public function asSum($value)
     {
         if ($value === null) {
@@ -50,18 +47,69 @@ class Formatter extends YiiFormatter
 
     //<editor-fold desc="Image" defaultstate="collapsed">
 
-    public function asLittleImage($value, $width = '150px')
+    /**
+     * @param $value string
+     * @param $width string
+     * @return string|null
+     */
+    public function asTinyImage($value, $width = '80px')
     {
+
+        if ($value === null) {
+            return $this->nullDisplay;
+        }
         $options['width'] = $width;
         return $this->asImage($value, $options);
     }
 
-    public function asThumbnail($value = null, $size = '75px', $options = [])
+    /**
+     * @param $value string
+     * @param $width string
+     * @return string|null
+     */
+    public function asLittleImage($value, $width = '150px')
     {
-        $class = isBs4() ? "img-thumbnail" : 'thumbnail';
+
         if ($value === null) {
             return $this->nullDisplay;
         }
+        $options['width'] = $width;
+        return $this->asImage($value, $options);
+
+    }
+
+    /**
+     * @param $value string
+     * @param $width string
+     * @param array $options
+     * @return string|null
+     */
+    public function asMiddleImage($value, $width = '300px', $options = [])
+    {
+
+        if ($value === null) {
+            return $this->nullDisplay;
+        }
+        $options['width'] = $width;
+        return $this->asImage($value, $options);
+    }
+
+    /**
+     * @param $value string
+     * @param $size string
+     * @param $options array
+     * @return string
+     * @throws \Exception
+     */
+    public function asThumbnail($value = null, $size = '75px', $options = [])
+    {
+
+        if ($value === null) {
+            return $this->nullDisplay;
+        }
+
+        $class = isBs4() ? "img-thumbnail" : 'thumbnail';
+
         Html::addCssClass($options, $class);
         Html::addCssStyle($options, "max-height:{$size};max-width:{$size};display: block;margin-left: auto;margin-right: auto;");
         return Html::img($value, $options);
@@ -72,6 +120,13 @@ class Formatter extends YiiFormatter
 
     //<editor-fold desc="Additional" defaultstate="collapsed">
 
+    /**
+     * @param $value bool
+     * @param $text1 string
+     * @param $text2 string
+     * @return string
+     * @throws \Exception
+     */
     public function asBool($value, $text1 = null, $text2 = null)
     {
         if ($text1 == null) {
@@ -81,12 +136,18 @@ class Formatter extends YiiFormatter
             $text2 = t('No', 'yii');
         }
         if ($value) {
-            return Html::tag('span', $text1, ['class' => 'badge badge-primary']);
+            return Html::badge($text1, 'success');
         } else {
-            return Html::tag('span', $text2, ['class' => 'badge badge-danger']);
+            return Html::badge($text2, 'danger');
         }
     }
 
+    /**
+     * @param $value string
+     * @param $length int
+     * @param $end string
+     * @return string
+     */
     public function asShortText($value, $length = 150, $end = " ...")
     {
         $text = strip_tags($value);
@@ -96,6 +157,10 @@ class Formatter extends YiiFormatter
         return mb_substr(strip_tags($text), 0, $length) . $end;
     }
 
+    /**
+     * @param $value int
+     * @return string
+     */
     public function asFileSize($value = null)
     {
         if ($value === null) {

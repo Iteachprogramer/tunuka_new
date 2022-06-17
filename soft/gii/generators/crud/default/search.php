@@ -49,7 +49,7 @@ class <?= $searchModelClass ?> extends <?= isset($modelAlias) ? $modelAlias : $m
     public function search($query=null, $defaultPageSize = 20, $params=null)
     {
 
-        if($params == null){
+        if($params === null){
             $params = Yii::$app->request->queryParams;
         }
         if($query == null){

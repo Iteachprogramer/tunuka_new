@@ -12,28 +12,48 @@ use yii\web\JsExpression;
 class DateRangePicker extends \kartik\daterange\DateRangePicker
 {
 
+    const SEPARATOR = ' - ';
+
     public $timePicker = false;
 
     public $convertFormat = true;
 
     public $useWithAddon = true;
 
-    public $separator = '   -   ';
+    public $separator = self::SEPARATOR;
 
-    public $format = 'd-m-Y';
+    public $format = 'd.m.Y';
 
-    public $timeFormat = 'd-m-Y H:i';
+    public $timeFormat = 'd.m.Y H:i';
 
     public $drops = 'up';
 
     public $initDefaultRangeExpr = false;
 
-    public $addon = <<< HTML
+    public $addon;
+
+    /**
+     * @throws \Exception
+     */
+    public function init()
+    {
+        parent::init();
+
+        if ($this->addon === null) {
+            if ($this->isBs(4)) {
+                $this->addon = <<< HTML
     <div class="input-group-prepend">
         <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
     </div>
 HTML;
+            }
+        }
+    }
 
+    /**
+     * @inheritDoc
+     * @throws \Exception
+     */
     public function run()
     {
 
@@ -44,8 +64,6 @@ HTML;
                 'format' => $this->format,
                 'separator' => $this->separator,
             ],
-//            "drops" => "up",
-
         ];
 
         if ($this->timePicker) {
@@ -66,6 +84,9 @@ HTML;
 
     }
 
+    /**
+     * @throws \Exception
+     */
     private function normalizeValues()
     {
 
@@ -83,16 +104,11 @@ HTML;
                     $endValue = $this->model->{$this->endAttribute};
 
                     if (!empty($beginValue) && is_integer($beginValue) && !empty($endValue) && is_integer($endValue)) {
-//                        $this->model->{$this->attribute} = date($format, $beginValue) . $separator . date($format, $endValue);
                         $this->value = date($format, $beginValue) . $separator . date($format, $endValue);
                     }
-
                 }
-
             }
-
         }
-
     }
 
     /**
@@ -106,7 +122,7 @@ HTML;
             $msg = 'Oraliqni tanlang';
         }
 
-        if ($this->initDefaultRangeExpr){
+        if ($this->initDefaultRangeExpr) {
             $this->pluginOptions['ranges'] = $this->initDefaultRanges();
         }
 

@@ -1,9 +1,5 @@
 <?php
-/*
- * @author Shukurullo Odilov
- * @link telegram: https://t.me/yii2_dasturchi
- * @date 24.07.2021, 10:06
- */
+
 
 namespace soft\widget\kartik;
 
@@ -14,8 +10,8 @@ use yii\helpers\Html;
 class DatePicker extends \kartik\widgets\DatePicker
 {
 
-    public $dateFormat = 'd.m.Y';
-    public $placeholder = 'KK-MM-YYYY';
+    const FORMAT = 'd.m.Y';
+    public $placeholder = 'KK.MM.YYYY';
 
     public $autoclose = true;
     public $todayHighlight = true;
@@ -27,9 +23,7 @@ class DatePicker extends \kartik\widgets\DatePicker
         $this->normalizeValues();
         $this->normalizeAttributes();
         $this->registerCss();
-
         parent::init();
-
     }
 
     private function normalizeValues()
@@ -44,15 +38,15 @@ class DatePicker extends \kartik\widgets\DatePicker
             $value = $this->value ?? $this->model->$attribute;
 
             if (!empty($value) && is_integer($value)) {
-                $this->value = date($this->dateFormat, $value);
-                $this->model->$attribute = date($this->dateFormat, $value);
+                $this->value = date(self::FORMAT, $value);
+                $this->model->$attribute = date(self::FORMAT, $value);
             }
 
         } else {
 
             $value = $this->value;
             if (!empty($value) && is_integer($value)) {
-                $this->value = date($this->dateFormat, $value);
+                $this->value = date(self::FORMAT, $value);
             }
 
         }

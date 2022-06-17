@@ -1,0 +1,76 @@
+<?php
+
+namespace common\models\search;
+
+use Yii;
+use yii\base\Model;
+use yii\data\ActiveDataProvider;
+use common\models\Outcome;
+
+/**
+ * OutcomeSearch represents the model behind the search form about `common\models\Outcome`.
+ */
+class OutcomeSearch extends Outcome
+{
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['id', 'client_id', 'product_type_id', 'unit_id','type_id','group_id'], 'integer'],
+            [['size', 'count', 'total_size', 'total', 'discount','cost'], 'number'],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function scenarios()
+    {
+        // bypass scenarios() implementation in the parent class
+        return Model::scenarios();
+    }
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function search($params,$query=null)
+    {
+        if ($query==null){
+            $query = Outcome::find();
+        }
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC,
+                ]
+            ]
+        ]);
+        $this->load($params);
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'client_id' => $this->client_id,
+            'product_type_id' => $this->product_type_id,
+            'size' => $this->size,
+            'count' => $this->count,
+            'total_size' => $this->total_size,
+            'total' => $this->total,
+            'unit_id' => $this->unit_id,
+            'discount' => $this->discount,
+            'cost' => $this->cost,
+            'type_id'=>$this->type_id,
+            'group_id'=>$this->group_id,
+        ]);
+        return $dataProvider;
+    }
+}

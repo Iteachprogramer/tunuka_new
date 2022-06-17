@@ -1,3 +1,9 @@
+/*
+ * @author Shukurullo Odilov
+ * @link telegram: https://t.me/yii2_dasturchi
+ * @date 24.07.2021, 10:06
+ */
+
 /**
  * yii2-dynamic-form
  *

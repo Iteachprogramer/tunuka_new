@@ -74,8 +74,37 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        if (!Yii::$app->user->isGuest)
+        {
+//            return $this->goHome();
+            if (Yii::$app->user->can('admin')) {
+                return $this->redirect('/admin');
+
+            } elseif (Yii::$app->user->can('factory')) {
+                return $this->redirect('/factory/');
+            } else {
+                return $this->redirect('/sale');
+            }
+        }
+        $this->layout = 'blank';
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            if (Yii::$app->user->can('admin')) {
+
+                return $this->redirect('/admin');
+            } elseif (Yii::$app->user->can('factory')) {
+                return $this->redirect('/factory/');
+            } else {
+                return $this->redirect('/sale');
+            }
+        }
+        $model->password = '';
+        return $this->render('login', [
+            'model' => $model,
+        ]);
     }
+
+
 
     /**
      * Logs in a user.
@@ -87,24 +116,21 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
+       $this->layout = 'blank';
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-
-            $user = Yii::$app->user->identity;
-
-            if (($user->isManager || $user->isConsultant) && $user->branch) {
-                return $this->redirect('/branch');
+            if (Yii::$app->user->can('admin')) {
+                return $this->redirect('/admin');
+            } elseif (Yii::$app->user->can('factory')) {
+                return $this->redirect('/factory');
+            } else {
+                return $this->redirect('/sale');
             }
-
-            return $this->goBack();
-        } else {
-            $model->password = '';
-
-            return $this->render('login', [
-                'model' => $model,
-            ]);
         }
+        $model->password = '';
+        return $this->render('login', [
+            'model' => $model,
+        ]);
     }
 
     /**

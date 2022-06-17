@@ -1,0 +1,19 @@
+#my-list-group .list-group-item {
+
+    border-right: none !important;
+    border-left: none !important;
+    border-radius: 0 !important;
+
+}
+
+.kv-table-header {
+    background: inherit !important;
+}
+
+.no-break td {
+    white-space: nowrap!important;
+}
+
+.condensed-data-table th, .condensed-data-table td{
+    padding: 1px !important;
+}

@@ -71,7 +71,6 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     }
 
     /**
-    * Lists all <?= $modelClass ?> models.
     * @return mixed
     */
     public function actionIndex()
@@ -96,7 +95,6 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     }
 
     /**
-    * Displays a single <?= $modelClass ?> model.
     * <?= implode("\n     * ", $actionParamComments) . "\n" ?>
     * @return string
     * @throws NotFoundHttpException if the model cannot be found
@@ -104,21 +102,19 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     public function actionView(<?= $actionParams ?>)
     {
         $model = $this->findModel(<?= $actionParams ?>);
-        return $this->ajaxCrud->viewAction($model);
+        return $this->ajaxCrud($model)->viewAction();
     }
 
     /**
-    * Creates a new <?= $modelClass ?> model.
     * @return string
     */
     public function actionCreate()
     {
         $model = new <?= $modelClass ?>();
-        return $this->ajaxCrud->createAction($model);
+        return $this->ajaxCrud($model)->createAction();
     }
 
     /**
-    * Updates an existing <?= $modelClass ?> model.
     * <?= implode("\n     * ", $actionParamComments) . "\n" ?>
     * @return string
     * @throws NotFoundHttpException if the model cannot be found
@@ -126,39 +122,28 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     public function actionUpdate(<?= $actionParams ?>)
     {
         $model = $this->findModel($id);
-        return $this->ajaxCrud->updateAction($model);
+        if (!$model->getIsUpdatable()) {
+            forbidden();
+        }
+        return $this->ajaxCrud($model)->updateAction();
     }
 
     /**
-    * Deletes an existing <?= $modelClass ?> model.
     * <?= implode("\n     * ", $actionParamComments) . "\n" ?>
     * @return mixed
     * @throws NotFoundHttpException if the model cannot be found
     */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-        return $this->ajaxCrud->closeModalResponse();
-    }
-
-    /**
-    * Delete multiple existing <?= $modelClass ?> model.
-    * <?= implode("\n     * ", $actionParamComments) . "\n" ?>
-    * @return mixed
-    */
-    public function actionBulkdelete()
-    {
-        $request = Yii::$app->request;
-        $pks = explode(',', $request->post('pks')); // Array or selected records primary keys
-        foreach ($pks as $pk) {
-            $model = $this->findModel($pk);
-            $model->delete();
+        $model = $this->findModel($id);
+        if (!$model->getIsDeletable()) {
+            forbidden();
         }
-        return $this->ajaxCrud->closeModalResponse();
+        $model->delete();
+        return $this->ajaxCrud($model)->deleteAction();
     }
 
     /**
-    * Finds a single model for crud actions
     * @param $id
     * @return <?= $modelClass ."\n"?>
     * @throws yii\web\NotFoundHttpException

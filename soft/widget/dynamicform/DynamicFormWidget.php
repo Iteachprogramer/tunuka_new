@@ -1,4 +1,9 @@
 <?php
+/*
+ * @author Shukurullo Odilov
+ * @link telegram: https://t.me/yii2_dasturchi
+ * @date 24.07.2021, 10:06
+ */
 
 namespace soft\widget\dynamicform;
 
@@ -80,10 +85,10 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
         }
 
         if (!isset($this->tableOptions['id'])) {
-
             $this->tableOptions['id'] = $this->getId() . "-table";
-
         }
+
+        Html::addCssClass($this->tableOptions, 'table-striped table-sm');
 
         $this->normalizeColumns();
 
@@ -320,21 +325,21 @@ class DynamicFormWidget extends \wbraganca\dynamicform\DynamicFormWidget
         $hashVar = $this->getHashVarName();
 
         // add a click handler for the clone button
-        $js = 'jQuery("#' . $this->formId . '").on("click", "' . $this->insertButton . '", function(e) {'. "\n";
+        $js = 'jQuery("#' . $this->formId . '").on("click", "' . $this->insertButton . '", function(e) {' . "\n";
         $js .= "    e.preventDefault();\n";
-        $js .= '    jQuery(".' .  $this->widgetContainer . '").triggerHandler("beforeInsert", [jQuery(this)]);' . "\n";
-        $js .= '    jQuery(".' .  $this->widgetContainer . '").yiiDynamicForm("addItem", '. $hashVar . ", e, jQuery(this));\n";
+        $js .= '    jQuery(".' . $this->widgetContainer . '").triggerHandler("beforeInsert", [jQuery(this)]);' . "\n";
+        $js .= '    jQuery(".' . $this->widgetContainer . '").yiiDynamicForm("addItem", ' . $hashVar . ", e, jQuery(this));\n";
         $js .= "});\n";
         $view->registerJs($js, $view::POS_READY);
 
         // add a click handler for the remove button
-        $js = 'jQuery("#' . $this->formId . '").on("click", "' . $this->deleteButton . '", function(e) {'. "\n";
+        $js = 'jQuery("#' . $this->formId . '").on("click", "' . $this->deleteButton . '", function(e) {' . "\n";
         $js .= "    e.preventDefault();\n";
-        $js .= '    jQuery(".' .  $this->widgetContainer . '").yiiDynamicForm("deleteItem", '. $hashVar . ", e, jQuery(this));\n";
+        $js .= '    jQuery(".' . $this->widgetContainer . '").yiiDynamicForm("deleteItem", ' . $hashVar . ", e, jQuery(this));\n";
         $js .= "});\n";
         $view->registerJs($js, $view::POS_READY);
 
-        $js = 'jQuery("#' . $this->formId . '").yiiDynamicForm(' . $hashVar .');' . "\n";
+        $js = 'jQuery("#' . $this->formId . '").yiiDynamicForm(' . $hashVar . ');' . "\n";
         $view->registerJs($js, $view::POS_LOAD);
 
         JuiAsset::register($view);

@@ -3,7 +3,6 @@
 namespace soft\widget\bs4;
 
 use Yii;
-use soft\widget\bs4\Card;
 use soft\widget\button\Buttons;
 use yii\base\Arrayable;
 use yii\base\InvalidConfigException;
@@ -14,13 +13,16 @@ use yii\helpers\Inflector;
 
 /**
  * Class DetailView
- * Customised for adminty template
- * @package soft\strikingdash
  */
 class DetailView extends \yii\widgets\DetailView
 {
 
-    public $options = ['class' => 'table  table-hover'];
+    public $options = ['class' => 'table'];
+
+    public $condensed = true;
+    public $hover = true;
+    public $bordered = true;
+    public $striped = true;
 
     /**
      * @var string text before table
@@ -33,10 +35,13 @@ class DetailView extends \yii\widgets\DetailView
     public $after;
 
     public $panel = [
-
         'header' => false
-
     ];
+
+    /**
+     * @var bool whether to render panel body
+     */
+    public $initPanel;
 
     public $toolbar = [];
 
@@ -49,6 +54,24 @@ class DetailView extends \yii\widgets\DetailView
     public function init()
     {
         $this->normalizeAttributes();
+
+        if ($this->condensed) {
+            Html::addCssClass($this->options, 'table-sm');
+        }
+        if ($this->hover) {
+            Html::addCssClass($this->options, 'table-hover');
+        }
+        if ($this->bordered) {
+            Html::addCssClass($this->options, 'table-bordered');
+        }
+        if ($this->striped) {
+            Html::addCssClass($this->options, 'table-striped');
+        }
+
+        if ($this->initPanel === null) {
+            $this->initPanel = !Yii::$app->request->isAjax;
+        }
+
         parent::init();
     }
 
@@ -58,12 +81,11 @@ class DetailView extends \yii\widgets\DetailView
 
         $this->registerBreakWordsStyles();
 
-        if ($this->panel === false) {
+        if (!$this->initPanel) {
             echo $this->before;
             echo parent::run();
             echo $this->after;
         } else {
-
 
             $this->panel = array_merge([
                 'header' => false,
@@ -79,12 +101,15 @@ class DetailView extends \yii\widgets\DetailView
 
     }
 
-
+    /**
+     * @return string
+     * @throws \Exception
+     */
     public function renderToolbar()
     {
 
         if ($this->toolbar === false) {
-            return;
+            return '';
         }
         if (!is_array($this->toolbar)) {
             $content = $this->toolbar;
@@ -92,12 +117,16 @@ class DetailView extends \yii\widgets\DetailView
             $content = Buttons::widget([
                 'template' => $this->toolbar['template'] ?? -1,
                 'buttons' => $this->renderButtons(),
+                'separator' => '',
             ]);
         }
 
         return Html::tag('div', $content, ['class' => 'float-right', 'style' => 'margin-bottom:10px']);
     }
 
+    /**
+     * @return array
+     */
     private function renderButtons()
     {
 
@@ -127,6 +156,9 @@ class DetailView extends \yii\widgets\DetailView
 
     }
 
+    /**
+     * @return array
+     */
     private function defaultConfigs()
     {
         return [
@@ -137,9 +169,6 @@ class DetailView extends \yii\widgets\DetailView
             'updated_at' => [
 //                'label' => Yii::t('app', 'Updated At'),
                 'format' => 'dateTimeUz',
-            ],
-            'status' => [
-                'format' => 'status',
             ],
             'image' => [
                 'format' => ['image', ['width' => '100%']],
@@ -173,6 +202,7 @@ class DetailView extends \yii\widgets\DetailView
         $defaultConfigs = $this->defaultConfigs();
 
         foreach ($this->attributes as $i => $attribute) {
+
             if (is_string($attribute)) {
                 if (!preg_match('/^([^:]+)(:(\w*))?(:(.*))?$/', $attribute, $matches)) {
                     throw new InvalidConfigException('The attribute must be specified in the format of "attribute", "attribute:format" or "attribute:format:label"');
@@ -255,7 +285,7 @@ class DetailView extends \yii\widgets\DetailView
 
     public function registerBreakWordsStyles()
     {
-        if ($this->breakWords){
+        if ($this->breakWords) {
 
             $css = "
             #{$this->getId()}  td {

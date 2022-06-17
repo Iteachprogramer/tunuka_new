@@ -3,6 +3,7 @@
 
 namespace soft\grid;
 
+use soft\helpers\Html;
 use soft\helpers\Url;
 use Yii;
 
@@ -38,24 +39,24 @@ trait SoftGridViewTrait
         $defaultPageSize = $this->getDefaultPageSize();
         $sizes = $this->getPageSizes();
 
-        if (Yii::$app->request->get($this->_toggleDataKey) == 'all'){
+        if (Yii::$app->request->get($this->_toggleDataKey) == 'all') {
             $label = t("All");
-        }
-        else{
+        } else {
             $label = $sizes[$defaultPageSize];
         }
 
-        $dropDownToggle = a($label.' <span class="caret"></span>', '#', [
-            'class' => 'btn dropdown-toggle btn-outline-primary',
+        $dropDownToggle = a(Html::tag('b', $label) . ' <span class="caret"></span>', '#', [
+            'class' => 'btn dropdown-toggle btn-default',
             'type' => 'button',
             'data-toggle' => 'dropdown',
             'aria-haspopup' => true,
             'aria-expanded' => true,
-            'id' => $this->getId()."-dropdownMenu",
+            'id' => $this->getId() . "-dropdownMenu",
 
         ]);
 
-        return $dropDownToggle . $this->renderPagerDropdownLinks();
+        return tag('div', $dropDownToggle . $this->renderPagerDropdownLinks(), ['class' => 'btn-group']);
+
     }
 
     public function renderPagerDropdownLinks()
@@ -64,8 +65,8 @@ trait SoftGridViewTrait
         $sizes = $this->getPageSizes();
         unset($sizes[-1]);
         foreach ($sizes as $size => $label) {
-            $link =  Url::current(['per-page' => $size, $this->_toggleDataKey => null]);
-            $a = a($label, $link,['class' => 'dropdown-item']);
+            $link = Url::current(['per-page' => $size, $this->_toggleDataKey => null]);
+            $a = a($label, $link, ['class' => 'dropdown-item']);
             $list .= tag('li', $a);
         }
 
@@ -73,18 +74,17 @@ trait SoftGridViewTrait
         $list .= '<li role="separator" class="divider"></li>';
 
 //        `All` link
-        $link =  Url::current([$this->_toggleDataKey => 'all', 'per-page' => null]);
-        $a = a(t('All'), $link, ['class' => 'dropdown-item']);
+        $link = Url::current([$this->_toggleDataKey => 'all', 'per-page' => null]);
+        $a = a('Barchasi', $link, ['class' => 'dropdown-item']);
         $list .= tag('li', $a);
 
-        return tag('ul',  $list, ['class' => 'dropdown-menu', ' aria-labelledby' => $this->getId()."-dropdownMenu"]);
-
+        return tag('ul', $list, ['class' => 'dropdown-menu', ' aria-labelledby' => $this->getId() . "-dropdownMenu"]);
     }
 
 
     public function getDefaultPageSize()
     {
-        $defaultPageSize = intval(Yii::$app->request->get('per-page', 20));
+        $defaultPageSize = (int)Yii::$app->request->get('per-page', 20);
         $sizes = $this->getPageSizes();
 
         if (!isset($sizes[$defaultPageSize])) {
@@ -93,7 +93,6 @@ trait SoftGridViewTrait
         return $defaultPageSize;
     }
     //</editor-fold>
-
 
 
 }

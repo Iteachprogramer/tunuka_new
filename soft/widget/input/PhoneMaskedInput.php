@@ -8,6 +8,6 @@ use yii\widgets\MaskedInput;
 class PhoneMaskedInput extends MaskedInput
 {
 
-    public $mask = '+\\9\\98\(99\) 999-99-99';
+    public $mask = "+\\9\\98\\(99\\) 999-99-99";
 
 }

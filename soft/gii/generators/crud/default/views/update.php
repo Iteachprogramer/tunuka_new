@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = ['label' => $model-><?= $generator->getNameAttr
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
-    <?= '<?= ' ?>$this->render('_form', [
-        'model' => $model,
-    ]) ?>
+<?= '<?= ' ?>$this->render('_form', [
+    'model' => $model,
+]) ?>
 

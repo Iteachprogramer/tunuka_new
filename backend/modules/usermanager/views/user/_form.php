@@ -1,17 +1,22 @@
 <?php
 
-use backend\models\Client;
 use backend\modules\usermanager\models\User;
-use common\models\Branch;
-use soft\helpers\Html;
-use soft\widget\input\VisiblePasswordInput;
-use soft\widget\kartik\ActiveForm;
-use soft\widget\kartik\Form;
 
+//use kartik\builder\Form;
+use common\models\Category;
+use kartik\date\DatePicker;
+use kartik\widgets\Select2;
+use yii\bootstrap4\ActiveForm;
+
+//use kartik\password\PasswordInput;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\widgets\MaskedInput;
 
 /* @var $this soft\web\View */
 /* @var $model backend\modules\usermanager\models\User */
 /* @var $form ActiveForm */
+
 
 $passwordHint = '';
 if (!$model->isNewRecord) {
@@ -19,46 +24,49 @@ if (!$model->isNewRecord) {
 }
 
 ?>
+<div class="card card-primary">
+    <div class="card-body">
+        <?php $form = ActiveForm::begin() ?>
+        <div class="row">
+            <div class="col-6">
+                <?= $form->field($model, 'firstname')->textInput(['autofocus' => true]) ?>
+            </div>
+            <div class="col-6">
+                <?= $form->field($model, 'lastname')->textInput() ?>
+            </div>
 
-<div class="row">
-    <div class="col-md-6">
-
-        <?php $form = ActiveForm::begin(); ?>
-
-        <!--        --><? //= $form->field($model, 'branch_id')->dropDownList(map(Branch::find()->all(), 'id', 'name')) ?>
-        <?= Form::widget([
-            'model' => $model,
-            'form' => $form,
-            'attributes' => [
-                'branch_id' => [
-                    'type' => Form::INPUT_DROPDOWN_LIST,
-                    'items' => map(Branch::find()->all(), 'id', 'name'),
-                    'options' => [
-                        'prompt' => 'Tanlang...'
-                    ]
-                ],
-                'username',
-                'firstname',
-                'lastname',
-                'password:widget' => [
-                    'widgetClass' => VisiblePasswordInput::class,
-                    'hint' => $passwordHint
-                ],
-                'type_id' => [
-                    'type' => Form::INPUT_DROPDOWN_LIST,
-                    'items' => User::types(),
-                ],
-                'status:radioButtonGroup' => [
-                    'items' => User::statuses(),
-                ],
-            ]
-        ]); ?>
-        <div class="form-group">
-            <?= Html::submitButton(Yii::t('site', 'Save'), ['visible' => !$this->isAjax]) ?>
-            <?= a('Bekor qilish', ['index'], ['class' => 'btn btn-warning']) ?>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+            </div>
+            <div class="col-6">
+                <?= $form->field($model, 'password')->textInput(); ?>
+                <div class="hint-block">
+                    <?= $passwordHint ?>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <?= $form->field($model, 'type_id')->dropdownList([
+                    User::TYPE_ADMIN => 'Admin',
+                    User::TYPE_FACTORY => 'Ishlab chiqarish',
+                    User::TYPE_SALE => 'Sotuvchi',
+                ]) ?>
+            </div>
+            <div class="col-6">
+                <?=$form->field($model,'status')->dropdownList(User::statuses())?>
+            </div>
+            <div class="col-6">
+                <br>
+                <div class="form-group" style="margin-top: 5px">
+                    <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+                    <?= Html::a('Bekor qilish', ['index'], ['class' => 'btn btn-warning']) ?>
+                </div>
+            </div>
         </div>
 
-        <?php ActiveForm::end(); ?>
-
+        <?php ActiveForm::end() ?>
     </div>
 </div>

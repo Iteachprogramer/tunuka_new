@@ -19,8 +19,8 @@ use yii\base\Widget;
  */
 class ECard extends Widget
 {
-    public $mainLabel = "Salom";
-    public $subLabel = "Alik";
+    public $mainLabel = "";
+    public $subLabel = "";
     public $subLabelClass = "text-muted m-b-0";
     public $mainLabelClass = "text-c-yellow f-w-600";
     public $rightIconClass = 'feather icon-bar-chart f-28';

@@ -20,26 +20,47 @@ class Menu extends \soft\widget\Menu
 
     public $linkTemplate = '<a href="{url}" class="nav-link">{label}</a>';
     public $activeLinkTemplate = '<a href="{url}" class="nav-link active">{label}</a>';
-    public $badgeClass = 'light';
+    public $badgeClass = 'success';
 
     public $subMenuOptions = ['class' => 'nav nav-treeview'];
 
+    public $legacy = true;
+    public $childIndent = true;
+
+    public function init()
+    {
+        if ($this->legacy) {
+            Html::addCssClass($this->options, 'nav-legacy');
+        }
+
+        if ($this->childIndent) {
+            Html::addCssClass($this->options, 'nav-child-indent');
+        }
+
+        parent::init();
+    }
+
+    /**
+     * @param array $item  the menu item to be rendered.
+     * @return string
+     * @throws \Exception
+     */
     protected function renderItem($item)
     {
-
         $linkTemplate = $item['active'] ? $this->activeLinkTemplate : $this->linkTemplate;
-
-
         $replacements = [
             '{label}' => $this->renderLabel($item),
             '{url}' => isset($item['url']) ? Url::to($item['url']) : 'javascript:void(0);',
-
         ];
 
         return strtr($linkTemplate, $replacements);
-
     }
 
+    /**
+     * @param array $items
+     * @return string
+     * @throws \Exception
+     */
     protected function renderItems($items)
     {
 

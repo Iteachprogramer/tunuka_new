@@ -11,7 +11,7 @@ $this->title = 'Kirish';
 ?>
 <div class="login-box" style="margin: 20px auto">
     <div class="login-logo">
-        <a href="/admin/"><i class="fas fa-user-cog"></i> <b>Turk taomlari</b></a>
+        <a href="/admin/"><i class="fas fa-user-cog"></i> <b>Asprofil</b></a>
     </div>
     <div class="card">
         <div class="card-body login-card-body">

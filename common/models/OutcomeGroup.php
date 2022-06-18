@@ -57,13 +57,20 @@ class OutcomeGroup extends \soft\db\ActiveRecord
             [['client_id', 'status', 'discount', 'total', 'created_by', 'updated_by','order_number'], 'integer'],
             ['date', 'safe'],
             [['discount', 'total'], 'default', 'value' => 0],
+            [['discount'],'checkNumber'],
             [['where'], 'string', 'max' => 255],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Client::className(), 'targetAttribute' => ['client_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
-
+    public function checkNumber()
+    {
+        if ($this->discount < 0) {
+            $this->addError('discount', "Faqat musbat son kiritiladi");
+            return false;
+        }
+    }
     /**
      * {@inheritdoc}
      */

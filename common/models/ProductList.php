@@ -115,6 +115,7 @@ class ProductList extends \soft\db\ActiveRecord
                 [['product_name'], 'required'],
                 [['type_id', 'sort_order', 'size_type_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'status', 'price_type', 'surface_type', 'factory_expence'], 'integer'],
                 [['residue', 'selling_price_uz', 'selling_price_usd', 'selling_rentail', 'selling_rentail_usd'], 'number'],
+                [['residue', 'selling_price_uz', 'selling_price_usd', 'factory_expence'], 'checkNumber'],
                 ['surface_type', 'default', 'value' => self::SURFACE_TYPE_SMOOTH],
                 ['product_name', 'string', 'max' => 255,],
                 [['sort_order', 'factory_expence'], 'default', 'value' => 0],
@@ -124,7 +125,23 @@ class ProductList extends \soft\db\ActiveRecord
                 [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
             ];
     }
+    public function checkNumber()
+    {
 
+        if ($this->residue < 0) {
+            $this->addError('residue', "Faqat musbat son kiritiladi");
+            return false;
+        } elseif ($this->selling_price_uz < 0) {
+            $this->addError('selling_price_uz', "Faqat musbat son kiritiladi");
+            return false;
+        } elseif ($this->selling_price_usd < 0) {
+            $this->addError('selling_price_usd', "Faqat musbat son kiritiladi");
+            return false;
+        } elseif ($this->factory_expence < 0) {
+            $this->addError('factory_expence', "Faqat musbat son kiritiladi");
+            return false;
+        }
+    }
     /**
      * {@inheritdoc}
      */

@@ -53,6 +53,7 @@ class MakeProduct extends \soft\db\ActiveRecord
             [['date'], 'safe'],
             [['comment'], 'string', 'max' => 255],
             [['size', 'factory_size'], 'number',],
+            [['size', 'factory_size'], 'checkNumber',],
             ['date', 'default', 'value' => time()],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employees::className(), 'targetAttribute' => ['employee_id' => 'id']],
@@ -62,7 +63,17 @@ class MakeProduct extends \soft\db\ActiveRecord
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
+    public function checkNumber()
+    {
 
+        if ($this->size < 0) {
+            $this->addError('size', "Faqat musbat son kiritiladi");
+            return false;
+        } elseif ($this->factory_size < 0) {
+            $this->addError('factory_size', "Faqat musbat son kiritiladi");
+            return false;
+        }
+    }
     /**
      * {@inheritdoc}
      */

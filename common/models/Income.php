@@ -86,6 +86,7 @@ class Income extends \soft\db\ActiveRecord
             ['length', 'default', 'value' => 0],
             ['weight', 'default', 'value' => 0],
             [['cost', 'weight', 'length', 'cost_of_living', 'dollar_course', 'total', 'price_per_meter'], 'number'],
+            [['cost', 'weight', 'length', 'cost_of_living',], 'checkNumber'],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['product_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProductList::className(), 'targetAttribute' => ['product_type_id' => 'id']],
             [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => Client::className(), 'targetAttribute' => ['provider_id' => 'id']],
@@ -93,7 +94,25 @@ class Income extends \soft\db\ActiveRecord
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
-
+    public function checkNumber()
+    {
+        if ($this->cost < 0) {
+            $this->addError('cost', "Faqat musbat son kiritiladi");
+            return false;
+        }
+        elseif ($this->length < 0) {
+            $this->addError('length', "Faqat musbat son kiritiladi");
+            return false;
+        }
+        elseif ($this->weight < 0) {
+            $this->addError('weight', "Faqat musbat son kiritiladi");
+            return false;
+        }
+        elseif ($this->cost_of_living < 0) {
+            $this->addError('cost_of_living', "Faqat musbat son kiritiladi");
+            return false;
+        }
+    }
     /**
      * {@inheritdoc}
      */

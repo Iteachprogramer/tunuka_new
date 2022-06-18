@@ -11,6 +11,11 @@ use soft\widget\kartik\Select2;
 
 /** @var Outcome $model */
 ?>
+    <style>
+        #price_usd{
+            color: #f1fbe5;
+        }
+    </style>
 <?php $form = ActiveForm::begin(); ?>
     <div class="row">
         <div class="col-md-6">

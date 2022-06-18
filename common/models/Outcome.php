@@ -24,7 +24,7 @@ use Yii;
 class Outcome extends \soft\db\ActiveRecord
 {
 
-  public $residual;
+    public $residual;
     //<editor-fold desc="Parent" defaultstate="collapsed">
     const SCENARIO_AKSESSUAR = "aksessuar";
     const SCENARIO_RULON = "rulon";
@@ -57,8 +57,9 @@ class Outcome extends \soft\db\ActiveRecord
     {
         return [
             [['product_type_id', 'cost', 'client_id'], 'required'],
-            [['client_id', 'product_type_id', 'unit_id', 'type_id', 'status', 'group_id'], 'integer'],
-            [['size', 'count', 'total_size', 'total', 'discount', 'cost'], 'number'],
+            [['client_id', 'product_type_id', 'unit_id', 'type_id', 'status', 'group_id'], 'integer',],
+            [['size', 'count', 'total_size', 'total', 'discount', 'cost'], 'number',],
+            [['size', 'count', 'total_size', 'discount', 'cost'], 'checkNumber',],
             [['count'], 'checkBeforeSold'],
             [['total_size'], 'checkBeforeSoldMetr'],
             ['discount', 'default', 'value' => 0],
@@ -80,6 +81,27 @@ class Outcome extends \soft\db\ActiveRecord
                 $this->addError('count', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity  mavjud!");
                 return false;
             }
+        }
+    }
+
+    public function checkNumber()
+    {
+
+        if ($this->count < 0) {
+            $this->addError('count', "Faqat musbat son kiritiladi");
+            return false;
+        } elseif ($this->total_size < 0) {
+            $this->addError('total_size', "Faqat musbat son kiritiladi");
+            return false;
+        } elseif ($this->size < 0) {
+            $this->addError('size', "Faqat musbat son kiritiladi");
+            return false;
+        } elseif ($this->cost < 0) {
+            $this->addError('cost', "Faqat musbat son kiritiladi");
+            return false;
+        } elseif ($this->discount < 0) {
+            $this->addError('discount', "Faqat musbat son kiritiladi");
+            return false;
         }
     }
 
@@ -117,7 +139,7 @@ class Outcome extends \soft\db\ActiveRecord
             }
             if ($this->unit_id != 2) {
                 $this->total = intval($this->cost * $this->count);
-            } else  {
+            } else {
                 $this->total = intval($this->cost * $this->total_size);
             }
             return true;

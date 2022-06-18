@@ -4,6 +4,7 @@ namespace backend\controllers;
 
 use common\models\Income;
 use common\models\MakeProductItem;
+use common\models\ProductList;
 use Yii;
 use common\models\MakeProduct;
 use common\models\search\MakeProductSearch;
@@ -340,6 +341,16 @@ class MakeProductController extends Controller
         }
 
     }
+    public function actionProductType()
+    {
+        $id = Yii::$app->request->post('id');
+        $product_list = ProductList::find()->where(['id' => $id])->one();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $type = $product_list->sizeType->name;
+        $residual = number_format($product_list->residual, 2, '.', '');
+        return ['product_list' => $product_list, 'residual' => $residual, 'type' => $type];
+    }
+
 
     /**
      * Finds the MakeProduct model based on its primary key value.

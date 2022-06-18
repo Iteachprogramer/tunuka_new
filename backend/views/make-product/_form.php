@@ -2,6 +2,7 @@
 
 use common\models\Employees;
 use common\models\ProductList;
+use soft\helpers\Url;
 use soft\widget\kartik\Select2;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
@@ -15,19 +16,24 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <?= $form->field($model, 'employee_id',['inputOptions' => ['tabindex' => '1']])->widget(Select2::class,[
                     'data' => Employees::getMap(),
             ]) ?>
 
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <?= $form->field($model, 'product_id',['inputOptions' => ['tabindex' => '1']])->widget(Select2::class,[
                     'data' => ProductList::getRulon(),
             ]) ?>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <?= $form->field($model, 'size',['inputOptions' => ['class' => 'form-control', 'tabindex' => '1']])->textInput(['maxlength' => true,]) ?>
+        </div>
+        <div class="col-md-3">
+            <label>Mahsulot qoldig'i</label>
+            <input type="text" id="outcome_product_residue" disabled class="form-control"
+                   value="0">
         </div>
     </div>
     <div class="row">
@@ -55,3 +61,20 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
     
 </div>
+<?php
+$url = Url::to(['make-product/product-type']);
+$js = <<< JS
+$('#makeproduct-product_id').on('change', function() {
+    var val=$(this).val();
+    $.ajax({
+        url: '{$url}',
+        type: 'POST',
+        data: {id: val},
+        success: function(data) {
+            $('#outcome_product_residue').val(data.residual);
+        }
+    });
+});
+JS;
+$this->registerJs($js)
+?>

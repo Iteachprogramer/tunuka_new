@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Client;
 use common\models\MakeProduct;
 use common\models\MakeProductItem;
+use common\models\OrderNumber;
 use common\models\Outcome;
 use common\models\OutcomeItem;
 use common\models\ProductList;
@@ -60,6 +61,7 @@ class OutcomeGroupController extends AjaxCrudController
             'dataProvider' => $dataProvider,
         ]);
     }
+
     public function actionClientOutcomeGroup()
     {
         $id = Yii::$app->request->get('id');
@@ -79,6 +81,7 @@ class OutcomeGroupController extends AjaxCrudController
         }
 
     }
+
     public function actionView($id)
     {
         $request = Yii::$app->request;
@@ -98,6 +101,7 @@ class OutcomeGroupController extends AjaxCrudController
             ]);
         }
     }
+
     public function actionCreate()
     {
         $request = Yii::$app->request;
@@ -106,7 +110,6 @@ class OutcomeGroupController extends AjaxCrudController
         ]);
         return $this->ajaxCrud->createAction($model, [
             'view' => 'create',
-            'returnUrl' => 'dddddd',
         ]);
     }
 
@@ -164,10 +167,11 @@ class OutcomeGroupController extends AjaxCrudController
     {
         $id = Yii::$app->request->get('id');
         $model = $this->findModel($id);
+
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $result = [];
         if (Yii::$app->request->isAjax) {
-            $result['message'] = $this->renderAjax('test-print', ['model' => $model,'aksessuar_sum'=>0,'product_sum'=>0]);
+            $result['message'] = $this->renderAjax('test-print', ['model' => $model, 'aksessuar_sum' => 0, 'product_sum' => 0]);
             return $this->asJson($result);
         }
         return $this->redirect(Yii::$app->request->referrer);
@@ -231,6 +235,7 @@ class OutcomeGroupController extends AjaxCrudController
         }
 
     }
+
     public function findModel($id)
     {
         if (($model = OutcomeGroup::findOne($id)) !== null) {

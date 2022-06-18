@@ -68,7 +68,7 @@ $print= PrintSetting::find()->one();
         </tr>
         <tr>
             <td>Buyurtma no'meri</td>
-            <th align="right"><?= $model->id ?></th>
+            <th align="right"><?= $model->order_number ?></th>
         </tr>
         <tr>
             <td>Manzil</td>

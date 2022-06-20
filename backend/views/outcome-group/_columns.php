@@ -29,7 +29,7 @@ return [
         'attribute' => 'date',
         'width' => '160px',
         'value' => function(OutcomeGroup $model){
-            return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
+            return Yii::$app->formatter->asDatetime($model->date, 'dd.MM.yyyy');
 
         },
         'filterType' => GridView::FILTER_DATE_RANGE,
@@ -42,7 +42,7 @@ return [
                 'timePicker' => true,
                 'timePickerIncrement' => 30,
                 'locale' => [
-                    'format' => 'd-m-Y'
+                    'format' => 'd.m.Y'
                 ]
             ]
         ],

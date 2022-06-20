@@ -43,7 +43,7 @@ return [
             ]
         ],
         'value' => function (OutcomeGroup $model) {
-            return Yii::$app->formatter->asDate('now', 'php:d-m-Y');
+            return Yii::$app->formatter->asDate($model->date, 'php:d-m-Y');
         }
     ],
     [

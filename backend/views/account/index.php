@@ -85,7 +85,6 @@ CrudAsset::register($this);
             ],
             [
                 'attribute' => 'date',
-                'format' => 'date',
                 'width' => '160px',
                 'filterType' => GridView::FILTER_DATE_RANGE,
                 'filterWidgetOptions' => [
@@ -100,7 +99,10 @@ CrudAsset::register($this);
                             'format' => 'Y-m-d H:i:s'
                         ]
                     ]
-                ]
+                ],
+                'value' => function (Account $model) {
+                    return Yii::$app->formatter->asDate($model->date, 'php:d-m-Y');
+                }
             ],
             [
                 'attribute' => 'total',

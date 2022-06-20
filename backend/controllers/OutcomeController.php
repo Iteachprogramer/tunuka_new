@@ -545,7 +545,8 @@ class OutcomeController extends AjaxCrudController
                         Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '5'])
 
                 ];
-            } else if ($model->load($request->post()) && $model->validate()  && $model->save()) {
+            }
+            else if ($model->load($request->post()) && $model->validate()  && $model->save()) {
                     if ($model->count) {
                         $model->residual = $model->productType->residual - $model->count;
                     } else {

@@ -62,14 +62,14 @@ use soft\widget\kartik\Select2;
     <div class="row">
         <div class="col-md-3">
             <div class="type_product"
-                <?php if ($model->type_id == ProductList::TYPE_AKSESSUAR): ?>
+                <?php if ($model->productType->type_id == ProductList::TYPE_AKSESSUAR): ?>
                     style="display: none"
                 <?php endif; ?>
             >
                 <?= $form->field($model, 'total_size', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '3']])->textInput() ?>
             </div>
             <div
-                <?php if ($model->type_id == ProductList::TYPE_PRODUCT || $model->isNewRecord): ?>
+                <?php if ($model->productType->type_id == ProductList::TYPE_PRODUCT || !$model->productType->type_id): ?>
                     style="display: none"
                 <?php endif; ?>
                     class="type_akksessuar">
@@ -95,6 +95,7 @@ use soft\widget\kartik\Select2;
 $url = Url::to(['outcome/product-type']);
 $url_provider = Url::to(['outcome/provider']);
 $js = <<< JS
+
 $('#outcome-product_type_id').on('change', function() {
     var val=$(this).val();
     $.ajax({

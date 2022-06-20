@@ -16,15 +16,15 @@ use yii\helpers\Html;
     <div class="row">
         <div class="col-md-6">
             <?php if (!$model->is_main): ?>
-                    <?= $form->field($model, 'client_id')->widget(\kartik\select2\Select2::class, [
-                        'data' => Client::getMap(),
-                        'options' => [
-                            'placeholder' => 'Klientni tanlang...',
-                        ],
-                        'pluginOptions' => [
-                            'allowClear' => true
-                        ]
-                    ]) ?>
+                <?= $form->field($model, 'client_id')->widget(\kartik\select2\Select2::class, [
+                    'data' => Client::getMap(),
+                    'options' => [
+                        'placeholder' => 'Klientni tanlang...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ]
+                ]) ?>
 
             <?php else: ?>
                 <h3 class="text-primary" align="center">Boshlang'ich kassa</h3>
@@ -32,7 +32,7 @@ use yii\helpers\Html;
 
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'date')->textInput() ?>
+            <?= $form->field($model, 'date')->widget(\soft\widget\kartik\DatePicker::class) ?>
         </div>
     </div>
     <div class="row">
@@ -43,16 +43,16 @@ use yii\helpers\Html;
             <?= $form->field($model, 'dollar')->textInput() ?>
         </div>
     </div>
-        <div class="row">
-            <div class="col-md-6"><?= $form->field($model, 'dollar_course')->textInput() ?></div>
-            <div class="col-md-6"><?= $form->field($model, 'bank')->textInput() ?></div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <?= $form->field($model, 'comment')->textarea(['rows' => 3]) ?>
-            </div>
-        </div>
-
-        <?php ActiveForm::end(); ?>
-
+    <div class="row">
+        <div class="col-md-6"><?= $form->field($model, 'dollar_course')->textInput() ?></div>
+        <div class="col-md-6"><?= $form->field($model, 'bank')->textInput() ?></div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <?= $form->field($model, 'comment')->textarea(['rows' => 3]) ?>
+        </div>
+    </div>
+
+    <?php ActiveForm::end(); ?>
+
+</div>

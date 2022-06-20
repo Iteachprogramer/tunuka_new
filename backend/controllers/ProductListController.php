@@ -74,7 +74,7 @@ class ProductListController extends Controller
                         'model' => $this->findModel($id),
                     ]),
                     'footer'=> Html::button('Jarayoni tugatish',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['Tahrirlash','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Tahrirlash',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];
         }else{
             return $this->render('view', [
@@ -174,7 +174,7 @@ class ProductListController extends Controller
                         'model' => $model,
                     ]),
                     'footer'=> Html::button('Jarayoni tugatish',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['Tahrirlash','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                            Html::a('Tahrirlash',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];
             }else{
                  return [

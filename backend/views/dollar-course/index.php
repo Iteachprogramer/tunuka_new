@@ -28,8 +28,7 @@ CrudAsset::register($this);
                 ['content'=>
                     Html::a('<i class="fas fa-redo"></i>', [''],
                     ['data-pjax'=>1, 'class'=>'btn btn-secondary', 'title'=>'Reset Grid']).
-                    '{toggleData}'.
-                    '{export}'
+                    '{toggleData}',
                 ],
             ],
             'striped' => true,

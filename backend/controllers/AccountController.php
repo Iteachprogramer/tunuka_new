@@ -84,7 +84,6 @@ class AccountController extends AjaxCrudController
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         $model->sum = abs($model->sum);
         $model->dollar = abs($model->dollar);
         $model->bank = abs($model->bank);

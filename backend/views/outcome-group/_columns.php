@@ -61,9 +61,9 @@ return [
         'dropdown' => false,
         'template' => '{update} {view} {delete} {print}',
         'vAlign' => 'middle',
-        'urlCreator' => function ($action, $model, $key, $index) {
-            return Url::to([$action, 'id' => $key]);
-        },
+//        'urlCreator' => function ($action, $model, $key, $index) {
+//            return Url::to([$action, 'id' => $key]);
+//        },
         'buttons' => [
             'print' => function ($url, $model) {
                 return Html::a('<i class="fa fa-print"></i>', '#', ['class' => 'printButton', 'data-id' => $model->id]);

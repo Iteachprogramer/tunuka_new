@@ -134,7 +134,10 @@ class Client extends \soft\db\ActiveRecord
     {
         return ArrayHelper::map(Client::find()->where(['client_type_id' => self::CLIENT_TYPE_CLIENT])->all(), 'id', 'fulla_name');
     }
-
+    public static function getClientOne($id)
+    {
+        return ArrayHelper::map(Client::find()->where(['id' => $id])->all(), 'id', 'fulla_name');
+    }
     public function getIncomes()
     {
         return $this->hasMany(Income::class, ['provider_id' => 'id']);

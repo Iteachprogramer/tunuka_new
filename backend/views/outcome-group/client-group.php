@@ -1,5 +1,7 @@
 <?php
 
+use common\models\Client;
+use common\models\OutcomeGroup;
 use soft\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -24,7 +26,6 @@ CrudAsset::register($this);
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'pjax'=>true,
-                'columns' => require(__DIR__.'/_columns.php'),
                 'toolbarButtons' => [
                     'create' =>
                         [
@@ -32,7 +33,75 @@ CrudAsset::register($this);
                             'url' => Url::to(['outcome-group/create','client_id'=>$client_id]),
                             'modal'=>true,
                         ],
-                ]
+                ],
+
+                'columns' => [
+                    [
+                        'attribute' => 'client_id',
+                        'format' => 'raw',
+                        'width' => '220px',
+                        'value' => function (OutcomeGroup $model) {
+                            return Html::a($model->client->fulla_name, Url::to(['/outcome/rulon-index', 'id' => $model->id,]), ['data-pjax' => '0']);
+                        },
+                        'filterType' => GridView::FILTER_SELECT2,
+                        'filterWidgetOptions' => [
+                            'data' => Client::getClientOne($client_id),
+                        ],
+                    ],
+                    [
+                        'attribute' => 'date',
+                        'width' => '160px',
+                        'value' => function(OutcomeGroup $model){
+                            return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
+                        },
+                        'filterType' => GridView::FILTER_DATE_RANGE,
+                        'filterWidgetOptions' => [
+                            'model' => $searchModel,
+                            'convertFormat' => true,
+                            'presetDropdown' => true,
+                            'includeMonthsFilter' => true,
+
+                            'pluginOptions' => [
+                                'timePicker' => true,
+                                'timePickerIncrement' => 30,
+                                'locale' => [
+                                    'format' => 'Y-m-d H:i:s'
+                                ]
+                            ]
+                        ]
+
+                    ],
+                    [
+                        'class' => '\kartik\grid\DataColumn',
+                        'attribute' => 'discount',
+                    ],
+                    [
+                        'class' => '\kartik\grid\DataColumn',
+                        'attribute' => 'total',
+                    ],
+                    [
+                        'class' => 'kartik\grid\ActionColumn',
+                        'dropdown' => false,
+                        'template' => '{update} {view} {delete} {print}',
+                        'vAlign' => 'middle',
+                        'urlCreator' => function ($action, $model, $key, $index) {
+                            return Url::to([$action, 'id' => $key]);
+                        },
+                        'buttons' => [
+                            'print' => function ($url, $model) {
+                                return Html::a('<i class="fa fa-print"></i>', '#', ['class' => 'printButton', 'data-id' => $model->id]);
+                            },
+                        ],
+                        'viewOptions' => ['role' => 'modal-remote', 'title' => 'View', 'data-toggle' => 'tooltip'],
+                        'updateOptions' => ['role' => 'modal-remote', 'title' => 'Update', 'data-toggle' => 'tooltip'],
+                        'deleteOptions' => ['role' => 'modal-remote', 'title' => 'Delete',
+                            'data-confirm' => false, 'data-method' => false,// for overide yii data api
+                            'data-request-method' => 'post',
+                            'data-toggle' => 'tooltip',
+                            'data-confirm-title' => 'Are you sure?',
+                            'data-confirm-message' => 'Are you sure want to delete this item'],
+                    ],
+                ],
 
             ])?>
         </div>

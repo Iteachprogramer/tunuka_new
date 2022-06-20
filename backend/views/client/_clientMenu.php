@@ -21,7 +21,7 @@ use soft\widget\bs4\TabMenu;
         ],
         [
             'label' => "Sotilgan yuklar",
-            'url' => ['client/outcome-group', 'id' => $model->id],
+            'url' => ['outcome-group/client-outcome-group', 'id' => $model->id],
             'icon' => 'fas fa-truck',
         ],
 

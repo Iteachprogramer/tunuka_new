@@ -7,7 +7,7 @@ return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'bootstrap' => ['gii'],
     'language' => 'uz',
-    'name' => 'Shablon',
+    'name' => 'Tunuka',
     'components' => [
         'i18n' => [
             'translations' => [

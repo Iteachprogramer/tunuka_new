@@ -188,7 +188,7 @@ class MakeProductController extends Controller
                 ];
             } else {
                 return [
-                    'title' => "Create new MakeProduct",
+                    'title' => "Yangi mahsulot ishlab chiqarish",
                     'content' => $this->renderAjax('create', [
                         'model' => $model,
                     ]),

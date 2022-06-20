@@ -97,15 +97,11 @@ class MakeProductController extends Controller
     {
         $request = Yii::$app->request;
         $model = new MakeProduct();
-
         if ($request->isAjax) {
-            /*
-            *   Process for ajax request
-            */
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
-                    'title' => "Create new MakeProduct",
+                    'title' => "Yangi mahsulot ishlab chiqarish",
                     'content' => $this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -116,8 +112,8 @@ class MakeProductController extends Controller
             } else if ($model->load($request->post()) && $model->validate()) {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
-                    $incomes = Income::find()->andWhere(['!=', 'length', 0])->all();
                     $model->save();
+                    $incomes = Income::find()->andWhere(['!=', 'length', 0])->andWhere(['product_type_id' => $model->product->id])->all();
                     $size = floatval($model->size);
                     foreach ($incomes as $income) {
                         if ($size > 0) {
@@ -188,7 +184,7 @@ class MakeProductController extends Controller
                 ];
             } else {
                 return [
-                    'title' => "Create new MakeProduct",
+                    'title' => "Yangi mahsulot ishlab chiqarish",
                     'content' => $this->renderAjax('create', [
                         'model' => $model,
                     ]),
@@ -211,7 +207,6 @@ class MakeProductController extends Controller
         }
 
     }
-
     /**
      * Updates an existing MakeProduct model.
      * For ajax request will return json object

@@ -29,6 +29,10 @@ CrudAsset::register($this);
     .margin{
         padding-top: 10px;
     }
+    .hidden-print,
+    .hidden-print * {
+        display: none !important;
+    }
 </style>
 <div class="outcome-group-index">
     <div id="ajaxCrudDatatable">

@@ -13,7 +13,7 @@ use johnitvn\ajaxcrud\BulkButtonWidget;
 /* @var $searchModel common\models\search\OutcomeGroupSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Outcome Groups');
+$this->title = 'Yuk sotish';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
@@ -21,17 +21,17 @@ CrudAsset::register($this);
 ?>
     <div class="outcome-group-index">
         <div id="ajaxCrudDatatable">
-            <?=GridView::widget([
-                'id'=>'crud-datatable',
+            <?= GridView::widget([
+                'id' => 'crud-datatable',
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
-                'pjax'=>true,
+                'pjax' => true,
                 'toolbarButtons' => [
                     'create' =>
                         [
 
-                            'url' => Url::to(['outcome-group/create','client_id'=>$client_id]),
-                            'modal'=>true,
+                            'url' => Url::to(['outcome-group/create', 'client_id' => $client_id]),
+                            'modal' => true,
                         ],
                 ],
 
@@ -51,7 +51,7 @@ CrudAsset::register($this);
                     [
                         'attribute' => 'date',
                         'width' => '160px',
-                        'value' => function(OutcomeGroup $model){
+                        'value' => function (OutcomeGroup $model) {
                             return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
                         },
                         'filterType' => GridView::FILTER_DATE_RANGE,
@@ -103,12 +103,12 @@ CrudAsset::register($this);
                     ],
                 ],
 
-            ])?>
+            ]) ?>
         </div>
     </div>
 <?php Modal::begin([
-    "id"=>"ajaxCrudModal",
+    "id" => "ajaxCrudModal",
     "title" => '<h4 class="modal-title">Modal title</h4>',
-    "footer"=>"",// always need it for jquery plugin
-])?>
+    "footer" => "",// always need it for jquery plugin
+]) ?>
 <?php Modal::end(); ?>

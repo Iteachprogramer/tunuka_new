@@ -96,13 +96,13 @@ CrudAsset::register($this);
                         'timePicker' => true,
                         'timePickerIncrement' => 30,
                         'locale' => [
-                            'format' => 'Y-m-d H:i:s'
+                            'format' => 'd.m.Y'
                         ]
                     ]
                 ],
-                'value' => function (Account $model) {
-                    return Yii::$app->formatter->asDate($model->date, 'php:d-m-Y');
-                }
+                'value' => function(Account $model){
+                    return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y');
+                },
             ],
             [
                 'attribute' => 'total',

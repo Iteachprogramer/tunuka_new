@@ -41,7 +41,7 @@ return [
                 'timePicker' => true,
                 'timePickerIncrement' => 30,
                 'locale' => [
-                    'format' => 'd.m.Y'
+                    'format' => 'd.m.Y H:i:s'
                 ]
             ]
         ],

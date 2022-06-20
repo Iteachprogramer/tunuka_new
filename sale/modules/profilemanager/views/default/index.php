@@ -25,7 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?= DetailView::widget([
         'model' => user(),
-        'panel' => false,
         'attributes' => [
             'username:text:Login',
             'firstname:text:Ism',

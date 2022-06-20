@@ -39,10 +39,11 @@ class IncomeSearch extends Income
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$query=null)
     {
-        $query = Income::find();
-
+        if ($query===null){
+            $query = Income::find();
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [

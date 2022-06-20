@@ -132,6 +132,13 @@ class Outcome extends \soft\db\ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
+            if (empty($this->total_size) && empty($this->count) && empty($this->size)) {
+                $message = "Siz hech qanday o'lchov birligini  kiritmadingiz! Ushbu maydonlardan kamida bittasini to'ldiring!";
+                $this->addError('total_size', $message);
+                $this->addError('count', $message);
+                $this->addError('size', $message);
+                return false;
+            }
             $this->type_id = $this->productType->type_id;
             $this->unit_id = $this->productType->sizeType->id;
             if (!$this->total_size) {

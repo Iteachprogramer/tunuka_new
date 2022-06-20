@@ -18,8 +18,8 @@ class EmployeesSearch extends Employees
     public function rules()
     {
         return [
-            [['id', 'salary', 'is_factory', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
-            [['name'], 'safe'],
+            [['id', 'salary', 'is_factory', 'status', ], 'integer'],
+            [['name', 'created_by', 'updated_by'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class EmployeesSearch extends Employees
      */
     public function search($params)
     {
-        $query = Employees::find();
+        $query = Employees::find()->joinWith('createdBy');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -60,13 +60,11 @@ class EmployeesSearch extends Employees
             'salary' => $this->salary,
             'is_factory' => $this->is_factory,
             'status' => $this->status,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'created_by' => $this->created_by,
-            'updated_by' => $this->updated_by,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'user.username', $this->created_by])
+        ;
 
         return $dataProvider;
     }

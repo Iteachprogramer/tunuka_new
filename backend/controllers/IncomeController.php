@@ -104,12 +104,14 @@ class IncomeController extends Controller
         $model = new Income([
             'date' => date('Y-m-d'),
         ]);
-
-
         Yii::$app->response->format = Response::FORMAT_JSON;
         if ($model->load($request->post()) && $model->save()) {
             $product = ProductList::findOne($model->product_type_id);
-            $product->selling_price_usd = $model->price_per_meter;
+            if ($model->productType->type_id == ProductList::TYPE_AKSESSUAR) {
+                $product->selling_price_usd = $model->cost;
+            } else {
+                $product->selling_price_usd = $model->price_per_meter;
+            }
             $product->save(false);
             return [
                 'forceReload' => '#crud-datatable-pjax',
@@ -122,7 +124,7 @@ class IncomeController extends Controller
                 'model' => $model,
             ]),
             'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit",'tabindex'=>'7'])
+                Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '7'])
 
         ];
 
@@ -154,7 +156,11 @@ class IncomeController extends Controller
                 ];
             } else if ($model->load($request->post()) && $model->save()) {
                 $product = ProductList::findOne($model->product_type_id);
-                $product->selling_price_usd = $model->price_per_meter;
+                if ($model->productType->type_id == ProductList::TYPE_AKSESSUAR) {
+                    $product->selling_price_usd = $model->cost;
+                } else {
+                    $product->selling_price_usd = $model->price_per_meter;
+                }
                 $product->save(false);
                 return [
                     'forceReload' => '#crud-datatable-pjax',
@@ -262,28 +268,30 @@ class IncomeController extends Controller
     {
         $id = Yii::$app->request->get('id');
         $model = $this->findModel($id);
-        $outcome_items=$model->getOutcomeItems();
+        $outcome_items = $model->getOutcomeItems();
         $searchModel = new OutcomeItemSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$outcome_items);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $outcome_items);
         return $this->render('result', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'model'=>$model
+            'model' => $model
         ]);
     }
+
     public function actionFactory()
     {
         $id = Yii::$app->request->get('id');
         $model = $this->findModel($id);
-        $factories=$model->getFactories();
+        $factories = $model->getFactories();
         $searchModel = new MakeProductItemSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$factories);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $factories);
         return $this->render('factory', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'model'=>$model
+            'model' => $model
         ]);
     }
+
     /**
      * Finds the Income model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

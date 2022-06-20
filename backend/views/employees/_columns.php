@@ -22,6 +22,7 @@ return [
         'attribute'=>'salary',
     ],
     [
+        'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'is_factory',
         'format' => 'raw',
         'filter' => Employees::getIsFactoryList(),

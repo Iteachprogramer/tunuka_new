@@ -370,7 +370,7 @@ class OutcomeController extends AjaxCrudController
 
                 ];
             } else if ($model->load($request->post()) && $model->validate()) {
-                if ($model->save()){
+                if ($model->save()) {
                     if ($model->count) {
                         $model->residual = $model->productType->residual - $model->count;
                     } else {
@@ -392,8 +392,7 @@ class OutcomeController extends AjaxCrudController
                             Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '3'])
 
                     ];
-                }
-                else {
+                } else {
                     return [
                         'title' => "Mahsulot",
                         'content' => $this->renderAjax('product', [
@@ -403,8 +402,7 @@ class OutcomeController extends AjaxCrudController
                             Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
                     ];
                 }
-            }
-            else {
+            } else {
                 return [
                     'title' => "Mahsulot",
                     'content' => $this->renderAjax('product', [
@@ -429,6 +427,7 @@ class OutcomeController extends AjaxCrudController
                 'group_id' => $group->id,
                 'client_id' => $group->client_id,
             ]);
+            $model->scenario = Outcome::SCENARIO_RULON;
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
@@ -441,10 +440,9 @@ class OutcomeController extends AjaxCrudController
                         Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '4'])
 
                 ];
-            } else if ($model->load($request->post()) && $model->validate()) {
+            } else if ($model->load($request->post()) && $model->validate() && $model->save()) {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
-                    $model->save();
                     $incomes = Income::find()->andWhere(['!=', 'length', 0])->andWhere(['product_type_id' => $model->productType->id])->all();
                     $size = floatval($model->total_size);
                     foreach ($incomes as $income) {
@@ -559,7 +557,7 @@ class OutcomeController extends AjaxCrudController
 
                 ];
             } else if ($model->load($request->post()) && $model->validate()) {
-                if ($model->save()){
+                if ($model->save()) {
                     if ($model->count) {
                         $model->residual = $model->productType->residual - $model->count;
                     } else {
@@ -581,8 +579,7 @@ class OutcomeController extends AjaxCrudController
                             Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '3'])
 
                     ];
-                }
-                else {
+                } else {
                     return [
                         'title' => "Mahsulot",
                         'content' => $this->renderAjax('product', [
@@ -592,8 +589,7 @@ class OutcomeController extends AjaxCrudController
                             Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
                     ];
                 }
-            }
-            else {
+            } else {
                 return [
                     'title' => "Mahsulot",
                     'content' => $this->renderAjax('product', [

@@ -29,7 +29,7 @@ return [
         'attribute' => 'date',
         'width' => '160px',
         'value' => function(OutcomeGroup $model){
-            return Yii::$app->formatter->asDate($model->date, 'php:dd.MM.yyyy H:i:s');
+            return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.y H:i:s');
         },
         'filterType' => GridView::FILTER_DATE_RANGE,
         'filterWidgetOptions' => [

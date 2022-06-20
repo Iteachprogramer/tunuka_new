@@ -21,21 +21,19 @@ CrudAsset::register($this);
 ?>
     <div class="outcome-group-index">
         <div id="ajaxCrudDatatable">
-            <?= GridView::widget([
-                'id' => 'crud-datatable',
+            <?=GridView::widget([
+                'id'=>'crud-datatable',
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
-                'pjax' => true,
+                'pjax'=>true,
+
                 'toolbarButtons' => [
                     'create' =>
                         [
-
-                            'url' => Url::to(['outcome-group/create', 'client_id' => $client_id]),
-                            'modal' => true,
+                            'url' => Url::to(['outcome-group/create-client-outcome','client_id'=>$client_id]),
+                            'modal'=>true,
                         ],
-                ],
-
-                'columns' => [
+                ],   'columns' => [
                     [
                         'attribute' => 'client_id',
                         'format' => 'raw',
@@ -51,7 +49,7 @@ CrudAsset::register($this);
                     [
                         'attribute' => 'date',
                         'width' => '160px',
-                        'value' => function (OutcomeGroup $model) {
+                        'value' => function(OutcomeGroup $model){
                             return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
                         },
                         'filterType' => GridView::FILTER_DATE_RANGE,
@@ -84,9 +82,9 @@ CrudAsset::register($this);
                         'dropdown' => false,
                         'template' => '{update} {view} {delete} {print}',
                         'vAlign' => 'middle',
-                        'urlCreator' => function ($action, $model, $key, $index) {
-                            return Url::to([$action, 'id' => $key]);
-                        },
+//        'urlCreator' => function ($action, $model, $key, $index) {
+//            return Url::to([$action, 'id' => $key]);
+//        },
                         'buttons' => [
                             'print' => function ($url, $model) {
                                 return Html::a('<i class="fa fa-print"></i>', '#', ['class' => 'printButton', 'data-id' => $model->id]);
@@ -103,12 +101,37 @@ CrudAsset::register($this);
                     ],
                 ],
 
-            ]) ?>
+            ])?>
         </div>
     </div>
 <?php Modal::begin([
-    "id" => "ajaxCrudModal",
+    "id"=>"ajaxCrudModal",
     "title" => '<h4 class="modal-title">Modal title</h4>',
-    "footer" => "",// always need it for jquery plugin
-]) ?>
+    "footer"=>"",// always need it for jquery plugin
+])?>
 <?php Modal::end(); ?>
+<div id="table" style="display:none;">
+    <?php
+    $url=Url::to(['outcome-group/check-print']);
+    ?>
+</div>
+<input type="hidden" value="<?=$url?>" name="url_group">
+<?php
+$js = <<< JS
+    $('.printButton').click(function (e) {
+        let url = $('input[name=url_group]').val()
+        var id = this.getAttribute("data-id");
+        $.ajax({
+            url: url, type: 'GET', data: {id: id}, success: function (result) {
+                let data = result.message
+                $('#table').html(data);
+                w = window.open();
+                w.document.write($('#table').html());
+                w.print();
+                w.close();
+            }
+        })
+    })
+JS;
+$this->registerJs($js);
+?>

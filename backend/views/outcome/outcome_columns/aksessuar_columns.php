@@ -38,7 +38,7 @@ return [
 //    ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'product_type_id',
+        'attribute'=>'Aksessuar',
         'value' => function (Outcome $model) {
             return $model->productType->product_name;
         },

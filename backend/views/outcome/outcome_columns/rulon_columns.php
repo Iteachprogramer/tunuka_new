@@ -38,17 +38,7 @@ return [
 //    ],
     [
         'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'product_type_id',
-        'filterType' => GridView::FILTER_SELECT2,
-        'filterWidgetOptions' => [
-            'data' => ProductList::getRulon(),
-            'options' => [
-                'placeholder' => 'Mahsulotni tanlang...',
-            ],
-            'pluginOptions' => [
-                'allowClear' => true,
-            ]
-        ],
+        'attribute'=>'Rulon',
         'value' => function (Outcome $model) {
             return $model->productType->product_name;
         },

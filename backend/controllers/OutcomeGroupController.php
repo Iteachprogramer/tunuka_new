@@ -5,7 +5,6 @@ namespace backend\controllers;
 use common\models\Client;
 use common\models\MakeProduct;
 use common\models\MakeProductItem;
-use common\models\OrderNumber;
 use common\models\Outcome;
 use common\models\OutcomeItem;
 use common\models\ProductList;
@@ -14,7 +13,6 @@ use soft\web\AjaxCrudController;
 use Yii;
 use common\models\OutcomeGroup;
 use common\models\search\OutcomeGroupSearch;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,22 +30,13 @@ class OutcomeGroupController extends AjaxCrudController
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['admin'],
-                    ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                    'bulkdelete' => ['post'],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['POST'],
-                    'delete-account' => ['POST'],
-                ]
-            ]
         ];
     }
 
@@ -106,11 +95,28 @@ class OutcomeGroupController extends AjaxCrudController
     {
         $request = Yii::$app->request;
         $model = new OutcomeGroup([
-            'date' => Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
+            'date' => Yii::$app->formatter->asDate(time(), 'dd.MM.yyyy H:i:s'),
         ]);
         return $this->ajaxCrud->createAction($model, [
             'view' => 'create',
+            'returnUrl' => 'dddddd',
         ]);
+    }
+
+    public function actionCreateClientOutcome()
+    {
+        $request = Yii::$app->request;
+        $client_id=Yii::$app->request->get('client_id');
+        if ($client_id){
+            $model = new OutcomeGroup([
+                'date' => Yii::$app->formatter->asDate(time(), 'dd.MM.yyyy H:i:s'),
+                'client_id'=>$client_id
+            ]);
+            return $this->ajaxCrud->createAction($model, [
+                'view' => 'client-group-create',
+            ]);
+        }
+
     }
 
     public function actionUpdate($id)
@@ -167,7 +173,6 @@ class OutcomeGroupController extends AjaxCrudController
     {
         $id = Yii::$app->request->get('id');
         $model = $this->findModel($id);
-
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $result = [];
         if (Yii::$app->request->isAjax) {

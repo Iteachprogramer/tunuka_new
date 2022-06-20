@@ -362,50 +362,39 @@ class OutcomeController extends AjaxCrudController
             if ($request->isGet) {
                 return [
                     'title' => "Mahsulot",
-                    'content' => $this->renderAjax('product', [
+                    'content' => $this->renderAjax('aksessuar', [
                         'model' => $model,
                     ]),
                     'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
                         Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '5'])
 
                 ];
-            } else if ($model->load($request->post()) && $model->validate()) {
-                if ($model->save()) {
-                    if ($model->count) {
-                        $model->residual = $model->productType->residual - $model->count;
-                    } else {
-                        $model->residual = $model->productType->residual - $model->total_size;
-                    }
-                    return [
-                        'title' => "Mahsulot",
-                        'forceReload' => '#crud-datatable-pjax',
-                        'content' => $this->renderAjax('product', [
-                            'model' => new Outcome([
-                                'cost' => $model->cost,
-                                'group_id' => $group->id,
-                                'client_id' => $group->client_id,
-                                'product_type_id' => $model->productType->id,
-                                'residual' => $model->residual,
-                            ]),
-                        ]),
-                        'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                            Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '3'])
-
-                    ];
+            } else if ($model->load($request->post()) && $model->validate()  && $model->save()) {
+                if ($model->count) {
+                    $model->residual = $model->productType->residual - $model->count;
                 } else {
-                    return [
-                        'title' => "Mahsulot",
-                        'content' => $this->renderAjax('product', [
-                            'model' => $model,
-                        ]),
-                        'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                            Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
-                    ];
+                    $model->residual = $model->productType->residual - $model->total_size;
                 }
+                return [
+                    'title' => "Mahsulot",
+                    'forceReload' => '#crud-datatable-pjax',
+                    'content' => $this->renderAjax('aksessuar', [
+                        'model' => new Outcome([
+                            'cost' => $model->cost,
+                            'group_id' => $group->id,
+                            'client_id' => $group->client_id,
+                            'product_type_id' => $model->productType->id,
+                            'residual' => $model->residual,
+                        ]),
+                    ]),
+                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '3'])
+
+                ];
             } else {
                 return [
                     'title' => "Mahsulot",
-                    'content' => $this->renderAjax('product', [
+                    'content' => $this->renderAjax('aksessuar', [
                         'model' => $model,
                     ]),
                     'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
@@ -556,8 +545,7 @@ class OutcomeController extends AjaxCrudController
                         Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '5'])
 
                 ];
-            } else if ($model->load($request->post()) && $model->validate()) {
-                if ($model->save()) {
+            } else if ($model->load($request->post()) && $model->validate()  && $model->save()) {
                     if ($model->count) {
                         $model->residual = $model->productType->residual - $model->count;
                     } else {
@@ -579,16 +567,6 @@ class OutcomeController extends AjaxCrudController
                             Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '3'])
 
                     ];
-                } else {
-                    return [
-                        'title' => "Mahsulot",
-                        'content' => $this->renderAjax('product', [
-                            'model' => $model,
-                        ]),
-                        'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                            Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
-                    ];
-                }
             } else {
                 return [
                     'title' => "Mahsulot",

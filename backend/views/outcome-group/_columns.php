@@ -27,7 +27,7 @@ return [
     ],
     [
         'attribute' => 'date',
-        'format' => 'dateUz',
+        'format' => 'date',
         'width' => '160px',
         'filterType' => GridView::FILTER_DATE_RANGE,
         'filterWidgetOptions' => [

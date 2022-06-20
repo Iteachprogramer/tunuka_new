@@ -29,10 +29,7 @@ CrudAsset::register($this);
     .margin{
         padding-top: 10px;
     }
-    .hidden-print,
-    .hidden-print * {
-        display: none !important;
-    }
+
 </style>
 <div class="outcome-group-index">
     <div id="ajaxCrudDatatable">
@@ -66,9 +63,21 @@ $url=Url::to(['outcome-group/check-print']);
 </div>
 <input type="hidden" value="<?=$url?>" name="url_group">
 <?php
-$this->registerJsFile(Url::base() . '/js/my.js', [
-    'depends' => [
-        AppAsset::class
-    ]
-])
+ $js = <<< JS
+    $('.printButton').click(function (e) {
+        let url = $('input[name=url_group]').val()
+        var id = this.getAttribute("data-id");
+        $.ajax({
+            url: url, type: 'GET', data: {id: id}, success: function (result) {
+                let data = result.message
+                $('#table').html(data);
+                w = window.open();
+                w.document.write($('#table').html());
+                w.print();
+                w.close();
+            }
+        })
+    })
+JS;
+$this->registerJs($js);
 ?>

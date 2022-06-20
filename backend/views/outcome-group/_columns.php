@@ -28,6 +28,10 @@ return [
     [
         'attribute' => 'date',
         'width' => '160px',
+        'value' => function(OutcomeGroup $model){
+            return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
+
+        },
         'filterType' => GridView::FILTER_DATE_RANGE,
         'filterWidgetOptions' => [
             'model' => $searchModel,
@@ -42,9 +46,7 @@ return [
                 ]
             ]
         ],
-        'value' => function (OutcomeGroup $model) {
-            return Yii::$app->formatter->asDate($model->date, 'php:d-m-Y');
-        }
+
     ],
     [
         'class' => '\kartik\grid\DataColumn',

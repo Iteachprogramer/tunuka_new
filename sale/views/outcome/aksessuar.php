@@ -11,10 +11,15 @@ use soft\widget\kartik\Select2;
 
 /** @var Outcome $model */
 ?>
+    <style>
+        #price_usd {
+            color: #f1fbe5;
+        }
+    </style>
 <?php $form = ActiveForm::begin(); ?>
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'client_id',['inputOptions' => ['class' => 'form-control', 'tabindex' => '1']])->widget(Select2::class, [
+            <?= $form->field($model, 'client_id', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '1']])->widget(Select2::class, [
                 'data' => Client::getClient(),
                 'disabled' => true,
                 'options' => ['placeholder' => 'Mijozni tanlang ...'],
@@ -31,7 +36,7 @@ use soft\widget\kartik\Select2;
     </div>
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'product_type_id',['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->widget(Select2::class, [
+            <?= $form->field($model, 'product_type_id', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->widget(Select2::class, [
                 'data' => ProductList::getNotRulon(),
                 'options' => ['placeholder' => 'Mahsulotni  tanlang ...'],
                 'pluginOptions' => [
@@ -56,15 +61,23 @@ use soft\widget\kartik\Select2;
     </div>
     <div class="row">
         <div class="col-md-3">
-            <div class="type_product" style="display: none">
-                <?= $form->field($model, 'total_size',['inputOptions' => ['class' => 'form-control', 'tabindex' => '3']])->textInput() ?>
+            <div class="type_product"
+                <?php if ($model->productType->type_id == ProductList::TYPE_AKSESSUAR  || !$model->productType->type_id): ?>
+                    style="display: none"
+                <?php endif; ?>
+            >
+                <?= $form->field($model, 'total_size', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '3']])->textInput() ?>
             </div>
-            <div style="display: block" class="type_akksessuar">
-                <?= $form->field($model, 'count',['inputOptions' => ['class' => 'form-control', 'tabindex' => '3']])->textInput() ?>
+            <div
+                <?php if ($model->productType->type_id == ProductList::TYPE_PRODUCT): ?>
+                    style="display: none"
+                <?php endif; ?>
+                    class="type_akksessuar">
+                <?= $form->field($model, 'count', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '3']])->textInput() ?>
             </div>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'cost',['inputOptions' => ['class' => 'form-control', 'tabindex' => '4']])->textInput() ?>
+            <?= $form->field($model, 'cost', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '4']])->textInput() ?>
         </div>
         <div class="col-md-3">
             <label>Umumiy summa</label>
@@ -82,6 +95,7 @@ use soft\widget\kartik\Select2;
 $url = Url::to(['outcome/product-type']);
 $url_provider = Url::to(['outcome/provider']);
 $js = <<< JS
+
 $('#outcome-product_type_id').on('change', function() {
     var val=$(this).val();
     $.ajax({

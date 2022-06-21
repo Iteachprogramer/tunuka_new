@@ -48,6 +48,9 @@ $print= PrintSetting::find()->one();
 <div style="border: 1px dashed black; display: inline-block; padding: 5px;width: <?=$print->width.'px'?>">
     <table width="350">
         <tr>
+            <td colspan="5" align="center"><img src="<?='http://'.Yii::$app->request->hostName.'/frontend/web/check.png'?>" style="width: 90%;height: 60px; object-fit: cover"></td>
+        </tr>
+        <tr>
             <th colspan="2">AS-PROFILE</th>
         </tr>
         <tr>
@@ -61,6 +64,10 @@ $print= PrintSetting::find()->one();
         <tr>
             <td>Mijoz</td>
             <th align="right"><?= $model->client->fulla_name ?></th>
+        </tr>
+        <tr>
+            <td>Sotuvchi</td>
+            <th align="right"><?= $model->createdBy->firstname .' '.$model->createdBy->lastname ?></th>
         </tr>
         <tr>
             <td>Telefon no'meri</td>

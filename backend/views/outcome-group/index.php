@@ -56,7 +56,8 @@ CrudAsset::register($this);
     "footer"=>"",// always need it for jquery plugin
 ])?>
 <?php Modal::end(); ?>
-<div id="table" style="display:none;">
+<div id="table" style="display: none" >
+
 <?php
 $url=Url::to(['outcome-group/check-print']);
 ?>
@@ -68,13 +69,14 @@ $url=Url::to(['outcome-group/check-print']);
         let url = $('input[name=url_group]').val()
         var id = this.getAttribute("data-id");
         $.ajax({
-            url: url, type: 'GET', data: {id: id}, success: function (result) {
+            url: url, type: 'GET', data: {id: id}, success: async function (result) {
                 let data = result.message
                 $('#table').html(data);
                 w = window.open();
                 w.document.write($('#table').html());
+                await new Promise(r => setTimeout(r, 2000))
                 w.print();
-                w.close();
+                w.close()
             }
         })
     })

@@ -361,23 +361,22 @@ class OutcomeController extends AjaxCrudController
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
-                    'title' => "Aksessuar",
+                    'title' => "Mahsulot",
                     'content' => $this->renderAjax('aksessuar', [
                         'model' => $model,
                     ]),
                     'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
                         Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '5'])
+
                 ];
-            } else if ($model->load($request->post()) && $model->validate()) {
-                $model->save();
+            } else if ($model->load($request->post()) && $model->validate()  && $model->save()) {
                 if ($model->count) {
                     $model->residual = $model->productType->residual - $model->count;
                 } else {
                     $model->residual = $model->productType->residual - $model->total_size;
                 }
                 return [
-
-                    'title' => "Aksessuar",
+                    'title' => "Mahsulot",
                     'forceReload' => '#crud-datatable-pjax',
                     'content' => $this->renderAjax('aksessuar', [
                         'model' => new Outcome([
@@ -393,9 +392,8 @@ class OutcomeController extends AjaxCrudController
 
                 ];
             } else {
-
                 return [
-                    'title' => "Aksessuar",
+                    'title' => "Mahsulot",
                     'content' => $this->renderAjax('aksessuar', [
                         'model' => $model,
                     ]),
@@ -418,6 +416,7 @@ class OutcomeController extends AjaxCrudController
                 'group_id' => $group->id,
                 'client_id' => $group->client_id,
             ]);
+            $model->scenario = Outcome::SCENARIO_RULON;
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
@@ -430,10 +429,9 @@ class OutcomeController extends AjaxCrudController
                         Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '4'])
 
                 ];
-            } else if ($model->load($request->post()) && $model->validate()) {
+            } else if ($model->load($request->post()) && $model->validate() && $model->save()) {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
-                    $model->save();
                     $incomes = Income::find()->andWhere(['!=', 'length', 0])->andWhere(['product_type_id' => $model->productType->id])->all();
                     $size = floatval($model->total_size);
                     foreach ($incomes as $income) {
@@ -547,8 +545,8 @@ class OutcomeController extends AjaxCrudController
                         Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '5'])
 
                 ];
-            } else if ($model->load($request->post()) && $model->validate()) {
-                $model->save();
+            }
+            else if ($model->load($request->post()) && $model->validate()  && $model->save()) {
                 if ($model->count) {
                     $model->residual = $model->productType->residual - $model->count;
                 } else {
@@ -582,8 +580,6 @@ class OutcomeController extends AjaxCrudController
                 ];
             }
         }
-
-
     }
 
 

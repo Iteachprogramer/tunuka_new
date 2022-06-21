@@ -11,7 +11,17 @@ use soft\widget\kartik\Select2;
 
 /** @var Outcome $model */
 ?>
-<?php $form = ActiveForm::begin(); ?>
+<style>
+    #price_usd{
+        color: #f1fbe5;
+    }
+</style>
+<?php $form = ActiveForm::begin([
+    'enableClientValidation' => true,
+    'options' => [
+        'validateOnSubmit' => true,
+    ],
+]); ?>
 <?php //echo $form->errorSummary($model)?>
 
     <div class="row">
@@ -58,7 +68,9 @@ use soft\widget\kartik\Select2;
     </div>
     <div class="row">
         <div class="col-md-3">
-            <?= $form->field($model, 'size',['inputOptions' => ['class' => 'form-control', 'tabindex' => '1']])->textInput() ?>
+            <?= $form->field($model, 'size',['inputOptions' => ['class' => 'form-control', 'tabindex' => '1','required'=>true]])->textInput([
+
+            ]) ?>
         </div>
         <div class="col-md-3">
             <?= $form->field($model, 'count',['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->textInput()->label('Soni') ?>

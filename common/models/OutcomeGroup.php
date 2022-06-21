@@ -56,6 +56,7 @@ class OutcomeGroup extends \soft\db\ActiveRecord
         return [
             [['client_id', 'status', 'discount', 'total', 'created_by', 'updated_by','order_number'], 'integer'],
             ['date', 'safe'],
+            ['date', 'default','value' => time()],
             [['discount', 'total'], 'default', 'value' => 0],
             [['discount'],'checkNumber'],
             [['where'], 'string', 'max' => 255],

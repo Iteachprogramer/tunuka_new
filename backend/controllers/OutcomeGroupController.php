@@ -110,7 +110,6 @@ class OutcomeGroupController extends AjaxCrudController
         ]);
         return $this->ajaxCrud->createAction($model, [
             'view' => 'create',
-            'returnUrl' => 'dddddd',
         ]);
     }
 

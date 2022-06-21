@@ -5,7 +5,6 @@ namespace backend\controllers;
 use Yii;
 use common\models\DollarCourse;
 use common\models\search\DollarCourseSearch;
-use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -23,25 +22,15 @@ class DollarCourseController extends Controller
     public function behaviors()
     {
         return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['admin'],
-                    ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                    'bulkdelete' => ['post'],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'delete' => ['POST'],
-                    'delete-account' => ['POST'],
-                ]
-            ]
         ];
     }
-
 
     /**
      * Lists all DollarCourse models.
@@ -70,12 +59,12 @@ class DollarCourseController extends Controller
         if($request->isAjax){
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                    'title'=> 'Tahrirlash',
+                    'title'=> "DollarCourse #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $this->findModel($id),
                     ]),
-                    'footer'=> Html::button('Jarayoni tugatish',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['Tahrirlash','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];
         }else{
             return $this->render('view', [
@@ -90,60 +79,60 @@ class DollarCourseController extends Controller
      * and for non-ajax request if creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-//    public function actionCreate()
-//    {
-//        $request = Yii::$app->request;
-//        $model = new DollarCourse();
-//
-//        if($request->isAjax){
-//            /*
-//            *   Process for ajax request
-//            */
-//            Yii::$app->response->format = Response::FORMAT_JSON;
-//            if($request->isGet){
-//                return [
-//                    'title'=> "Dollar kursi qo'shish",
-//                    'content'=>$this->renderAjax('create', [
-//                        'model' => $model,
-//                    ]),
-//                    'footer'=> Html::button('Jarayoni tugatish',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
-//                                Html::button('Saqlash',['class'=>'btn btn-primary','type'=>"submit"])
-//
-//                ];
-//            }else if($model->load($request->post()) && $model->save()){
-//                return [
-//                    'forceReload'=>'#crud-datatable-pjax',
-//                    'title'=> "Dollar kursi qo'shish",
-//                    'content'=>'<span class="text-success">Muvvaqiyatli qo\'shish</span>',
-//                    'footer'=> Html::button('Jarajoni tugatish',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
-//                            Html::a('Yangi qo\'shish',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
-//
-//                ];
-//            }else{
-//                return [
-//                    'title'=> "Create new DollarCourse",
-//                    'content'=>$this->renderAjax('create', [
-//                        'model' => $model,
-//                    ]),
-//                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
-//                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
-//
-//                ];
-//            }
-//        }else{
-//            /*
-//            *   Process for non-ajax request
-//            */
-//            if ($model->load($request->post()) && $model->save()) {
-//                return $this->redirect(['view', 'id' => $model->id]);
-//            } else {
-//                return $this->render('create', [
-//                    'model' => $model,
-//                ]);
-//            }
-//        }
-//
-//    }
+    public function actionCreate()
+    {
+        $request = Yii::$app->request;
+        $model = new DollarCourse();
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if($request->isGet){
+                return [
+                    'title'=> "Create new DollarCourse",
+                    'content'=>$this->renderAjax('create', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+
+                ];
+            }else if($model->load($request->post()) && $model->save()){
+                return [
+                    'forceReload'=>'#crud-datatable-pjax',
+                    'title'=> "Create new DollarCourse",
+                    'content'=>'<span class="text-success">Create DollarCourse success</span>',
+                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
+                            Html::a('Create More',['create'],['class'=>'btn btn-primary','role'=>'modal-remote'])
+
+                ];
+            }else{
+                return [
+                    'title'=> "Create new DollarCourse",
+                    'content'=>$this->renderAjax('create', [
+                        'model' => $model,
+                    ]),
+                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
+
+                ];
+            }
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            if ($model->load($request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
+            }
+        }
+
+    }
 
     /**
      * Updates an existing DollarCourse model.
@@ -164,31 +153,31 @@ class DollarCourseController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if($request->isGet){
                 return [
-                    'title'=> 'Tahrirlash',
+                    'title'=> "Update DollarCourse #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Jarayoni tugatish',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
-                                Html::button('Saqlash',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];
             }else if($model->load($request->post()) && $model->save()){
                 return [
                     'forceReload'=>'#crud-datatable-pjax',
-                    'title'=> "Dollar kursi",
+                    'title'=> "DollarCourse #".$id,
                     'content'=>$this->renderAjax('view', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Jarayoni tugatish',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
-                            Html::a('Edit',['Tahrirlash','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
+                            Html::a('Edit',['update','id'=>$id],['class'=>'btn btn-primary','role'=>'modal-remote'])
                 ];
             }else{
                  return [
-                    'title'=> "Tahrirlash",
+                    'title'=> "Update DollarCourse #".$id,
                     'content'=>$this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer'=> Html::button('Jarajoni tugatish',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
-                                Html::button('Saqlash',['class'=>'btn btn-primary','type'=>"submit"])
+                    'footer'=> Html::button('Close',['class'=>'btn btn-secondary float-left','data-dismiss'=>"modal"]).
+                                Html::button('Save',['class'=>'btn btn-primary','type'=>"submit"])
                 ];
             }
         }else{
@@ -211,27 +200,27 @@ class DollarCourseController extends Controller
      * and for non-ajax request if deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
-//     */
-//    public function actionDelete($id)
-//    {
-//        $request = Yii::$app->request;
-//        $this->findModel($id)->delete();
-//
-//        if($request->isAjax){
-//            /*
-//            *   Process for ajax request
-//            */
-//            Yii::$app->response->format = Response::FORMAT_JSON;
-//            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
-//        }else{
-//            /*
-//            *   Process for non-ajax request
-//            */
-//            return $this->redirect(['index']);
-//        }
-//
-//
-//    }
+     */
+    public function actionDelete($id)
+    {
+        $request = Yii::$app->request;
+        $this->findModel($id)->delete();
+
+        if($request->isAjax){
+            /*
+            *   Process for ajax request
+            */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose'=>true,'forceReload'=>'#crud-datatable-pjax'];
+        }else{
+            /*
+            *   Process for non-ajax request
+            */
+            return $this->redirect(['index']);
+        }
+
+
+    }
 
      /**
      * Delete multiple existing DollarCourse model.

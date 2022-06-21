@@ -18,7 +18,7 @@ class DollarCourseSearch extends DollarCourse
     public function rules()
     {
         return [
-            [['id',], 'integer'],
+            [['id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['course'], 'number'],
         ];
     }
@@ -57,8 +57,11 @@ class DollarCourseSearch extends DollarCourse
 
         $query->andFilterWhere([
             'id' => $this->id,
-
             'course' => $this->course,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'created_by' => $this->created_by,
+            'updated_by' => $this->updated_by,
         ]);
 
         return $dataProvider;

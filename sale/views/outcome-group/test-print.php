@@ -74,7 +74,7 @@ $print = PrintSetting::find()->one();
         <tr>
             <td>Sanasi va vaqti</td>
             <th align="right"><?=
-                Yii::$app->formatter->asDatetime($model->date, 'dd.MM.yyyy H:i:s') ?></th>
+                Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s') ?></th>
         </tr>
         <tr>
             <td>Mijoz</td>

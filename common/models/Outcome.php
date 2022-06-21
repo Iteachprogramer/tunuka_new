@@ -62,7 +62,7 @@ class Outcome extends \soft\db\ActiveRecord
             [['size', 'count'], 'required', 'on' => self::SCENARIO_RULON],
             [['size', 'count', 'total_size', 'discount', 'cost'], 'checkNumber',],
             [['count'], 'checkBeforeSold'],
-            [['total_size'], 'checkBeforeSoldMetr'],
+            [['total_size','size'], 'checkBeforeSoldMetr','on'=>self::SCENARIO_RULON],
             ['discount', 'default', 'value' => 0],
             ['date', 'safe'],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Client::className(), 'targetAttribute' => ['client_id' => 'id']],
@@ -112,7 +112,11 @@ class Outcome extends \soft\db\ActiveRecord
         if ($product) {
             $unity = $product->sizeType->name;
             $residual = $product->residual;
-            if ($this->total_size > $residual) {
+            if ($this->size > $residual) {
+                $this->addError('size', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity mavjud!");
+                return false;
+            }
+            if ($this->count * $this->size > $residual) {
                 $this->addError('total_size', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity mavjud!");
                 return false;
             }

@@ -85,8 +85,6 @@ class OutcomeGroup extends \soft\db\ActiveRecord
             ],
         ];
     }
-
-
     public function beforeSave($insert)
     {
         $this->total = $this->outcomeSum - $this->discount;

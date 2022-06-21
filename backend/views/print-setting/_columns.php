@@ -22,27 +22,13 @@ return [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'width',
     ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'created_at',
-    // ],
-    // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'updated_at',
-    // ],
-//    [
-//        'class'=>'\kartik\grid\DataColumn',
-//        'attribute'=>'updated_by',
-//    ],
+
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'created_by',
         'value' => 'createdBy.username'
     ],
-//    [
-//        'class'=>'\kartik\grid\DataColumn',
-//        'attribute'=>'status',
-//    ],
+
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

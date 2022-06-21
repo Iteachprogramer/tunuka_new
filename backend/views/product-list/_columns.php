@@ -37,7 +37,7 @@ return [
         'attribute' => 'residue',
         'width' => '100px',
         'value' => function (ProductList $model) {
-                return$model->residual . ' ' . $model->sizeType->name;
+                return number_format($model->residual,2,'.','') . ' ' . $model->sizeType->name;
         }
     ],
     [

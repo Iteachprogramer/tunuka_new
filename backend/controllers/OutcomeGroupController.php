@@ -133,7 +133,7 @@ class OutcomeGroupController extends AjaxCrudController
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        $model->date= Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s');
+        $model->date= Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
 
         if ($request->isAjax) {
             /*

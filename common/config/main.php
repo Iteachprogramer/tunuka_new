@@ -8,7 +8,7 @@ return [
     'bootstrap' => ['gii'],
     'language' => 'uz',
     'name' => 'Tunuka',
-    'timezone ' => "Asia/Tashkent",
+
     'components' => [
         'i18n' => [
             'translations' => [

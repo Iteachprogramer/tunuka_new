@@ -132,6 +132,7 @@ class OutcomeGroupController extends AjaxCrudController
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
+        $model->date= Yii::$app->formatter->asDatetime(time(), 'dd.MM.yyyy H:i:s');
 
         if ($request->isAjax) {
             /*
@@ -150,12 +151,7 @@ class OutcomeGroupController extends AjaxCrudController
             } else if ($model->load($request->post()) && $model->save()) {
                 return [
                     'forceReload' => '#crud-datatable-pjax',
-                    'title' => "OutcomeGroup #" . $id,
-                    'content' => $this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::a('Edit', ['update', 'id' => $id], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                    'forceClose' => true,
                 ];
             } else {
                 return [

@@ -8,7 +8,6 @@ return [
     'bootstrap' => ['gii'],
     'language' => 'uz',
     'name' => 'Tunuka',
-
     'components' => [
         'i18n' => [
             'translations' => [

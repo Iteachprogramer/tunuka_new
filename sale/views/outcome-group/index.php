@@ -1,4 +1,5 @@
 <?php
+
 use frontend\assets\AppAsset;
 
 use soft\grid\GridView;
@@ -19,26 +20,33 @@ CrudAsset::register($this);
 
 ?>
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
     .last {
         border-bottom: 1px dashed black;
     }
-    .border-solid{
+
+    .border-solid {
         border: 1px dashed black;
         padding: 8px;
     }
-    .margin{
+
+    .margin {
         padding-top: 10px;
     }
 
 </style>
 <div class="outcome-group-index">
     <div id="ajaxCrudDatatable">
-        <?=GridView::widget([
-            'id'=>'crud-datatable',
+        <?= GridView::widget([
+            'id' => 'crud-datatable',
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
-            'pjax'=>true,
-            'columns' => require(__DIR__.'/_columns.php'),
+            'pjax' => true,
+            'columns' => require(__DIR__ . '/_columns.php'),
             'toolbarButtons' => [
                 'create' =>
                     [
@@ -47,22 +55,22 @@ CrudAsset::register($this);
                     ],
             ]
 
-        ])?>
+        ]) ?>
     </div>
 </div>
 <?php Modal::begin([
-    "id"=>"ajaxCrudModal",
+    "id" => "ajaxCrudModal",
     "title" => '<h4 class="modal-title">Modal title</h4>',
-    "footer"=>"",// always need it for jquery plugin
-])?>
+    "footer" => "",// always need it for jquery plugin
+]) ?>
 <?php Modal::end(); ?>
-<div id="table" style="display: none" >
+<div id="table" style="display: none">
 
     <?php
-    $url=Url::to(['outcome-group/check-print']);
+    $url = Url::to(['outcome-group/check-print']);
     ?>
 </div>
-<input type="hidden" value="<?=$url?>" name="url_group">
+<input type="hidden" value="<?= $url ?>" name="url_group">
 <?php
 $js = <<< JS
     $('.printButton').click(function (e) {
@@ -71,6 +79,14 @@ $js = <<< JS
         $.ajax({
             url: url, type: 'GET', data: {id: id}, success: async function (result) {
                 let data = result.message
+                let style=` <style>
+        @media print{
+          *{
+        margin: 0;
+        padding: 0;
+        }
+        }
+    </style>`;
                 $('#table').html(data);
                 w = window.open();
                 w.document.write($('#table').html());

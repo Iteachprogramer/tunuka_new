@@ -124,6 +124,14 @@ $js = <<< JS
         $.ajax({
             url: url, type: 'GET', data: {id: id}, success: async function (result) {
                 let data = result.message
+                let style=` <style>
+        @media print{
+          *{
+        margin: 0;
+        padding: 0;
+        }
+        }
+    </style>`;
                 $('#table').html(data);
                 w = window.open();
                 w.document.write($('#table').html());

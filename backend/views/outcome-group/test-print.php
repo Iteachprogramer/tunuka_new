@@ -32,6 +32,14 @@ $client_sum = Outcome::find()
         border-bottom: 1px dashed black;
     }
 
+    .check-list table tr td {
+        font-size: 16px;
+    }
+
+    .check-list table tr th {
+        font-size: 16px;
+    }
+
     .border-solid {
         border: 1px dashed black;
         padding: 8px;
@@ -42,19 +50,26 @@ $client_sum = Outcome::find()
     }
 </style>
 <?php
-$print= PrintSetting::find()->one();
-
+$print = PrintSetting::find()->one();
 ?>
-<div style="border: 1px dashed black; display: inline-block; padding: 5px;width: <?=$print->width.'px'?>">
-    <table width="350">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<div class="check-list"
+     style="border: 1px dashed black; display: inline-block; padding: 5px;width: <?= $print->width . 'px' ?>; max-width: <?= $print->width . 'px' ?>">
+    <table style="width: 100%; ">
         <tr>
-            <td colspan="5" align="center"><img src="<?='http://'.Yii::$app->request->hostName.'/frontend/web/check.png'?>" style="width: 90%;height: 60px; object-fit: cover"></td>
+            <td colspan="5" align="center"><img
+                        src="<?= 'http://' . Yii::$app->request->hostName . '/frontend/web/check.png' ?>"
+                        style="width: 90%;height: 60px; object-fit: cover"></td>
         </tr>
         <tr>
-            <th colspan="2">AS-PROFILE</th>
+            <th colspan="2" style="font-size: 20px;">AS-PROFILE</th>
         </tr>
         <tr>
-            <td align="center" colspan="2">Tel: 545646546/ 654564</td>
+            <td align="center" colspan="2">Tel:993689701</td>
         </tr>
         <tr>
             <td>Sanasi va vaqti</td>
@@ -67,14 +82,14 @@ $print= PrintSetting::find()->one();
         </tr>
         <tr>
             <td>Sotuvchi</td>
-            <th align="right"><?= $model->createdBy->firstname .' '.$model->createdBy->lastname ?></th>
+            <th align="right"><?= $model->createdBy->firstname . ' ' . $model->createdBy->lastname ?></th>
         </tr>
         <tr>
             <td>Telefon no'meri</td>
             <th align="right">+<?= $model->client->phone ?></th>
         </tr>
         <tr>
-            <td>Buyurtma no'meri</td>
+            <td>Buyurtma nomeri</td>
             <th align="right"><?= $model->order_number ?></th>
         </tr>
         <tr>
@@ -84,7 +99,7 @@ $print= PrintSetting::find()->one();
 
     </table>
     <?php if ($rulons): ?>
-        <table width="350">
+        <table style="width: 100%">
             <tr>
                 <th style="border-bottom: 2px dotted black;">No</th>
                 <th style="border-bottom: 2px dotted black;">olchami</th>
@@ -129,7 +144,7 @@ $print= PrintSetting::find()->one();
         </table>
     <?php endif; ?>
     <?php if ($aksessuars): ?>
-        <table width="350">
+        <table style="width: 100%">
             <tr>
                 <th align="center" colspan="5">Aksesuarlari</th>
             </tr>
@@ -162,7 +177,7 @@ $print= PrintSetting::find()->one();
         </table>
     <?php endif; ?>
     <?php if ($products): ?>
-        <table width="350">
+        <table style="width: 100%">
             <tr>
                 <th align="center" colspan="5">Mahsulotlar</th>
             </tr>
@@ -194,7 +209,7 @@ $print= PrintSetting::find()->one();
             </tr>
         </table>
     <?php endif; ?>
-    <table width="350">
+    <table style="width: 100%">
         <tr>
             <td><br></td>
         </tr>

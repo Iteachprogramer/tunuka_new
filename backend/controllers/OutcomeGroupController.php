@@ -106,6 +106,7 @@ class OutcomeGroupController extends AjaxCrudController
     {
         $request = Yii::$app->request;
         $model = new OutcomeGroup([
+            'date'=>Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
         ]);
         return $this->ajaxCrud->createAction($model, [
             'view' => 'create',
@@ -132,7 +133,7 @@ class OutcomeGroupController extends AjaxCrudController
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        $model->date= Yii::$app->formatter->asDatetime(time(), 'dd.MM.yyyy H:i:s');
+        $model->date= Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s');
 
         if ($request->isAjax) {
             /*

@@ -37,6 +37,12 @@ return [
     ],
     [
         'class' => 'soft\grid\ActionColumn',
+        'dropdown' => false,
+        'template' => '{view} {update}',
+        'vAlign' => 'middle',
+        'urlCreator' => function ($action, $model, $key, $index) {
+            return Url::to([$action, 'id' => $key]);
+        },
         'viewOptions' => ['role' => 'modal-remote', 'title' => 'View', 'data-toggle' => 'tooltip'],
         'updateOptions' => ['role' => 'modal-remote', 'title' => 'Update', 'data-toggle' => 'tooltip'],
     ],

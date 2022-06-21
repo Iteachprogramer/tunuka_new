@@ -106,7 +106,6 @@ class OutcomeGroupController extends AjaxCrudController
     {
         $request = Yii::$app->request;
         $model = new OutcomeGroup([
-            'date' => Yii::$app->formatter->asDatetime(time(), 'dd.MM.yyyy H:i:s'),
         ]);
         return $this->ajaxCrud->createAction($model, [
             'view' => 'create',

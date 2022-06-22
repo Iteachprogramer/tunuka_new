@@ -61,7 +61,7 @@ class Outcome extends \soft\db\ActiveRecord
             [['size', 'count', 'total_size', 'total', 'discount', 'cost'], 'number',],
             [['size', 'count'], 'required', 'on' => self::SCENARIO_RULON],
             [['size', 'count', 'total_size', 'discount', 'cost'], 'checkNumber',],
-            [['count','total_size','size'], 'checkBeforeSold'],
+            [['count', 'total_size', 'size'], 'checkBeforeSold'],
 //            [['total_size','size'], 'checkBeforeSoldMetr','on'=>self::SCENARIO_RULON,],
             ['discount', 'default', 'value' => 0],
             ['date', 'safe'],
@@ -78,17 +78,19 @@ class Outcome extends \soft\db\ActiveRecord
         if ($product) {
             $unity = $product->sizeType->id;
             $residual = $product->residual;
-            if ($unity==2){
+            if ($unity == 2) {
                 if ($this->size > $residual) {
                     $this->addError('size', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity mavjud!");
                     return false;
+                }
+                if ($this->count && $this->size) {
+                    $this->total_size = $this->count * $this->size;
                 }
                 if ($this->total_size) {
                     $this->addError('total_size', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity mavjud!");
                     return false;
                 }
-            }
-            else{
+            } else {
                 if ($this->count > $residual) {
                     $this->addError('count', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity  mavjud!");
                     return false;

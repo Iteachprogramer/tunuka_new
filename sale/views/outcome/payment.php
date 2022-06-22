@@ -30,7 +30,7 @@ echo $this->render('info', ['group' => $group])
         </div>
         <div class="col-md-3">
             <label>To'lanadigan summa</label>
-            <input type="text" disabled class="form-control" id="finish_sum">
+            <input type="text" disabled class="form-control" id="finish_sum" value="<?=$group->isNewRecord?0:as_integer($group->total)?>">
         </div>
         <div class="col-md-3">
             <?= $form->field($group, 'where')->textInput() ?>

@@ -88,19 +88,16 @@ CrudAsset::register($this);
                 'width' => '160px',
                 'filterType' => GridView::FILTER_DATE_RANGE,
                 'filterWidgetOptions' => [
-                    'model' => $searchModel,
-                    'convertFormat' => true,
-                    'presetDropdown' => true,
-                    'includeMonthsFilter' => true,
-
-                    'pluginOptions' => [
-                        'timePicker' => true,
-                        'timePickerIncrement' => 30,
-                        'locale' => [
-                            'format' => 'Y-m-d H:i:s'
-                        ]
-                    ]
-                ],
+                            'model' => $searchModel,
+                            'convertFormat' => true,
+                            'presetDropdown' => true,
+                            'includeMonthsFilter' => true,
+                            'pluginOptions' => [
+                                'locale' => [
+                                    'format' => 'd.m.Y'
+                                ]
+                            ]
+                        ],
                 'value' => function(Account $model){
                     return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y');
                 },

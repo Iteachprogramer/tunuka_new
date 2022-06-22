@@ -58,10 +58,11 @@ class IncomeSearch extends Income
             $dates = explode(' - ', $this->date, 2);
             if (count($dates) == 2) {
                 $begin = strtotime($dates[0]);
-                $end = strtotime($dates[1]);
-                $query->andFilterWhere(['<=', 'date', $end])
-                    ->andFilterWhere(['>=', 'date', $begin]);
+                $end = strtotime('+1 day', strtotime($dates[1]));
+                $query->andFilterWhere(['>=', 'income.date', $begin])
+                    ->andFilterWhere(['<', 'income.date', $end]);
             }
+
         }
         if (!$this->validate()) {
             return $dataProvider;

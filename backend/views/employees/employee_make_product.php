@@ -57,7 +57,7 @@ CrudAsset::register($this);
                         'attribute' => 'date',
                         'width' => '160px',
                         'value' => function(MakeProduct $model){
-                            return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
+                            return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y');
                         },
                         'filterType' => GridView::FILTER_DATE_RANGE,
                         'filterWidgetOptions' => [
@@ -65,12 +65,9 @@ CrudAsset::register($this);
                             'convertFormat' => true,
                             'presetDropdown' => true,
                             'includeMonthsFilter' => true,
-
                             'pluginOptions' => [
-                                'timePicker' => true,
-                                'timePickerIncrement' => 30,
                                 'locale' => [
-                                    'format' => 'Y-m-d H:i:s'
+                                    'format' => 'd.m.Y'
                                 ]
                             ]
                         ]

@@ -53,7 +53,16 @@ class AccountSearch extends Account
             ]
         ]);
         $this->load($params);
+        if (!empty($this->date)) {
+            $dates = explode(' - ', $this->date, 2);
+            if (count($dates) == 2) {
+                $begin = strtotime($dates[0]);
+                $end = strtotime('+1 day', strtotime($dates[1]));
+                $query->andFilterWhere(['>=', 'account.date', $begin])
+                    ->andFilterWhere(['<', 'account.date', $end]);
+            }
 
+        }
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');

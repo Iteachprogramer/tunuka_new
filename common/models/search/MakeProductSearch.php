@@ -53,19 +53,8 @@ class MakeProductSearch extends MakeProduct
             ]
         ]);
         $this->load($params);
-        if (!empty($this->date))
-        {
-            $dates = explode(' - ', $this->date, 2);
-            if (count($dates) == 2) {
-                $begin = strtotime($dates[0]);
-                $end = strtotime($dates[1]);
-                $query->andFilterWhere(['<=', 'date', $end])
-                    ->andFilterWhere(['>=', 'date', $begin]);
-            }
-        }
+
         if (!$this->validate()) {
-            // uncomment the following line if you do not want to return any records when validation fails
-            // $query->where('0=1');
             return $dataProvider;
         }
 
@@ -76,14 +65,20 @@ class MakeProductSearch extends MakeProduct
             'produced_id' => $this->produced_id,
             'shape_id' => $this->shape_id,
             'type_id' => $this->type_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
-            'created_by' => $this->created_by,
-            'updated_by' => $this->updated_by,
             'factory_size' => $this->factory_size,
         ]);
 
         $query->andFilterWhere(['like', 'size', $this->size]);
+        if (!empty($this->date)) {
+            $dates = explode(' - ', $this->date, 2);
+            if (count($dates) == 2) {
+                $begin = strtotime($dates[0]);
+                $end = strtotime('+1 day', strtotime($dates[1]));
+                $query->andFilterWhere(['>=', 'make_product.date', $begin])
+                    ->andFilterWhere(['<', 'make_product.date', $end]);
+            }
+
+        }
 
         return $dataProvider;
     }

@@ -13,7 +13,7 @@ return [
         'attribute' => 'date',
         'width' => '160px',
         'value' => function(Income $model){
-            return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
+            return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y');
         },
         'filterType' => GridView::FILTER_DATE_RANGE,
         'filterWidgetOptions' => [
@@ -22,10 +22,8 @@ return [
             'presetDropdown' => true,
             'includeMonthsFilter' => true,
             'pluginOptions' => [
-                'timePicker' => true,
-                'timePickerIncrement' => 30,
                 'locale' => [
-                    'format' => 'Y-m-d H:i:s'
+                    'format' => 'd.m.Y'
                 ]
             ]
         ]

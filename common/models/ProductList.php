@@ -112,7 +112,7 @@ class ProductList extends \soft\db\ActiveRecord
     {
         return
             [
-                [['product_name'], 'required'],
+                [['product_name','type_id'], 'required'],
                 [['type_id', 'sort_order', 'size_type_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'status', 'price_type', 'surface_type', 'factory_expence'], 'integer'],
                 [['residue', 'selling_price_uz', 'selling_price_usd', 'selling_rentail', 'selling_rentail_usd'], 'number'],
                 [['residue', 'selling_price_uz', 'selling_price_usd', 'factory_expence'], 'checkNumber'],

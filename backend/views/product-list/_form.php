@@ -3,6 +3,7 @@
 use common\models\ProductList;
 use common\models\Units;
 use kartik\widgets\SwitchInput;
+use soft\helpers\Url;
 use soft\widget\kartik\ActiveForm;
 use yii\helpers\Html;
 
@@ -18,7 +19,7 @@ use yii\helpers\Html;
                 <?= $form->field($model, 'product_name')->textInput() ?>
             </div>
             <div class="col-md-6">
-                <?= $form->field($model, 'type_id')->dropDownList(ProductList::types()) ?>
+                <?= $form->field($model, 'type_id')->dropDownList(ProductList::types(),['prompt'=>'Mahsulot turini tanlang ...']) ?>
             </div>
         </div>
         <div class="row">
@@ -48,8 +49,10 @@ use yii\helpers\Html;
 
     </div>
 <?php
+$url = Url::to(['product-list/units']);
 $js = <<< JS
-  $('#productlist-type_id').change(function (){
+  $('#productlist-type_id').change(function ()
+  {
        var id=$(this).find("option:selected").val();
        if (id==2){
            $('#expence').css('display','block')
@@ -57,6 +60,24 @@ $js = <<< JS
        else {
            $('#expence').css('display','none')
        }
+         $.ajax({
+        url: '{$url}',
+        type: 'POST',
+        data: {id: id},
+        success: function(data) {
+           if (id!=1)
+           {
+               let rulon="<option value='"+data['units'][0]['id']+"'>"+data['units'][0]['name']+"</option>"
+               $('#productlist-size_type_id').html(rulon)
+           }
+           else {
+               $('#productlist-size_type_id').html(
+                   "<option value='"+data['units'][1]['id']+"'>"+data['units'][1]['name']+"</option>"+
+                    "<option value='"+data['units'][2]['id']+"'>"+data['units'][2]['name']+"</option>"
+                   )
+           }
+        }
+    });
   })
 JS;
 $this->registerJs($js);

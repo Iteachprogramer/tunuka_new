@@ -32,13 +32,13 @@ $client_sum = Outcome::find()
         border-bottom: 1px dashed black;
     }
     .check-list table tr td {
-        font-size: 23px;
+        font-size: 30px;
     }
     .title-table{
-        font-size: 26px;
+        font-size: 30px;
     }
     .check-list table tr th {
-        font-size: 23px;
+        font-size: 30px;
     }
 
     .border-solid {

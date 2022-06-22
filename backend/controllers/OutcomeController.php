@@ -388,7 +388,7 @@ class OutcomeController extends AjaxCrudController
                         ]),
                     ]),
                     'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '3'])
+                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '5'])
 
                 ];
             } else {
@@ -416,7 +416,6 @@ class OutcomeController extends AjaxCrudController
                 'group_id' => $group->id,
                 'client_id' => $group->client_id,
             ]);
-            $model->scenario = Outcome::SCENARIO_RULON;
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
@@ -534,6 +533,7 @@ class OutcomeController extends AjaxCrudController
                 'group_id' => $group->id,
                 'client_id' => $group->client_id,
             ]);
+
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
@@ -565,7 +565,7 @@ class OutcomeController extends AjaxCrudController
                             ]),
                         ]),
                         'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                            Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '3'])
+                            Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '5'])
 
                     ];
             } else {

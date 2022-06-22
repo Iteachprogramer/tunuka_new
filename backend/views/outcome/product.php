@@ -95,7 +95,8 @@ use soft\widget\kartik\Select2;
 $url = Url::to(['outcome/product-type']);
 $url_provider = Url::to(['outcome/provider']);
 $js = <<< JS
-
+$('#outcome-total_size').focus();
+$('#outcome-count').focus();
 $('#outcome-product_type_id').on('change', function() {
     var val=$(this).val();
     $.ajax({

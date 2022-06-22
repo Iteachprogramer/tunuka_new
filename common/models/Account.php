@@ -99,13 +99,14 @@ class Account extends \soft\db\ActiveRecord
     {
         return [
             [['type_id',], 'required'],
-            [['client_id', 'type_id', 'sum', 'dollar', 'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['client_id', 'type_id', 'sum', 'dollar', 'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by','employee_id'], 'integer'],
             [['dollar_course'], 'number'],
             [['comment'], 'string', 'max' => 255],
             ['date', 'safe'],
             ['date', 'default', 'value' => time()],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Client::className(), 'targetAttribute' => ['client_id' => 'id']],
             [['expense_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => ExpenseType::className(), 'targetAttribute' => ['expense_type_id' => 'id']],
+            [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employees::className(), 'targetAttribute' => ['employee_id' => 'id']],
         ];
     }
 
@@ -141,6 +142,7 @@ class Account extends \soft\db\ActiveRecord
             'typeName' => 'Turi',
             'comment' => 'Izoh',
             'expense_type_id' => 'Rasxod turi',
+            'employee_id'=>'Hodim',
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),
@@ -168,7 +170,10 @@ class Account extends \soft\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
-
+    public function getEmployee()
+    {
+        return $this->hasOne(Employees::className(), ['id' => 'employee_id']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -191,7 +196,6 @@ class Account extends \soft\db\ActiveRecord
         if (!parent::beforeSave($insert)) {
             return false;
         }
-
         if (empty($this->sum) && empty($this->dollar) && empty($this->bank)) {
             $message = "Siz hech qanday summa kiritmadingiz! Ushbu maydonlardan kamida bittasini to'ldiring!";
             $this->addError('sum', $message);
@@ -214,6 +218,7 @@ class Account extends \soft\db\ActiveRecord
             $this->dollar = -1 * abs(intval($this->dollar));
             $this->bank = -1 * abs(intval($this->bank));
         }
+        $course=DollarCourse::find()->orderBy(['id' => SORT_DESC])->one();
         $this->dollar_course = abs($this->dollar_course);
         $this->total = $this->sum + $this->dollar * $this->dollar_course + $this->bank;
         if ($this->is_main) {

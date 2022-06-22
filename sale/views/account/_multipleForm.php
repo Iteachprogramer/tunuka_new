@@ -3,6 +3,7 @@
 
 use common\models\Account;
 use common\models\Client;
+use common\models\Employees;
 use common\models\ExpenseType;
 use soft\helpers\ArrayHelper;
 use soft\web\View;
@@ -24,7 +25,6 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
         <?= DatePicker::widget([
             'name' => 'date',
             'value' =>Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y'),
-
             'options' => ['required' => true],
         ]) ?>
     </div>
@@ -55,6 +55,21 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
                 ])->label(false);
             },
         ],
+        'employee_id' => [
+            'label' => 'Ishchi',
+            'width' => '130px',
+            'field' => function ($form, $model, $attribute) use ($clientsMap) {
+                return $form->field($model, $attribute)->widget(Select2::class, [
+                    'data' => ArrayHelper::map(Employees::find()->andWhere(['status'=> Employees::STATUS_ACTIVE])->all(),'id','name'),
+                    'options' => [
+                        'placeholder' => 'Ishchini tanlang...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ]
+                ])->label(false);
+            },
+        ],
         'type_id' => [
             'label' => 'Pul',
             'width' => '120px',
@@ -78,14 +93,6 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
                 return $form->field($model, $attribute, ['enableClientValidation' => false])->input('number')->label(false);
             },
         ],
-
-        'dollar_course' => [
-            'label' => "Dollar kursi",
-            'field' => function ($form, $model, $attribute) {
-                return $form->field($model, $attribute, ['enableClientValidation' => false])->input('text')->label(false);
-            },
-        ],
-
         'bank' => [
             'label' => "Bank",
             'field' => function ($form, $model, $attribute) {

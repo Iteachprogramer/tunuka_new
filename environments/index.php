@@ -36,6 +36,8 @@ return [
             'backend/web/assets',
             'sale/runtime',
             'sale/web/assets',
+            'cash/runtime',
+            'cash/web/assets',
             'factory/runtime',
             'factory/web/assets',
             'console/runtime',
@@ -49,6 +51,7 @@ return [
         'setCookieValidationKey' => [
             'backend/config/main-local.php',
             'sale/config/main-local.php',
+            'cash/config/main-local.php',
             'factory/config/main-local.php',
             'common/config/codeception-local.php',
             'frontend/config/main-local.php',
@@ -61,6 +64,8 @@ return [
             'backend/web/assets',
             'sale/runtime',
             'sale/web/assets',
+            'cash/runtime',
+            'cash/web/assets',
             'factory/runtime',
             'factory/web/assets',
             'console/runtime',
@@ -73,6 +78,7 @@ return [
         'setCookieValidationKey' => [
             'backend/config/main-local.php',
             'sale/config/main-local.php',
+            'cash/config/main-local.php',
             'factory/config/main-local.php',
             'frontend/config/main-local.php',
         ],

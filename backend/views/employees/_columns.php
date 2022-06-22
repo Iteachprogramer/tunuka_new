@@ -10,11 +10,10 @@ return [
         'attribute' => 'name',
         'format' => 'raw',
         'value' => function (Employees $model) {
-            if ($model->is_factory==Employees::IS_FACTORY_YES){
+            if ($model->is_factory == Employees::IS_FACTORY_YES) {
                 return Html::a($model->name, ['/employees/make-product', 'employee_id' => $model->id], ['data-pjax' => '0']);
-            }
-            else{
-                return$model->name;
+            } else {
+                return $model->name;
             }
         }
     ],
@@ -47,6 +46,15 @@ return [
             }
         },
     ],
+    [
+        'attribute' => 'finish_account',
+        'format' => 'integer',
+        'width'=>'180px',
+        'label' => 'Yakuniy hisob',
+        'value' => function (Employees $model) {
+            return $model->employeeFinishSum;
+        }
+    ],
     // [
     // 'class'=>'\kartik\grid\DataColumn',
     // 'attribute'=>'created_at',
@@ -55,11 +63,7 @@ return [
     // 'class'=>'\kartik\grid\DataColumn',
     // 'attribute'=>'updated_at',
     // ],
-    [
-        'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'created_by',
-        'value' => 'createdBy.username',
-    ],
+
     // [
     // 'class'=>'\kartik\grid\DataColumn',
     // 'attribute'=>'updated_by',

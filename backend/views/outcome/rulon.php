@@ -68,9 +68,7 @@ use soft\widget\kartik\Select2;
     </div>
     <div class="row">
         <div class="col-md-3">
-            <?= $form->field($model, 'size',['inputOptions' => ['class' => 'form-control', 'tabindex' => '1','required'=>true]])->textInput([
-
-            ]) ?>
+            <?= $form->field($model, 'size',['inputOptions' => ['autofocus' => true,'class' => 'form-control', 'tabindex' => '1','required'=>true]])->textInput() ?>
         </div>
         <div class="col-md-3">
             <?= $form->field($model, 'count',['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->textInput()->label('Soni') ?>
@@ -101,6 +99,7 @@ use soft\widget\kartik\Select2;
 $url = Url::to(['outcome/product-type']);
 $url_provider = Url::to(['outcome/provider']);
 $js = <<< JS
+$('#outcome-size').focus();
 $('#outcome-product_type_id').on('change', function() {
     var val=$(this).val();
     $.ajax({

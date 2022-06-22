@@ -12,9 +12,8 @@ class m220622_073135_create_add_employee_id_column_to_account_table extends Migr
      */
     public function safeUp()
     {
-        $this->createTable('{{%add_employee_id_column_to_account}}', [
-            'id' => $this->primaryKey(),
-        ]);
+        $this->addColumn('{{%account}}','employee_id',$this->integer());
+        $this->addForeignKey('account_employee_id','{{%account}}','employee_id','{{%employees}}','id','CASCADE','CASCADE');
     }
 
     /**
@@ -22,6 +21,7 @@ class m220622_073135_create_add_employee_id_column_to_account_table extends Migr
      */
     public function safeDown()
     {
-        $this->dropTable('{{%add_employee_id_column_to_account}}');
+        $this->dropForeignKey('account_employee_id','{{%account}}');
+        $this->dropColumn('{{%account}}','employee_id');
     }
 }

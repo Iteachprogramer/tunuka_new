@@ -61,8 +61,8 @@ class Outcome extends \soft\db\ActiveRecord
             [['size', 'count', 'total_size', 'total', 'discount', 'cost'], 'number',],
             [['size', 'count'], 'required', 'on' => self::SCENARIO_RULON],
             [['size', 'count', 'total_size', 'discount', 'cost'], 'checkNumber',],
-            [['count'], 'checkBeforeSold'],
-            [['total_size','size'], 'checkBeforeSoldMetr','on'=>self::SCENARIO_RULON],
+            [['count','total_size','size'], 'checkBeforeSold'],
+//            [['total_size','size'], 'checkBeforeSoldMetr','on'=>self::SCENARIO_RULON,],
             ['discount', 'default', 'value' => 0],
             ['date', 'safe'],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Client::className(), 'targetAttribute' => ['client_id' => 'id']],
@@ -76,12 +76,25 @@ class Outcome extends \soft\db\ActiveRecord
     {
         $product = $this->productType;
         if ($product) {
-            $unity = $product->sizeType->name;
+            $unity = $product->sizeType->id;
             $residual = $product->residual;
-            if ($this->count > $residual) {
-                $this->addError('count', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity  mavjud!");
-                return false;
+            if ($unity==2){
+                if ($this->size > $residual) {
+                    $this->addError('size', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity mavjud!");
+                    return false;
+                }
+                if ($this->total_size) {
+                    $this->addError('total_size', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity mavjud!");
+                    return false;
+                }
             }
+            else{
+                if ($this->count > $residual) {
+                    $this->addError('count', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity  mavjud!");
+                    return false;
+                }
+            }
+
         }
     }
 

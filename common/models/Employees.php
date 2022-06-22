@@ -115,13 +115,35 @@ class Employees extends \soft\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
+
     public function getMakes()
     {
         return $this->hasMany(MakeProduct::className(), ['employee_id' => 'id']);
     }
+
+    public function getMakesSum()
+    {
+        return intval($this->getMakes()->sum('total_expence'));
+    }
+
+    public function getAccounts()
+    {
+        return $this->hasMany(Account::className(), ['employee_id' => 'id']);
+    }
+
+    public function getAccountSum()
+    {
+        return intval($this->getAccounts()->sum('sum'));
+    }
+
     public static function getMap()
     {
-        return ArrayHelper::map(self::find()->andWhere(['is_factory'=>self::IS_FACTORY_YES])->andWhere(['status'=>self::STATUS_ACTIVE])->all(), 'id', 'name');
+        return ArrayHelper::map(self::find()->andWhere(['is_factory' => self::IS_FACTORY_YES])->andWhere(['status' => self::STATUS_ACTIVE])->all(), 'id', 'name');
+    }
+
+    public function getEmployeeFinishSum()
+    {
+        return $this->makesSum + $this->accountSum;
     }
 
     //</editor-fold>

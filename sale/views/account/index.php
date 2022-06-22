@@ -2,7 +2,9 @@
 
 use common\models\Account;
 use common\models\Client;
+use common\models\Employees;
 use soft\grid\GridView;
+use soft\helpers\ArrayHelper;
 use soft\helpers\Url;
 use soft\widget\ajaxcrud\CrudAsset;
 use yii\helpers\Html;
@@ -62,6 +64,25 @@ CrudAsset::register($this);
                 }
             ],
             [
+                'attribute' => 'employee_id',
+                'format' => 'raw',
+                'width' => '120px',
+                'filterType' => GridView::FILTER_SELECT2,
+                'filterWidgetOptions' => [
+                    'data' => ArrayHelper::map(Employees::find()->andWhere(['status'=> Employees::STATUS_ACTIVE])->all(),'id','name'),
+                    'options' => [
+                        'placeholder' => 'Ishchini tanlang...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ]
+                ],
+                'value' => function (Account $model) {
+                        return $model->employee->name;
+                }
+            ],
+
+            [
                 'attribute' => 'type_id',
                 'format' => 'raw',
                 'value' => 'typeBadge',
@@ -71,7 +92,7 @@ CrudAsset::register($this);
             [
                 'attribute' => 'expense_type_id',
                 'value' => function ($model) {
-                    return $model->expense->name ?? '';
+                    return $model->expenseType->name ?? '';
                 },
                 'format' => 'raw',
                 'filterType' => GridView::FILTER_SELECT2,
@@ -134,6 +155,7 @@ CrudAsset::register($this);
             [
                 'class' => 'soft\grid\ActionColumn',
                 'width' => '120px',
+                'template' => '{update} {delete}',
                 'updateOptions' => [
                     'role' => 'modal-remote'
                 ],

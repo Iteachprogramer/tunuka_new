@@ -17,7 +17,7 @@ class AccountSearch extends Account
     public function rules()
     {
         return [
-            [['id', 'client_id', 'type_id', 'sum', 'dollar', 'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['id', 'client_id', 'type_id', 'sum', 'dollar', 'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by','employee_id'], 'integer'],
             [['dollar_course'], 'number'],
             [['comment', 'date'], 'safe'],
         ];
@@ -79,6 +79,7 @@ class AccountSearch extends Account
             'bank' => $this->bank,
             'total' => $this->total,
             'expense_type_id' => $this->expense_type_id,
+            'employee_id' => $this->employee_id,
             'is_main' => $this->is_main,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

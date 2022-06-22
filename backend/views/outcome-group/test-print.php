@@ -34,9 +34,9 @@ $client_sum = Outcome::find()
     .check-list table tr td {
         font-size: 30px;
     }
-  .title-table{
-      font-size: 30px;
-  }
+    .head-title{
+        font-size: 26px;
+    }
     .check-list table tr th {
         font-size: 30px;
     }
@@ -73,29 +73,29 @@ $print = PrintSetting::find()->one();
             <td align="center" colspan="2">Tel:993689701</td>
         </tr>
         <tr>
-            <td>Sanasi va vaqti</td>
-            <th align="right"><?=
+            <td class="head-title"> Sanasi va vaqti</td>
+            <th align="right" class="head-title"><?=
                 Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s') ?></th>
         </tr>
-        <tr>
-            <td>Mijoz</td>
-            <th align="right"><?= $model->client->fulla_name ?></th>
+        <tr  >
+            <td class="head-title">Mijoz</td>
+            <th align="right" class="head-title"><?= $model->client->fulla_name ?></th>
         </tr>
         <tr>
-            <td>Sotuvchi</td>
-            <th align="right"><?= $model->createdBy->firstname . ' ' . $model->createdBy->lastname ?></th>
+            <td class="head-title">Sotuvchi</td>
+            <th align="right" class="head-title"><?= $model->createdBy->firstname . ' ' . $model->createdBy->lastname ?></th>
         </tr>
         <tr>
-            <td>Telefon no'meri</td>
-            <th align="right">+<?= $model->client->phone ?></th>
+            <td class="head-title">Telefon no'meri</td>
+            <th align="right" class="head-title">+<?= $model->client->phone ?></th>
         </tr>
         <tr>
-            <td>Buyurtma nomeri</td>
-            <th align="right"><?= $model->order_number ?></th>
+            <td class="head-title">Buyurtma nomeri</td>
+            <th align="right" class="head-title"><?= $model->order_number ?></th>
         </tr>
         <tr>
-            <td>Manzil</td>
-            <th align="right"><?= $model->where ?></th>
+            <td class="head-title">Manzil</td>
+            <th align="right" class="head-title"><?= $model->where ?></th>
         </tr>
 
     </table>
@@ -124,9 +124,9 @@ $print = PrintSetting::find()->one();
                     ?>
                     <tr>
                         <td style="border-bottom: 1px dotted black;"><?= $key + 1 ?></td>
-                        <td style="border-bottom: 1px dotted black;" align="center" class="title-table"><?= $item->size ?></td>
-                        <td style="border-bottom: 1px dotted black;" align="center" class="title-table"><?= $item->count ?></td>
-                        <td style="border-bottom: 1px dotted black;" align="center" class="title-table"><?= $item->total_size ?></td>
+                        <td style="border-bottom: 1px dotted black;" align="center" ><?= $item->size ?></td>
+                        <td style="border-bottom: 1px dotted black;" align="center" ><?= $item->count ?></td>
+                        <td style="border-bottom: 1px dotted black;" align="center" ><?= $item->total_size ?></td>
                         <td style="border-bottom: 1px dotted black;" align="right"> <?= as_integer($item->cost) ?>
                         </td>
                     </tr>
@@ -162,8 +162,8 @@ $print = PrintSetting::find()->one();
                 ?>
                 <tr>
                     <td><?= $key + 1 ?></td>
-                    <td align="center" class="title-table"><?= $aksessuar->productType->product_name ?></td>
-                    <td align="center" class="title-table"><?= $aksessuar->count ?></td>
+                    <td align="center" ><?= $aksessuar->productType->product_name ?></td>
+                    <td align="center" ><?= $aksessuar->count ?></td>
                     <td align="center" ><?= $aksessuar->cost ?></td>
                     <td align="right"><?= as_integer($aksessuar->total) ?></td>
                 </tr>
@@ -195,8 +195,8 @@ $print = PrintSetting::find()->one();
                 ?>
                 <tr>
                     <td><?= $key + 1 ?></td>
-                    <td align="center" class="title-table"><?= $product->productType->product_name ?></td>
-                    <td align="center" class="title-table"><?= $product->total_size ?></td>
+                    <td align="center" ><?= $product->productType->product_name ?></td>
+                    <td align="center" ><?= $product->total_size ?></td>
                     <td align="center"><?= $product->cost ?></td>
                     <td align="right"><?= as_integer($product->total) ?></td>
                 </tr>

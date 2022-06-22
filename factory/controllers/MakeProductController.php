@@ -31,7 +31,7 @@ class MakeProductController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'roles' => ['admin'],
+                        'roles' => ['factory'],
                     ],
                 ],
             ],
@@ -97,7 +97,11 @@ class MakeProductController extends Controller
     {
         $request = Yii::$app->request;
         $model = new MakeProduct();
+
         if ($request->isAjax) {
+            /*
+            *   Process for ajax request
+            */
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
@@ -207,6 +211,7 @@ class MakeProductController extends Controller
         }
 
     }
+
     /**
      * Updates an existing MakeProduct model.
      * For ajax request will return json object

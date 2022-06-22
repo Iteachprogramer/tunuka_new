@@ -33,15 +33,6 @@ use yii\helpers\Html;
             <div class="col md-6">
                 <?= $form->field($model, 'residue')->textInput() ?>
             </div>
-            <div class="col-md-6">
-                <?= $form->field($model, 'surface_type')->widget(SwitchInput::class, [
-                    'pluginOptions' => [
-                        'onText' => 'Matoviy',
-                        'offText' => 'Silliq',
-                    ]
-                ]) ?>
-            </div>
-
         </div>
         <div class="row">
             <div class="col-md-12" style="display:none;" id="expence">
@@ -66,20 +57,6 @@ $js = <<< JS
        else {
            $('#expence').css('display','none')
        }
-    // if (id==2)
-    //   {
-    //       $('.price_uz').css('display','none');
-    //       $('.selling_rental_uz').css('display','none');
-    //       $('.selling_rental_usd').css('display','block');
-    //       $('.price_usd').css('display','block');
-    //   }
-    // else
-    //   {
-    //       $('.price_uz').css('display','block');
-    //       $('.selling_rental_uz').css('display','block');
-    //       $('.price_usd').css('display','none');
-    //       $('.selling_rental_usd').css('display','none');
-    //       }
   })
 JS;
 $this->registerJs($js);

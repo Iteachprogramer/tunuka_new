@@ -27,8 +27,10 @@ return [
     ],
     [
         'attribute' => 'date',
-        'format' => 'dateUz',
         'width' => '160px',
+        'value' => function(OutcomeGroup $model){
+            return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
+        },
         'filterType' => GridView::FILTER_DATE_RANGE,
         'filterWidgetOptions' => [
             'model' => $searchModel,
@@ -36,13 +38,12 @@ return [
             'presetDropdown' => true,
             'includeMonthsFilter' => true,
             'pluginOptions' => [
-                'timePicker' => true,
-                'timePickerIncrement' => 30,
                 'locale' => [
-                    'format' => 'Y-m-d H:i:s'
+                    'format' => 'd.m.Y'
                 ]
             ]
         ]
+
     ],
     [
         'class' => '\kartik\grid\DataColumn',
@@ -57,9 +58,9 @@ return [
         'dropdown' => false,
         'template' => '{update} {view} {delete} {print}',
         'vAlign' => 'middle',
-        'urlCreator' => function ($action, $model, $key, $index) {
-            return Url::to([$action, 'id' => $key]);
-        },
+//        'urlCreator' => function ($action, $model, $key, $index) {
+//            return Url::to([$action, 'id' => $key]);
+//        },
         'buttons' => [
             'print' => function ($url, $model) {
                 return Html::a('<i class="fa fa-print"></i>', '#', ['class' => 'printButton', 'data-id' => $model->id]);

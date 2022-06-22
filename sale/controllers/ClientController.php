@@ -269,42 +269,42 @@ class ClientController extends AjaxCrudController
      * @param integer $id
      * @return mixed
      */
-    public function actionDeleteClientAll($id)
-    {
-        $model = $this->findModel($id);
-        $incomes = $model->incomes;
-        $accounts = $model->accounts;
-        $outcomes = $model->outcome;
-        $transaction = \Yii::$app->db->beginTransaction();
-        try {
-            if ($incomes) {
-                foreach ($incomes as $income) {
-                    $income->delete();
-                }
-            }
-            if ($outcomes) {
-                foreach ($outcomes as $outcome) {
-                    $outcome->delete();
-                }
-            }
-            if ($accounts) {
-                foreach ($accounts as $account) {
-                    $account->delete();
-                }
-            }
-            $model->delete();
-            $this->setFlash('success', "Ushbu klient va u bilan bog'liq barcha ma'lumotlar o'chirib tashlandi!");
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            forbidden("Ma'lumotlarni o'chirishda xatolik yuz berdi!");
-        }
-        $transaction->commit();
-        if ($this->isAjax) {
-            $this->formatJson();
-            return ['redirect' => ['index']];
-        }
-        return $this->redirect(['index']);
-    }
+//    public function actionDeleteClientAll($id)
+//    {
+//        $model = $this->findModel($id);
+//        $incomes = $model->incomes;
+//        $accounts = $model->accounts;
+//        $outcomes = $model->outcome;
+//        $transaction = \Yii::$app->db->beginTransaction();
+//        try {
+//            if ($incomes) {
+//                foreach ($incomes as $income) {
+//                    $income->delete();
+//                }
+//            }
+//            if ($outcomes) {
+//                foreach ($outcomes as $outcome) {
+//                    $outcome->delete();
+//                }
+//            }
+//            if ($accounts) {
+//                foreach ($accounts as $account) {
+//                    $account->delete();
+//                }
+//            }
+//            $model->delete();
+//            $this->setFlash('success', "Ushbu klient va u bilan bog'liq barcha ma'lumotlar o'chirib tashlandi!");
+//        } catch (\Exception $e) {
+//            $transaction->rollBack();
+//            forbidden("Ma'lumotlarni o'chirishda xatolik yuz berdi!");
+//        }
+//        $transaction->commit();
+//        if ($this->isAjax) {
+//            $this->formatJson();
+//            return ['redirect' => ['index']];
+//        }
+//        return $this->redirect(['index']);
+//    }
 
     public function actionDeleteIncome($id)
     {
@@ -325,28 +325,7 @@ class ClientController extends AjaxCrudController
      * @param integer $id
      * @return mixed
      */
-    public function actionBulkdelete()
-    {
-        $request = Yii::$app->request;
-        $pks = explode(',', $request->post('pks')); // Array or selected records primary keys
-        foreach ($pks as $pk) {
-            $model = $this->findModel($pk);
-            $model->delete();
-        }
-        if ($request->isAjax) {
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose' => true, 'forceReload' => '#crud-datatable-pjax'];
-        } else {
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
-        }
 
-    }
 
     public function actionIncome($id)
     {
@@ -383,34 +362,13 @@ class ClientController extends AjaxCrudController
             'dataProvider' => $dataProvider,
         ]);
     }
-    public function actionUpdateOutcome($id)
-    {
-        $model = $this->findOutcomeModel($id);
-        $model->date = Yii::$app->formatter->asDate($model->date, 'yyyy-MM-dd');
-        $title = 'Tahrirlash';
-        if ($model->productType->type_id == ProductList::TYPE_AKSESSUAR) {
-            return $this->ajaxCrud->createAction($model, [
-                'title' => 'Yuk olish',
-                'view' => 'outcome_form/aksessuar',
-                'returnUrl' => ['client/index'],
-            ], ['provider' => $model->client, 'title' => 'Yuk olish']);
-        } elseif ($model->productType->type_id == ProductList::TYPE_RULON) {
-            return $this->ajaxCrud->createAction($model, [
-                'title' => 'Yuk olish',
-                'view' => 'outcome_form/rulon',
-                'returnUrl' => ['client/outcome', 'id' => $model->client_id],
-            ], ['provider' => $model->client, 'title' => 'Yuk olish']);
-        }
-
-    }
-
-
     public function actionAccounts($id)
     {
         $model = $this->findModel($id);
         $searchModel = new AccountSearch([
             'client_id' => $model->id,
             'is_main' => Null,
+
         ]);
         $query = Account::find();
         $date = $this->request->queryParams['AccountSearch']['date'];
@@ -435,6 +393,7 @@ class ClientController extends AjaxCrudController
         $model = new Account([
             'client_id' => $client->id,
             'type_id' => $type_id,
+            'date'=>Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y'),
         ]);
 
         $title = $model->isIncome ? $client->fulla_name . 'dan pul olish' : $client->fulla_name . 'ga pul berish';
@@ -489,11 +448,6 @@ class ClientController extends AjaxCrudController
         return $this->redirect($url);
     }
 
-    public function actionDeleteClient($id)
-    {
-        $model = $this->findModel($id);
-        return $this->render('deleteClient', ['model' => $model]);
-    }
 
 
     /**
@@ -522,240 +476,6 @@ class ClientController extends AjaxCrudController
 
     }
 
-    public function actionCreateAksessuar()
-    {
-        $request = Yii::$app->request;
-        $group = OutcomeGroup::find()->where(['id' => $request->get('group_id')])->one();
-        if ($group) {
-            $model = new Outcome([
-                'date' => Yii::$app->formatter->asDate('now', 'php:d-m-Y'),
-                'group_id' => $group->id,
-                'client_id' => $group->client_id,
-            ]);
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if ($request->isGet) {
-                return [
-                    'title' => "Aksessuar",
-                    'content' => $this->renderAjax('outcome_form/aksessuar', [
-                        'model' => $model,
-                    ]),
-                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
-
-                ];
-            } else if ($model->load($request->post()) && $model->validate()) {
-                $model->save();
-                return [
-                    'title' => "Aksessuar",
-                    'forceReload' => '#crud-datatable-pjax',
-                    'content' => $this->renderAjax('outcome_form/aksessuar', [
-                        'model' => new Outcome([
-                            'cost' => $model->cost,
-                            'group_id' => $group->id,
-                            'client_id' => $group->client_id,
-                            'product_type_id'=>$model->productType->id,
-                        ]),
-                    ]),
-                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
-
-                ];
-            } else {
-
-                return [
-                    'title' => "Aksessuar",
-                    'content' => $this->renderAjax('outcome_form/aksessuar', [
-                        'model' => $model,
-                    ]),
-                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
-
-                ];
-            }
-        }
-
-    }
-
-    public function actionCreateRulon()
-    {
-        $request = Yii::$app->request;
-        $group = OutcomeGroup::find()->where(['id' => $request->get('group_id')])->one();
-        if ($group) {
-            $model = new Outcome([
-                'date' => Yii::$app->formatter->asDate('now', 'php:d-m-Y'),
-                'group_id' => $group->id,
-                'client_id' => $group->client_id,
-            ]);
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if ($request->isGet) {
-                return [
-                    'title' => "Rulon",
-                    'content' => $this->renderAjax('outcome_form/rulon', [
-                        'model' => $model,
-                    ]),
-                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
-
-                ];
-            } else if ($model->load($request->post()) && $model->validate()) {
-                $transaction = \Yii::$app->db->beginTransaction();
-                try {
-                    $model->save();
-                    $incomes = Income::find()->andWhere(['!=', 'length', 0])->andWhere(['product_type_id'=>$model->productType->id])->all();
-                    $size = floatval($model->total_size);
-                    foreach ($incomes as $income) {
-                        if ($size > 0) {
-                            $outcome_item_residue = OutcomeItem::find()->andWhere(['income_id' => $income->id])->andWhere(['!=', 'residue_size', 0])->one();
-                            if ($outcome_item_residue) {
-                                if ($outcome_item_residue >= $income->length) {
-                                    $diff = $outcome_item_residue - $income->length;
-                                    $outcome_item = new OutcomeItem();
-                                    $outcome_item->outcome_id = $model->id;
-                                    $outcome_item->income_id = $income->id;
-                                    $outcome_item->outcome_size = $income->length;
-                                    $outcome_item->residue_size = $diff;
-                                    $outcome_item->save();
-                                    $income->length = 0;
-                                    $income->save(false);
-                                } else {
-                                    $diff = $income->length - $outcome_item_residue;
-                                    $outcome_item = new OutcomeItem();
-                                    $outcome_item->outcome_id = $model->id;
-                                    $outcome_item->income_id = $income->id;
-                                    $outcome_item->outcome_size = $outcome_item_residue;
-                                    $outcome_item->residue_size = 0;
-                                    $outcome_item->save();
-                                    $income->length = $diff;
-                                    $income->save(false);
-
-                                }
-                            } else {
-                                if ($size >= $income->length) {
-                                    $diff = $size - $income->length;
-                                    $outcome_item = new OutcomeItem();
-                                    $outcome_item->outcome_id = $model->id;
-                                    $outcome_item->income_id = $income->id;
-                                    $outcome_item->outcome_size = $income->length;
-                                    $outcome_item->residue_size = $diff;
-                                    $outcome_item->save();
-                                    $income->length = 0;
-                                    $income->save(false);
-                                } else {
-                                    $diff = $income->length - $size;
-                                    $outcome_item = new OutcomeItem();
-                                    $outcome_item->outcome_id = $model->id;
-                                    $outcome_item->income_id = $income->id;
-                                    $outcome_item->outcome_size = $size;
-                                    $outcome_item->residue_size = 0;
-                                    $outcome_item->save();
-                                    $income->length = $diff;
-                                    $income->save(false);
-                                }
-                            }
-                            $size = $outcome_item->residue_size;
-                        } else {
-                            break;
-                        }
-                    }
-
-                } catch (\Exception $e) {
-                    $transaction->rollBack();
-                }
-                $transaction->commit();
-                return [
-                    'title' => "Rulon",
-                    'forceReload' => '#crud-datatable-pjax',
-                    'content' => $this->renderAjax('outcome_form/rulon', [
-                        'model' => new Outcome([
-                            'cost' => $model->cost,
-                            'group_id' => $group->id,
-                            'client_id' => $group->client_id,
-                            'product_type_id'=>$model->productType->id,
-
-                        ]),
-                    ]),
-                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
-
-                ];
-            } else {
-                return [
-                    'title' => "Rulon",
-                    'content' => $this->renderAjax('outcome_form/rulon', [
-                        'model' => $model,
-                    ]),
-                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
-
-                ];
-            }
-        }
-
-    }
-
-    public function actionCreateProduct()
-    {
-        $request = Yii::$app->request;
-        $group = OutcomeGroup::find()->where(['id' => $request->get('group_id')])->one();
-        if ($group) {
-            $model = new Outcome([
-                'date' => Yii::$app->formatter->asDate('now', 'php:d-m-Y'),
-                'group_id' => $group->id,
-                'client_id' => $group->client_id,
-            ]);
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            if ($request->isGet) {
-                return [
-                    'title' => "Mahsulot",
-                    'content' => $this->renderAjax('outcome_form/product', [
-                        'model' => $model,
-                    ]),
-                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
-
-                ];
-            } else if ($model->load($request->post()) && $model->validate()) {
-                $model->save();
-                return [
-                    'title' => "Mahsulot",
-                    'forceReload' => '#crud-datatable-pjax',
-                    'content' => $this->renderAjax('outcome_form/product', [
-                        'model' => new Outcome([
-                            'cost' => $model->cost,
-                            'group_id' => $group->id,
-                            'client_id' => $group->client_id,
-                            'product_type_id'=>$model->productType->id,
-                        ]),
-                    ]),
-                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
-
-                ];
-            } else {
-                return [
-                    'title' => "Mahsulot",
-                    'content' => $this->renderAjax('outcome_form/product', [
-                        'model' => $model,
-                    ]),
-                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
-
-                ];
-            }
-        }
-
-
-    }
-
-    private function findOutcomeModel($id)
-    {
-        $model = Outcome::findOne($id);
-        if (!$model) {
-            forbidden();
-        }
-        return $model;
-
-    }
 
     private function findAccountModel($id)
     {

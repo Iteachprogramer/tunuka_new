@@ -23,6 +23,7 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
     <div class="col-md-4">
         <?= DatePicker::widget([
             'name' => 'date',
+            'value' =>Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y'),
             'options' => ['required' => true],
         ]) ?>
     </div>

@@ -50,6 +50,7 @@ class OutcomeGroupController extends AjaxCrudController
         ];
     }
 
+
     public function actionIndex()
     {
         $searchModel = new OutcomeGroupSearch();
@@ -60,6 +61,7 @@ class OutcomeGroupController extends AjaxCrudController
             'dataProvider' => $dataProvider,
         ]);
     }
+
     public function actionClientOutcomeGroup()
     {
         $id = Yii::$app->request->get('id');
@@ -79,6 +81,7 @@ class OutcomeGroupController extends AjaxCrudController
         }
 
     }
+
     public function actionView($id)
     {
         $request = Yii::$app->request;
@@ -98,22 +101,39 @@ class OutcomeGroupController extends AjaxCrudController
             ]);
         }
     }
+
     public function actionCreate()
     {
         $request = Yii::$app->request;
         $model = new OutcomeGroup([
-            'date' => Yii::$app->formatter->asDate(time(), 'dd.MM.yyyy H:i:s'),
+            'date'=>Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
         ]);
         return $this->ajaxCrud->createAction($model, [
             'view' => 'create',
-            'returnUrl' => 'dddddd',
         ]);
+    }
+
+    public function actionCreateClientOutcome()
+    {
+        $request = Yii::$app->request;
+        $client_id=Yii::$app->request->get('client_id');
+        if ($client_id){
+            $model = new OutcomeGroup([
+                'date' => Yii::$app->formatter->asDate(time(), 'dd.MM.yyyy H:i:s'),
+                'client_id'=>$client_id
+            ]);
+            return $this->ajaxCrud->createAction($model, [
+                'view' => 'client-group-create',
+            ]);
+        }
+
     }
 
     public function actionUpdate($id)
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
+        $model->date= Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
 
         if ($request->isAjax) {
             /*
@@ -132,12 +152,7 @@ class OutcomeGroupController extends AjaxCrudController
             } else if ($model->load($request->post()) && $model->save()) {
                 return [
                     'forceReload' => '#crud-datatable-pjax',
-                    'title' => "OutcomeGroup #" . $id,
-                    'content' => $this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::a('Edit', ['update', 'id' => $id], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                    'forceClose' => true,
                 ];
             } else {
                 return [
@@ -167,7 +182,7 @@ class OutcomeGroupController extends AjaxCrudController
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $result = [];
         if (Yii::$app->request->isAjax) {
-            $result['message'] = $this->renderAjax('test-print', ['model' => $model,'aksessuar_sum'=>0,'product_sum'=>0]);
+            $result['message'] = $this->renderAjax('test-print', ['model' => $model, 'aksessuar_sum' => 0, 'product_sum' => 0]);
             return $this->asJson($result);
         }
         return $this->redirect(Yii::$app->request->referrer);
@@ -231,6 +246,7 @@ class OutcomeGroupController extends AjaxCrudController
         }
 
     }
+
     public function findModel($id)
     {
         if (($model = OutcomeGroup::findOne($id)) !== null) {

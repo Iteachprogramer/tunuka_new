@@ -25,7 +25,7 @@ CrudAsset::register($this);
             'exportButton' => false,
             'showPageSummary' => true,
             'toolbarButtons' => [
-                'create' => false,
+                'create' =>false,
             ],
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,

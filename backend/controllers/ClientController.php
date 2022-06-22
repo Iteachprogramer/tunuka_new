@@ -269,42 +269,42 @@ class ClientController extends AjaxCrudController
      * @param integer $id
      * @return mixed
      */
-    public function actionDeleteClientAll($id)
-    {
-        $model = $this->findModel($id);
-        $incomes = $model->incomes;
-        $accounts = $model->accounts;
-        $outcomes = $model->outcome;
-        $transaction = \Yii::$app->db->beginTransaction();
-        try {
-            if ($incomes) {
-                foreach ($incomes as $income) {
-                    $income->delete();
-                }
-            }
-            if ($outcomes) {
-                foreach ($outcomes as $outcome) {
-                    $outcome->delete();
-                }
-            }
-            if ($accounts) {
-                foreach ($accounts as $account) {
-                    $account->delete();
-                }
-            }
-            $model->delete();
-            $this->setFlash('success', "Ushbu klient va u bilan bog'liq barcha ma'lumotlar o'chirib tashlandi!");
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            forbidden("Ma'lumotlarni o'chirishda xatolik yuz berdi!");
-        }
-        $transaction->commit();
-        if ($this->isAjax) {
-            $this->formatJson();
-            return ['redirect' => ['index']];
-        }
-        return $this->redirect(['index']);
-    }
+//    public function actionDeleteClientAll($id)
+//    {
+//        $model = $this->findModel($id);
+//        $incomes = $model->incomes;
+//        $accounts = $model->accounts;
+//        $outcomes = $model->outcome;
+//        $transaction = \Yii::$app->db->beginTransaction();
+//        try {
+//            if ($incomes) {
+//                foreach ($incomes as $income) {
+//                    $income->delete();
+//                }
+//            }
+//            if ($outcomes) {
+//                foreach ($outcomes as $outcome) {
+//                    $outcome->delete();
+//                }
+//            }
+//            if ($accounts) {
+//                foreach ($accounts as $account) {
+//                    $account->delete();
+//                }
+//            }
+//            $model->delete();
+//            $this->setFlash('success', "Ushbu klient va u bilan bog'liq barcha ma'lumotlar o'chirib tashlandi!");
+//        } catch (\Exception $e) {
+//            $transaction->rollBack();
+//            forbidden("Ma'lumotlarni o'chirishda xatolik yuz berdi!");
+//        }
+//        $transaction->commit();
+//        if ($this->isAjax) {
+//            $this->formatJson();
+//            return ['redirect' => ['index']];
+//        }
+//        return $this->redirect(['index']);
+//    }
 
     public function actionDeleteIncome($id)
     {
@@ -325,28 +325,7 @@ class ClientController extends AjaxCrudController
      * @param integer $id
      * @return mixed
      */
-    public function actionBulkdelete()
-    {
-        $request = Yii::$app->request;
-        $pks = explode(',', $request->post('pks')); // Array or selected records primary keys
-        foreach ($pks as $pk) {
-            $model = $this->findModel($pk);
-            $model->delete();
-        }
-        if ($request->isAjax) {
-            /*
-            *   Process for ajax request
-            */
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose' => true, 'forceReload' => '#crud-datatable-pjax'];
-        } else {
-            /*
-            *   Process for non-ajax request
-            */
-            return $this->redirect(['index']);
-        }
 
-    }
 
     public function actionIncome($id)
     {
@@ -469,11 +448,6 @@ class ClientController extends AjaxCrudController
         return $this->redirect($url);
     }
 
-    public function actionDeleteClient($id)
-    {
-        $model = $this->findModel($id);
-        return $this->render('deleteClient', ['model' => $model]);
-    }
 
 
     /**

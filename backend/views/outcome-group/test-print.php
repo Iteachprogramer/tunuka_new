@@ -33,11 +33,11 @@ $client_sum = Outcome::find()
     }
 
     .check-list table tr td {
-        font-size: 16px;
+        font-size: 21px;
     }
 
     .check-list table tr th {
-        font-size: 16px;
+        font-size: 21px;
     }
 
     .border-solid {
@@ -62,7 +62,7 @@ $print = PrintSetting::find()->one();
     <table style="width: 100%; ">
         <tr>
             <td colspan="5" align="center"><img
-                        src="<?= 'http://' . Yii::$app->request->hostName . '/frontend/web/check.png' ?>"
+                        src="<?= 'http://' . Yii::$app->request->hostName . '/frontend/web/98.png' ?>"
                         style="width: 90%;height: 60px; object-fit: cover"></td>
         </tr>
         <tr>
@@ -161,9 +161,9 @@ $print = PrintSetting::find()->one();
                 ?>
                 <tr>
                     <td><?= $key + 1 ?></td>
-                    <td><?= $aksessuar->productType->product_name ?></td>
-                    <td><?= $aksessuar->count ?></td>
-                    <td><?= $aksessuar->cost ?></td>
+                    <td align="center"><?= $aksessuar->productType->product_name ?></td>
+                    <td align="center"><?= $aksessuar->count ?></td>
+                    <td align="center"><?= $aksessuar->cost ?></td>
                     <td align="right"><?= as_integer($aksessuar->total) ?></td>
                 </tr>
             <?php endforeach; ?>
@@ -194,9 +194,9 @@ $print = PrintSetting::find()->one();
                 ?>
                 <tr>
                     <td><?= $key + 1 ?></td>
-                    <td><?= $product->productType->product_name ?></td>
-                    <td><?= $product->total_size ?></td>
-                    <td><?= $product->cost ?></td>
+                    <td align="center"><?= $product->productType->product_name ?></td>
+                    <td align="center"><?= $product->total_size ?></td>
+                    <td align="center"><?= $product->cost ?></td>
                     <td align="right"><?= as_integer($product->total) ?></td>
                 </tr>
             <?php endforeach; ?>

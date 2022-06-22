@@ -3,6 +3,7 @@
 use common\models\Client;
 use soft\widget\kartik\ActiveForm;
 use soft\widget\kartik\DatePicker;
+use soft\widget\kartik\DateTimePicker;
 use soft\widget\kartik\Select2;
 use yii\helpers\Html;
 
@@ -25,7 +26,13 @@ use yii\helpers\Html;
             ]); ?>
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'date')->widget(DatePicker::className()) ?>
+            <?= $form->field($model, 'date')->widget(DateTimePicker::className(),[
+                'options' => ['placeholder' => 'Vaqtni tanlang...'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'dd.mm.yyyy hh:ii:ss'
+                ]
+            ]) ?>
 
         </div>
     </div>

@@ -32,7 +32,7 @@ use yii\helpers\Html;
 
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'date')->textInput() ?>
+            <?= $form->field($model, 'date')->widget(\soft\widget\kartik\DatePicker::class) ?>
         </div>
     </div>
     <div class="row">

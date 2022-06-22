@@ -547,27 +547,27 @@ class OutcomeController extends AjaxCrudController
                 ];
             }
             else if ($model->load($request->post()) && $model->validate()  && $model->save()) {
-                if ($model->count) {
-                    $model->residual = $model->productType->residual - $model->count;
-                } else {
-                    $model->residual = $model->productType->residual - $model->total_size;
-                }
-                return [
-                    'title' => "Mahsulot",
-                    'forceReload' => '#crud-datatable-pjax',
-                    'content' => $this->renderAjax('product', [
-                        'model' => new Outcome([
-                            'cost' => $model->cost,
-                            'group_id' => $group->id,
-                            'client_id' => $group->client_id,
-                            'product_type_id' => $model->productType->id,
-                            'residual' => $model->residual,
+                    if ($model->count) {
+                        $model->residual = $model->productType->residual - $model->count;
+                    } else {
+                        $model->residual = $model->productType->residual - $model->total_size;
+                    }
+                    return [
+                        'title' => "Mahsulot",
+                        'forceReload' => '#crud-datatable-pjax',
+                        'content' => $this->renderAjax('product', [
+                            'model' => new Outcome([
+                                'cost' => $model->cost,
+                                'group_id' => $group->id,
+                                'client_id' => $group->client_id,
+                                'product_type_id' => $model->productType->id,
+                                'residual' => $model->residual,
+                            ]),
                         ]),
-                    ]),
-                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '3'])
+                        'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                            Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '3'])
 
-                ];
+                    ];
             } else {
                 return [
                     'title' => "Mahsulot",

@@ -18,6 +18,7 @@ use yii\helpers\Html;
         <div class="col-md-6">
             <?= $form->field($model, 'client_id')->widget(Select2::class,[
                 'data' => Client::getClient(),
+                'disabled' => true,
                 'options' => ['placeholder' => 'Mijoz ...'],
                 'pluginOptions' => [
                     'allowClear' => true

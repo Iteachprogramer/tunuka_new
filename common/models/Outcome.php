@@ -86,7 +86,7 @@ class Outcome extends \soft\db\ActiveRecord
                 if ($this->count && $this->size) {
                     $this->total_size = $this->count * $this->size;
                 }
-                if ($this->total_size) {
+                if ($this->total_size > $residual) {
                     $this->addError('total_size', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity mavjud!");
                     return false;
                 }

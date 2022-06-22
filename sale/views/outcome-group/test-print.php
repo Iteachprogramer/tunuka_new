@@ -31,13 +31,12 @@ $client_sum = Outcome::find()
     .last {
         border-bottom: 1px dashed black;
     }
-
     .check-list table tr td {
-        font-size: 21px;
+        font-size: 23px;
     }
 
     .check-list table tr th {
-        font-size: 21px;
+        font-size: 23px;
     }
 
     .border-solid {
@@ -59,7 +58,7 @@ $print = PrintSetting::find()->one();
 </head>
 <div class="check-list"
      style="border: 1px dashed black; display: inline-block; padding: 5px;width: <?= $print->width . 'px' ?>; max-width: <?= $print->width . 'px' ?>">
-    <table style="width: 100%; ">
+    <table style="width: 100%;">
         <tr>
             <td colspan="5" align="center"><img
                         src="<?= 'http://' . Yii::$app->request->hostName . '/frontend/web/98.png' ?>"

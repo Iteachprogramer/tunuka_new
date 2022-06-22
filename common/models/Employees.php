@@ -121,7 +121,7 @@ class Employees extends \soft\db\ActiveRecord
     }
     public static function getMap()
     {
-        return ArrayHelper::map(self::find()->all(), 'id', 'name');
+        return ArrayHelper::map(self::find()->andWhere(['is_factory'=>self::IS_FACTORY_YES])->andWhere(['status'=>self::STATUS_ACTIVE])->all(), 'id', 'name');
     }
 
     //</editor-fold>

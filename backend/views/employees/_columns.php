@@ -10,7 +10,12 @@ return [
         'attribute' => 'name',
         'format' => 'raw',
         'value' => function (Employees $model) {
-            return Html::a($model->name,['/employees/make-product','employee_id'=>$model->id], ['data-pjax' => '0']);
+            if ($model->is_factory==Employees::IS_FACTORY_YES){
+                return Html::a($model->name, ['/employees/make-product', 'employee_id' => $model->id], ['data-pjax' => '0']);
+            }
+            else{
+                return$model->name;
+            }
         }
     ],
     [
@@ -63,17 +68,12 @@ return [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign' => 'middle',
+        'template' => '{update} {view}',
         'urlCreator' => function ($action, $model, $key, $index) {
             return Url::to([$action, 'id' => $key]);
         },
         'viewOptions' => ['role' => 'modal-remote', 'title' => 'View', 'data-toggle' => 'tooltip'],
         'updateOptions' => ['role' => 'modal-remote', 'title' => 'Update', 'data-toggle' => 'tooltip'],
-        'deleteOptions' => ['role' => 'modal-remote', 'title' => 'Delete',
-            'data-confirm' => false, 'data-method' => false,// for overide yii data api
-            'data-request-method' => 'post',
-            'data-toggle' => 'tooltip',
-            'data-confirm-title' => 'Are you sure?',
-            'data-confirm-message' => 'Are you sure want to delete this item'],
     ],
 
 ];

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\search\MakeProductSearch;
 use Yii;
 use common\models\Employees;
 use common\models\search\EmployeesSearch;
@@ -252,6 +253,22 @@ class EmployeesController extends Controller
             */
             return $this->redirect(['index']);
         }
+
+    }
+
+    public function actionMakeProduct($employee_id)
+    {
+        $model=$this->findModel($employee_id);
+        $searchModel = new MakeProductSearch();
+        $query=$model->getMakes();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$query);
+        return $this->render(
+            'employee_make_product',
+            [
+                'searchModel'=>$searchModel,
+                'dataProvider'=>$dataProvider
+            ]
+        );
 
     }
 

@@ -39,14 +39,19 @@ class MakeProductSearch extends MakeProduct
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params,$query=null)
     {
-        $query = MakeProduct::find();
-
+        if ($query===null){
+            $query = MakeProduct::find();
+        }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'created_at' => SORT_DESC,
+                ]
+            ]
         ]);
-
         $this->load($params);
         if (!empty($this->date))
         {

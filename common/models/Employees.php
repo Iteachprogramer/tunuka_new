@@ -115,7 +115,10 @@ class Employees extends \soft\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
-
+    public function getMakes()
+    {
+        return $this->hasMany(MakeProduct::className(), ['employee_id' => 'id']);
+    }
     public static function getMap()
     {
         return ArrayHelper::map(self::find()->all(), 'id', 'name');

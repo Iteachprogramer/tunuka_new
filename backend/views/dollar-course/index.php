@@ -25,7 +25,7 @@ CrudAsset::register($this);
             'filterModel' => $searchModel,
             'pjax'=>true,
             'toolbarButtons' => [
-                    'create'=>false
+                    'create'=>false,
             ],
             'columns' => require(__DIR__.'/_columns.php'),
 

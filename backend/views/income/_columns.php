@@ -11,8 +11,10 @@ use yii\helpers\Url;
 return [
     [
         'attribute' => 'date',
-        'format' => 'dateUz',
-        'width' => '120px',
+        'width' => '160px',
+        'value' => function(Income $model){
+            return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
+        },
         'filterType' => GridView::FILTER_DATE_RANGE,
         'filterWidgetOptions' => [
             'model' => $searchModel,
@@ -27,6 +29,7 @@ return [
                 ]
             ]
         ]
+
     ],
 
     [

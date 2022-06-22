@@ -1,6 +1,7 @@
 <?php
 
 use common\models\Employees;
+use common\models\MakeProduct;
 use common\models\ProductList;
 use common\models\Shapes;
 use soft\grid\GridView;
@@ -56,14 +57,17 @@ return [
     ],
     [
         'attribute' => 'date',
-        'format' => 'dateUz',
         'width' => '160px',
+        'value' => function(MakeProduct $model){
+            return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
+        },
         'filterType' => GridView::FILTER_DATE_RANGE,
         'filterWidgetOptions' => [
             'model' => $searchModel,
             'convertFormat' => true,
             'presetDropdown' => true,
             'includeMonthsFilter' => true,
+
             'pluginOptions' => [
                 'timePicker' => true,
                 'timePickerIncrement' => 30,
@@ -72,6 +76,7 @@ return [
                 ]
             ]
         ]
+
     ],
 
     [
@@ -104,29 +109,10 @@ return [
     ],
     [
         'class' => '\kartik\grid\DataColumn',
-        'attribute' => 'comment',
-        'width' => '100px',
+        'attribute' => 'total_expence',
+        'pageSummary' => true
     ],
-    // [
-    // 'class'=>'\kartik\grid\DataColumn',
-    // 'attribute'=>'type_id',
-    // ],
-    // [
-    // 'class'=>'\kartik\grid\DataColumn',
-    // 'attribute'=>'created_at',
-    // ],
-    // [
-    // 'class'=>'\kartik\grid\DataColumn',
-    // 'attribute'=>'updated_at',
-    // ],
-    // [
-    // 'class'=>'\kartik\grid\DataColumn',
-    // 'attribute'=>'created_by',
-    // ],
-    // [
-    // 'class'=>'\kartik\grid\DataColumn',
-    // 'attribute'=>'updated_by',
-    // ],
+
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

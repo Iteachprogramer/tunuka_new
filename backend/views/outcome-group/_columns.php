@@ -37,7 +37,6 @@ return [
             'convertFormat' => true,
             'presetDropdown' => true,
             'includeMonthsFilter' => true,
-
             'pluginOptions' => [
                 'timePicker' => true,
                 'timePickerIncrement' => 30,

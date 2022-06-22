@@ -119,6 +119,7 @@ class MakeProduct extends \soft\db\ActiveRecord
             'factory_size' => 'Tayyor mahsulot  o\'lchami',
             'per_metr_expence' => '1 metr uchun sarf harajat',
             'per_metr_cost' => '1 metr uchun narx',
+            'total_expence'=>'Usluga',
             'type_id' => Yii::t('app', 'Type ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),

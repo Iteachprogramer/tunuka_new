@@ -102,7 +102,6 @@ class Outcome extends \soft\db\ActiveRecord
 
     public function checkNumber()
     {
-
         if ($this->count < 0) {
             $this->addError('count', "Faqat musbat son kiritiladi");
             return false;

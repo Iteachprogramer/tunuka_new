@@ -66,6 +66,11 @@ class Income extends \soft\db\ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
+            if (empty($this->length) && $this->productType->type_id == ProductList::TYPE_RULON || ($this->length < 1 && $this->productType->type_id == ProductList::TYPE_RULON)) {
+                $message = "Siz rulon uzinligini kiritmadingiz yoki qiymati 1 dan kichkina ! Ushbu maydoni to'ldiring!";
+                $this->addError('length', $message);
+                return false;
+            }
             if ($this->isNewRecord) {
                 $dollar_course = DollarCourse::find()->one();
                 $this->cost_type = self::COST_TYPE_USD;
@@ -94,25 +99,24 @@ class Income extends \soft\db\ActiveRecord
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
+
     public function checkNumber()
     {
         if ($this->cost < 0) {
             $this->addError('cost', "Faqat musbat son kiritiladi");
             return false;
-        }
-        elseif ($this->length < 0) {
+        } elseif ($this->length < 0) {
             $this->addError('length', "Faqat musbat son kiritiladi");
             return false;
-        }
-        elseif ($this->weight < 0) {
+        } elseif ($this->weight < 0) {
             $this->addError('weight', "Faqat musbat son kiritiladi");
             return false;
-        }
-        elseif ($this->cost_of_living < 0) {
+        } elseif ($this->cost_of_living < 0) {
             $this->addError('cost_of_living', "Faqat musbat son kiritiladi");
             return false;
         }
     }
+
     /**
      * {@inheritdoc}
      */
@@ -188,14 +192,17 @@ class Income extends \soft\db\ActiveRecord
     {
         return $this->hasOne(Units::className(), ['id' => 'unity_type_id']);
     }
+
     public function getOutcomeItems()
     {
         return $this->hasMany(OutcomeItem::className(), ['income_id' => 'id']);
     }
+
     public function getFactories()
     {
         return $this->hasMany(MakeProductItem::className(), ['income_id' => 'id']);
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */

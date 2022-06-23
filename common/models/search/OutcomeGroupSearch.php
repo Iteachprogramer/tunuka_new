@@ -47,6 +47,11 @@ class OutcomeGroupSearch extends OutcomeGroup
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'date' => SORT_DESC,
+                ],
+            ],
         ]);
 
         $this->load($params);

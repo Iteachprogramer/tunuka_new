@@ -26,6 +26,15 @@ use yii\helpers\Html;
             ]); ?>
         </div>
         <div class="col-md-6">
+            <?= $form->field($model, 'phone_client_id',['inputOptions'=>['id'=>'phone-client']])->widget(Select2::class,[
+                'data' => Client::getClientPhone(),
+                'options' => ['placeholder' => 'Mijoz ...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]); ?>
+        </div>
+        <div class="col-md-12">
             <?= $form->field($model, 'date')->widget(DateTimePicker::className(),[
                 'options' => ['placeholder' => 'Vaqtni tanlang...'],
                 'pluginOptions' => [

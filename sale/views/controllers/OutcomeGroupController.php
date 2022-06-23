@@ -13,6 +13,7 @@ use soft\web\AjaxCrudController;
 use Yii;
 use common\models\OutcomeGroup;
 use common\models\search\OutcomeGroupSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -30,15 +31,25 @@ class OutcomeGroupController extends AjaxCrudController
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulkdelete' => ['post'],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['sale'],
+                    ],
                 ],
             ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                    'delete-account' => ['POST'],
+                ]
+            ]
         ];
     }
+
 
     public function actionIndex()
     {
@@ -95,22 +106,40 @@ class OutcomeGroupController extends AjaxCrudController
     {
         $request = Yii::$app->request;
         $model = new OutcomeGroup([
-            'date' => Yii::$app->formatter->asDate(time(), 'dd.MM.yyyy H:i:s'),
+            'date' => Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
         ]);
-        return $this->ajaxCrud->createAction($model, [
-            'view' => 'create',
-            'returnUrl' => 'dddddd',
-        ]);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model->load($request->post())) {
+            if ($model->phone_client_id && !$model->client_id) {
+                $model->client_id = $model->phone_client_id;
+            }
+            $model->save();
+            return [
+                'forceReload' => '#crud-datatable-pjax',
+                'forceClose' => true,
+            ];
+        } else {
+            return [
+                'title' => "Yangi qo'shish",
+                'content' => $this->renderAjax('create', [
+                    'model' => $model,
+                ]),
+                'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                    Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
+
+            ];
+        }
     }
 
     public function actionCreateClientOutcome()
     {
         $request = Yii::$app->request;
-        $client_id=Yii::$app->request->get('client_id');
-        if ($client_id){
+        $client_id = Yii::$app->request->get('client_id');
+        if ($client_id) {
             $model = new OutcomeGroup([
                 'date' => Yii::$app->formatter->asDate(time(), 'dd.MM.yyyy H:i:s'),
-                'client_id'=>$client_id
+                'client_id' => $client_id
             ]);
             return $this->ajaxCrud->createAction($model, [
                 'view' => 'client-group-create',
@@ -123,6 +152,7 @@ class OutcomeGroupController extends AjaxCrudController
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
+        $model->date = Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
 
         if ($request->isAjax) {
             /*
@@ -141,12 +171,7 @@ class OutcomeGroupController extends AjaxCrudController
             } else if ($model->load($request->post()) && $model->save()) {
                 return [
                     'forceReload' => '#crud-datatable-pjax',
-                    'title' => "OutcomeGroup #" . $id,
-                    'content' => $this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::a('Edit', ['update', 'id' => $id], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                    'forceClose' => true,
                 ];
             } else {
                 return [

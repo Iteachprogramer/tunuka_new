@@ -29,6 +29,10 @@ class OutcomeGroup extends \soft\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
+
+
+    public $phone_client_id;
+
     public static function tableName()
     {
         return 'outcome_group';
@@ -54,17 +58,18 @@ class OutcomeGroup extends \soft\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'status', 'discount', 'total', 'created_by', 'updated_by','order_number'], 'integer'],
+            [['client_id', 'status', 'discount', 'total', 'created_by', 'updated_by', 'order_number','phone_client_id'], 'integer'],
             ['date', 'safe'],
-            ['date', 'default','value' => time()],
+            ['date', 'default', 'value' => time()],
             [['discount', 'total'], 'default', 'value' => 0],
-            [['discount'],'checkNumber'],
+            [['discount'], 'checkNumber'],
             [['where'], 'string', 'max' => 255],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Client::className(), 'targetAttribute' => ['client_id' => 'id']],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
+
     public function checkNumber()
     {
         if ($this->discount < 0) {
@@ -72,6 +77,7 @@ class OutcomeGroup extends \soft\db\ActiveRecord
             return false;
         }
     }
+
     /**
      * {@inheritdoc}
      */
@@ -85,15 +91,16 @@ class OutcomeGroup extends \soft\db\ActiveRecord
             ],
         ];
     }
+
     public function beforeSave($insert)
     {
         $this->total = $this->outcomeSum - $this->discount;
         $order_number = OrderNumber::find()->one();
         $nextDay = strtotime('+1 day', $order_number->date);
-        if (Yii::$app->formatter->asDate($nextDay,'dd.MM.yyyy') > Yii::$app->formatter->asDate(time(),'dd.MM.yyyy')) {
+        if (Yii::$app->formatter->asDate($nextDay, 'dd.MM.yyyy') > Yii::$app->formatter->asDate(time(), 'dd.MM.yyyy')) {
             $next = $order_number->client_order_number + 1;
             $order_number->client_order_number = $next;
-        } else{
+        } else {
             $order_number->client_order_number = 1;
             $order_number->date = time();
         }
@@ -114,8 +121,9 @@ class OutcomeGroup extends \soft\db\ActiveRecord
             'status' => 'Holati',
             'discount' => 'Chegirma',
             'total' => 'Umumiy summa',
-            'where'=>'Manzil',
-            'order_number'=>'Buyurtma raqami',
+            'where' => 'Manzil',
+            'phone_client_id' => 'Telefon',
+            'order_number' => 'Buyurtma raqami',
             'created_by' => Yii::t('app', 'Created By'),
             'updated_by' => Yii::t('app', 'Updated By'),
         ];

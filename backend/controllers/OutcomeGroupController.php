@@ -106,21 +106,40 @@ class OutcomeGroupController extends AjaxCrudController
     {
         $request = Yii::$app->request;
         $model = new OutcomeGroup([
-            'date'=>Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
+            'date' => Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
         ]);
-        return $this->ajaxCrud->createAction($model, [
-            'view' => 'create',
-        ]);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        if ($model->load($request->post())) {
+            if ($model->phone_client_id && !$model->client_id) {
+                $model->client_id = $model->phone_client_id;
+            }
+            $model->save();
+            return [
+                'forceReload' => '#crud-datatable-pjax',
+                'forceClose' => true,
+            ];
+        } else {
+            return [
+                'title' => "Yangi qo'shish",
+                'content' => $this->renderAjax('create', [
+                    'model' => $model,
+                ]),
+                'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                    Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
+
+            ];
+        }
     }
 
     public function actionCreateClientOutcome()
     {
         $request = Yii::$app->request;
-        $client_id=Yii::$app->request->get('client_id');
-        if ($client_id){
+        $client_id = Yii::$app->request->get('client_id');
+        if ($client_id) {
             $model = new OutcomeGroup([
                 'date' => Yii::$app->formatter->asDate(time(), 'dd.MM.yyyy H:i:s'),
-                'client_id'=>$client_id
+                'client_id' => $client_id
             ]);
             return $this->ajaxCrud->createAction($model, [
                 'view' => 'client-group-create',
@@ -133,7 +152,7 @@ class OutcomeGroupController extends AjaxCrudController
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        $model->date= Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
+        $model->date = Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
 
         if ($request->isAjax) {
             /*

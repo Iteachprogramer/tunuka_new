@@ -48,10 +48,13 @@ return [
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'discount',
+        'format' => 'integer',
     ],
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'total',
+        'format' => 'integer',
+
     ],
     [
         'class' => 'kartik\grid\ActionColumn',

@@ -118,7 +118,7 @@ class ProductList extends \soft\db\ActiveRecord
                 [['residue', 'selling_price_uz', 'selling_price_usd', 'factory_expence'], 'checkNumber'],
                 ['surface_type', 'default', 'value' => self::SURFACE_TYPE_SMOOTH],
                 ['product_name', 'string', 'max' => 255,],
-                [['sort_order', 'factory_expence'], 'default', 'value' => 0],
+                [['sort_order', 'factory_expence','residue'], 'default', 'value' => 0],
                 [['selling_price_uz', 'selling_rentail', 'selling_rentail_usd'], 'default', 'value' => 0],
                 [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
                 [['size_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => Units::className(), 'targetAttribute' => ['size_type_id' => 'id']],

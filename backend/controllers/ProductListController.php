@@ -107,7 +107,7 @@ class ProductListController extends Controller
                         'model' => $model,
                     ]),
                     'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
+                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit",'tabindex'=>'3'])
 
                 ];
             } else if ($model->load($request->post()) && $model->save()) {
@@ -122,7 +122,7 @@ class ProductListController extends Controller
                         'model' => $model,
                     ]),
                     'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
+                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit",'tabindex'=>'3'])
 
                 ];
             }
@@ -165,7 +165,7 @@ class ProductListController extends Controller
                         'model' => $model,
                     ]),
                     'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
+                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit",'tabindex'=>'3'])
                 ];
             } else if ($model->load($request->post()) && $model->save()) {
                 return [

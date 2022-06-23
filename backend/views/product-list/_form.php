@@ -27,12 +27,12 @@ use yii\helpers\Html;
                 <?= $form->field($model, 'size_type_id')->dropDownList(Units::getMap()) ?>
             </div>
             <div class="col-md-6">
-                <?= $form->field($model, 'selling_price_uz')->textInput() ?>
+                <?= $form->field($model, 'selling_price_uz',['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->textInput() ?>
             </div>
         </div>
         <div class="row">
             <div class="col md-6">
-                <?= $form->field($model, 'residue')->textInput() ?>
+                <?= $form->field($model, 'residue',['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->textInput() ?>
             </div>
         </div>
         <div class="row">

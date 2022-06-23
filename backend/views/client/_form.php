@@ -30,13 +30,18 @@ use yii\widgets\MaskedInput;
     <div class="row">
         <div class="col-md-6">
             <?= $form->field($model, 'debt')->textInput() ?>
+
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'client_type_id')->dropDownList(Client::clientTypes()) ?>
+            <?= $form->field($model, 'debt_dollor')->textInput() ?>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+
+        <div class="col-md-6">
+            <?= $form->field($model, 'client_type_id')->dropDownList(Client::clientTypes()) ?>
+        </div>
+        <div class="col-md-6">
             <?= $form->field($model, 'leader')->textInput(['maxlength' => true]) ?>
         </div>
     </div>

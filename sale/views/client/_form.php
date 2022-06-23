@@ -30,13 +30,18 @@ use yii\widgets\MaskedInput;
     <div class="row">
         <div class="col-md-6">
             <?= $form->field($model, 'debt')->textInput() ?>
+
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'client_type_id')->dropDownList(Client::clientTypes()) ?>
+            <?= $form->field($model, 'debt_dollor')->textInput() ?>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+
+        <div class="col-md-6">
+            <?= $form->field($model, 'client_type_id')->dropDownList(Client::clientTypes()) ?>
+        </div>
+        <div class="col-md-6">
             <?= $form->field($model, 'leader')->textInput(['maxlength' => true]) ?>
         </div>
     </div>
@@ -45,12 +50,12 @@ use yii\widgets\MaskedInput;
             <?= $form->field($model, 'text')->textarea(['rows' => 2]) ?>
         </div>
     </div>
-	<?php if (!Yii::$app->request->isAjax){ ?>
-	  	<div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-	    </div>
-	<?php } ?>
+    <?php if (!Yii::$app->request->isAjax){ ?>
+        <div class="form-group">
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
+    <?php } ?>
 
     <?php ActiveForm::end(); ?>
-    
+
 </div>

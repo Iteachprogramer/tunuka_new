@@ -59,7 +59,7 @@ class Client extends \soft\db\ActiveRecord
         return [
             [['fulla_name', 'client_type_id'], 'required'],
             [['phone'], 'unique'],
-            [['debt', 'client_type_id', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
+            [['debt', 'client_type_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'debt_dollor'], 'integer'],
             [['text'], 'string'],
             ['last_updated', 'default', 'value' => time()],
             ['phone', 'match', 'pattern' => '/\+[9][9][8] [389][0134789] [0-9][0-9][0-9] [0-9][0-9] [0-9][0-9]/'],
@@ -71,7 +71,7 @@ class Client extends \soft\db\ActiveRecord
 
     public function beforeSave($insert)
     {
-        $this->phone=  strtr($this->phone,
+        $this->phone = strtr($this->phone,
             [
                 '+' => '',
                 ' ' => '',
@@ -105,6 +105,7 @@ class Client extends \soft\db\ActiveRecord
             'debt' => 'Qarzi',
             'client_type_id' => 'Klient turi',
             'leader' => 'Rahbari',
+            'debt_dollor' => 'Qarzi yoki haqi dollarda',
             'residue' => 'Yakuni hisob kitob so\'mda',
             'residue_dollar' => 'Yakuni hisob kitob dollarda',
             'text' => 'Izoh',
@@ -134,18 +135,22 @@ class Client extends \soft\db\ActiveRecord
     {
         return ArrayHelper::map(Client::find()->where(['client_type_id' => self::CLIENT_TYPE_CLIENT])->all(), 'id', 'fulla_name');
     }
+
     public static function getClientOne($id)
     {
         return ArrayHelper::map(Client::find()->where(['id' => $id])->all(), 'id', 'fulla_name');
     }
+
     public function getIncomes()
     {
         return $this->hasMany(Income::class, ['provider_id' => 'id']);
     }
+
     public function getOutcomeGroups()
     {
         return $this->hasMany(OutcomeGroup::class, ['client_id' => 'id']);
     }
+
     public function getAccounts()
     {
         return $this->hasMany(Account::class, ['client_id' => 'id']);
@@ -208,54 +213,67 @@ class Client extends \soft\db\ActiveRecord
     {
         return $this->getOutcome()->andWhere(['unit_id' => 2])->sum('total');
     }
+
     public function getOutcomeCountKg()
     {
         return $this->getOutcome()->andWhere(['unit_id' => 4])->sum('count');
     }
+
     public function getOutcomeCountKgSum()
     {
         return $this->getOutcome()->andWhere(['unit_id' => 4])->sum('total');
     }
+
     public function getOutcomeCountNumer()
     {
         return $this->getOutcome()->andWhere(['unit_id' => 3])->sum('count');
     }
+
     public function getOutcomeCountNumerSum()
     {
         return $this->getOutcome()->andWhere(['unit_id' => 3])->sum('total');
     }
+
     public function getIncomesAccountSum()
     {
         return abs(intval($this->getAccounts()->andWhere(['type_id' => Account::TYPE_INCOME, 'is_main' => null])->sum('sum')));
     }
+
     public function getOutComeAccountSum()
     {
         return abs(intval($this->getAccounts()->andWhere(['type_id' => Account::TYPE_OUTCOME])->sum('sum')));
     }
+
     public function getIncomesAccountSumDolar()
     {
         return abs(intval($this->getAccounts()->andWhere(['type_id' => Account::TYPE_INCOME, 'is_main' => null])->sum('dollar')));
     }
+
     public function getOutComeAccountSumDollar()
     {
         return abs(intval($this->getAccounts()->andWhere(['type_id' => Account::TYPE_OUTCOME])->sum('dollar')));
     }
+
     public function getAccountsSum()
     {
         return -1 * ($this->getAccounts()->sum('sum'));
     }
+
     public function getAccountsSumDollar()
     {
         return -1 * ($this->getAccounts()->sum('dollar'));
     }
+
     public function getFinishAccountSum()
     {
         return $this->getOutcomeSum() + $this->getAccountsSum() + $this->debt;
     }
+
     public function getFinishAccountSumDollar()
     {
-        return $this->getIncomesSum() + $this->getAccountsSumDollar();
+        return $this->getIncomesSum() + $this->getAccountsSumDollar() + $this->debt_dollor;
     }
+
     public static function getMap()
     {
         return ArrayHelper::map(Client::find()->all(), 'id', 'fulla_name');

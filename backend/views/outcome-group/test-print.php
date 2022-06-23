@@ -70,7 +70,7 @@ $print = PrintSetting::find()->one();
             <th colspan="2" style="font-size: 20px;">AS-PROFILE</th>
         </tr>
         <tr>
-            <td align="center" colspan="2">Tel:993689701</td>
+            <td align="center" colspan="2" style="font-size: 30px">Tel:55 500 18 18</td>
         </tr>
         <tr>
             <td class="head-title"> Sanasi va vaqti</td>

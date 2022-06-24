@@ -135,6 +135,7 @@ class Client extends \soft\db\ActiveRecord
     {
         return ArrayHelper::map(Client::find()->where(['client_type_id' => self::CLIENT_TYPE_CLIENT])->all(), 'id', 'fulla_name');
     }
+
     public static function getClientPhone()
     {
         return ArrayHelper::map(Client::find()->where(['client_type_id' => self::CLIENT_TYPE_CLIENT])->all(), 'id', 'phone');
@@ -167,7 +168,12 @@ class Client extends \soft\db\ActiveRecord
 
     public function getOutcomeSum()
     {
-        return $this->getOutcomeGroups()->sum('total');
+        return $this->getOutcome()->sum('total');
+    }
+
+    public function getOutcomeGroupDiscount()
+    {
+        return $this->getOutcomeGroups()->sum('discount');
     }
 
     public function getOutcome()
@@ -267,10 +273,9 @@ class Client extends \soft\db\ActiveRecord
     {
         return -1 * ($this->getAccounts()->sum('dollar'));
     }
-
     public function getFinishAccountSum()
     {
-        return $this->getOutcomeSum() + $this->getAccountsSum() + $this->debt;
+        return $this->getOutcomeSum() - $this->getOutcomeGroupDiscount() + $this->getAccountsSum() + $this->debt;
     }
 
     public function getFinishAccountSumDollar()

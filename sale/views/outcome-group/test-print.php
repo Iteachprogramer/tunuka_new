@@ -224,7 +224,7 @@ $print = PrintSetting::find()->one();
         </tr>
         <tr>
             <td>To'lanadigan summa</td>
-            <td align="right"><?= as_integer($model->total) ?></td>
+            <td align="right"><?= as_integer($model->outcomeSum -$model->discount) ?></td>
         </tr>
         <tr>
             <td>Mijoz qoldig'i</td>

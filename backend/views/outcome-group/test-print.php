@@ -144,39 +144,6 @@ $print = PrintSetting::find()->one();
             <?php endforeach; ?>
         </table>
     <?php endif; ?>
-    <?php if ($aksessuars): ?>
-        <table style="width: 100%">
-            <tr>
-                <th align="center" colspan="5">Aksesuarlari</th>
-            </tr>
-            <tr>
-                <th style="border-bottom: 1px dotted black;">No</th>
-                <th style="border-bottom: 1px dotted black;">mahsulot</th>
-                <th style="border-bottom: 1px dotted black;">soni</th>
-                <th style="border-bottom: 1px dotted black;">narxi</th>
-                <th style="border-bottom: 1px dotted black;">summa</th>
-            </tr>
-            <?php foreach ($aksessuars as $key => $aksessuar): ?>
-                <?php
-                $aksessuar_sum += $aksessuar->total;
-                ?>
-                <tr>
-                    <td><?= $key + 1 ?></td>
-                    <td align="left" ><?= $aksessuar->productType->product_name ?></td>
-                    <td align="center" ><?= $aksessuar->count ?></td>
-                    <td align="center" ><?= $aksessuar->cost ?></td>
-                    <td align="right"><?= as_integer($aksessuar->total) ?></td>
-                </tr>
-            <?php endforeach; ?>
-            <tr>
-                <td class="last" colspan="5"></td>
-            </tr>
-            <tr>
-                <td colspan="4">jami</td>
-                <th align="right"><?= as_integer($aksessuar_sum) ?></th>
-            </tr>
-        </table>
-    <?php endif; ?>
     <?php if ($products): ?>
         <table style="width: 100%">
             <tr>
@@ -207,6 +174,40 @@ $print = PrintSetting::find()->one();
             <tr>
                 <td colspan="4">jami</td>
                 <th align="right"><?= as_integer($product_sum) ?></th>
+            </tr>
+        </table>
+    <?php endif; ?>
+
+    <?php if ($aksessuars): ?>
+        <table style="width: 100%">
+            <tr>
+                <th align="center" colspan="5">Aksesuarlari</th>
+            </tr>
+            <tr>
+                <th style="border-bottom: 1px dotted black;">No</th>
+                <th style="border-bottom: 1px dotted black;">mahsulot</th>
+                <th style="border-bottom: 1px dotted black;">soni</th>
+                <th style="border-bottom: 1px dotted black;">narxi</th>
+                <th style="border-bottom: 1px dotted black;">summa</th>
+            </tr>
+            <?php foreach ($aksessuars as $key => $aksessuar): ?>
+                <?php
+                $aksessuar_sum += $aksessuar->total;
+                ?>
+                <tr>
+                    <td><?= $key + 1 ?></td>
+                    <td align="left" ><?= $aksessuar->productType->product_name ?></td>
+                    <td align="center" ><?= $aksessuar->count ?></td>
+                    <td align="center" ><?= $aksessuar->cost ?></td>
+                    <td align="right"><?= as_integer($aksessuar->total) ?></td>
+                </tr>
+            <?php endforeach; ?>
+            <tr>
+                <td class="last" colspan="5"></td>
+            </tr>
+            <tr>
+                <td colspan="4">jami</td>
+                <th align="right"><?= as_integer($aksessuar_sum) ?></th>
             </tr>
         </table>
     <?php endif; ?>

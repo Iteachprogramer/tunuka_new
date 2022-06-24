@@ -3,12 +3,14 @@
 namespace sale\controllers;
 
 use common\models\Account;
+use common\models\Client;
 use common\models\DollarCourse;
 use common\models\search\AccountSearch;
 use soft\web\AjaxCrudController;
 use soft\widget\dynamicform\DynamicFormModel;
 use Yii;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 class AccountController extends AjaxCrudController
 {
@@ -40,6 +42,14 @@ class AccountController extends AjaxCrudController
             ],
         ];
     }
+    public function actionDebtClient(){
+        $id = Yii::$app->request->post('id');
+        $client = Client::find()->where(['id' => $id])->one();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $debt = number_format($client->finishAccountSum, 0, ' ', ' ');
+        $debt_dollar = number_format($client->finishAccountSumDollar, 0, ' ', ' ');
+        return ['debt' => $debt, 'debt_dollar' => $debt_dollar];
+    }
 
     //<editor-fold desc="CRUD" defaultstate="collapsed">
 
@@ -49,12 +59,12 @@ class AccountController extends AjaxCrudController
         $query = Account::find();
         $date = $this->request->queryParams['AccountSearch']['date'];
         $dates = explode(' - ', $date, 2);
-            if (count($dates) == 2) {
-                $begin = strtotime($dates[0]);
-                $end = strtotime($dates[1]);
-                $query->andFilterWhere(['<=', 'date', $end])
-                    ->andFilterWhere(['>=', 'date', $begin]);
-            }
+        if (count($dates) == 2) {
+            $begin = strtotime($dates[0]);
+            $end = strtotime($dates[1]);
+            $query->andFilterWhere(['<=', 'date', $end])
+                ->andFilterWhere(['>=', 'date', $begin]);
+        }
         $dataProvider = $searchModel->search($this->request->queryParams, $query);
         return $this->render('index', [
             'searchModel' => $searchModel,

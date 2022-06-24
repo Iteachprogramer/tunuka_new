@@ -3,12 +3,14 @@
 namespace backend\controllers;
 
 use common\models\Account;
+use common\models\Client;
 use common\models\DollarCourse;
 use common\models\search\AccountSearch;
 use soft\web\AjaxCrudController;
 use soft\widget\dynamicform\DynamicFormModel;
 use Yii;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 class AccountController extends AjaxCrudController
 {
@@ -39,6 +41,14 @@ class AccountController extends AjaxCrudController
                 ],
             ],
         ];
+    }
+    public function actionDebtClient(){
+        $id = Yii::$app->request->post('id');
+        $client = Client::find()->where(['id' => $id])->one();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $debt = number_format($client->finishAccountSum, 0, ' ', ' ');
+        $debt_dollar = number_format($client->finishAccountSumDollar, 0, ' ', ' ');
+        return ['debt' => $debt, 'debt_dollar' => $debt_dollar];
     }
 
     //<editor-fold desc="CRUD" defaultstate="collapsed">

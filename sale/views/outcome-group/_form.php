@@ -18,7 +18,7 @@ use yii\helpers\Html;
     <div class="row">
         <div class="col-md-6">
             <?= $form->field($model, 'client_id')->widget(Select2::class,[
-                'data' => Client::getClient(),
+                    'data' => Client::getClient(),
                 'options' => ['placeholder' => 'Mijoz ...'],
                 'pluginOptions' => [
                     'allowClear' => true
@@ -48,11 +48,11 @@ use yii\helpers\Html;
 
 
 
-    <?php if (!Yii::$app->request->isAjax){ ?>
-        <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-        </div>
-    <?php } ?>
+	<?php if (!Yii::$app->request->isAjax){ ?>
+	  	<div class="form-group">
+	        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	    </div>
+	<?php } ?>
 
     <?php ActiveForm::end(); ?>
 

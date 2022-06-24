@@ -61,19 +61,19 @@ use common\models\Client;
                         <tr>
                             <td>Jami sotilgan yuk metrda:</td>
                             <th>
-                               <?=$model->outcomeCountMetr ? $model->outcomeCountMetr:0?>
+                               <?=$model->outcomeCountMetr ? number_format($model->outcomeCountMetr,2,'.',' '):0?>
                             </th>
                         </tr>
                         <tr>
                             <td>Jami sotilgan yuk kg:</td>
                             <th>
-                                <?=$model->outcomeCountKg ? $model->outcomeCountKg:0?>
+                                <?=$model->outcomeCountKg ? number_format($model->outcomeCountKg,2,'.',' '):0?>
                             </th>
                         </tr>
                         <tr>
                             <td>Jami sotilgan yuk Dona:</td>
                             <th>
-                                <?=$model->outcomeCountNumer ?? 0?>
+                                <?=number_format($model->outcomeCountNumer,2,'.',' ') ?? 0?>
                             </th>
                         </tr>
                         <tr class="table-warning">

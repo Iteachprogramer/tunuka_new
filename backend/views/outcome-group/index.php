@@ -73,7 +73,7 @@ CrudAsset::register($this);
 <input type="hidden" value="<?= $url ?>" name="url_group">
 <?php
 $js = <<< JS
-    $('.printButton').click(function (e) {
+     $(document).on('click','.printButton',function (e) {
         let url = $('input[name=url_group]').val()
         var id = this.getAttribute("data-id");
         $.ajax({

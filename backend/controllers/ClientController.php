@@ -12,6 +12,7 @@ use common\models\search\AccountSearch;
 use common\models\search\IncomeSearch;
 use common\models\search\OutcomeGroupSearch;
 use common\models\search\OutcomeSearch;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use soft\web\AjaxCrudController;
 use Yii;
 use common\models\Client;
@@ -239,7 +240,7 @@ class ClientController extends AjaxCrudController
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-        $model->phone=substr($model->phone,3,9);
+        $model->phone = substr($model->phone, 3, 9);
         if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($model->load($request->post()) && $model->save()) {
@@ -448,6 +449,31 @@ class ClientController extends AjaxCrudController
             return $this->ajaxCrud->closeModal();
         }
         return $this->redirect($url);
+    }
+
+    public function actionExcelExport()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        return 1;
+//        header('Content-Type: application/vnd.ms-excel');
+//        header('Content-Disposition: attachment; filename="clients.xls"');
+//        $spreadsheet=new Spreadsheet();
+//        $sheet=$spreadsheet->getActiveSheet();
+//        $sheet->setCellValue('A1','Mijoz');
+//        $sheet->setCellValue('B1','Mijoz tartib raqami');
+//        $sheet->setCellValue('C1','Mijoz ma\'lumoti');
+//        $sheet->setCellValue('D1','Yakuniy xisob');
+//        $i=2;
+//        foreach (Client::find()->all() as $client) {
+//            $sheet->setCellValue('A'.$i, $client->id);
+//            $sheet->setCellValue('B'.$i, $client->fulla_name .' '.$client->phone);
+//            $sheet->setCellValue('C'.$i, $client->finishAccountSum);
+//            $sheet->setCellValue('D'.$i, $client->finishAccountSumDollar);
+//            $i++;
+//        }
+//        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xls($spreadsheet);
+//        $writer->save('php://output');
+//        exit;
     }
 
 

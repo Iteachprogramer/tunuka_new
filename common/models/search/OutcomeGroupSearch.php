@@ -47,6 +47,9 @@ class OutcomeGroupSearch extends OutcomeGroup
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination'=>[
+                'pageSize' => 50,
+            ],
             'sort' => [
                 'defaultOrder' => [
                     'date' => SORT_DESC,

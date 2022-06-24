@@ -20,7 +20,7 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
 <?php Card::begin() ?>
 <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
 <div class="row">
-    <div class="col-md-4" style="display: none" id="client-debt"><input type="text" class="form-control" id="debt-input"></div>
+    <div class="col-md-4"  id="client-debt"><input type="text" class="form-control" id="debt-input"></div>
     <div class="col-md-4"></div>
     <div class="col-md-4">
         <?= DatePicker::widget([

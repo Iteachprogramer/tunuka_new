@@ -49,8 +49,8 @@ class Client extends \soft\db\ActiveRecord
     public static function clientTypes()
     {
         return [
-            self::CLIENT_TYPE_PROVIDER => 'Taminotchi',
             self::CLIENT_TYPE_CLIENT => 'Mijoz',
+            self::CLIENT_TYPE_PROVIDER => 'Taminotchi',
         ];
     }
 

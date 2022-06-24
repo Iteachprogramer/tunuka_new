@@ -239,7 +239,7 @@ class ClientController extends AjaxCrudController
     {
         $request = Yii::$app->request;
         $model = $this->findModel($id);
-
+        $model->phone=substr($model->phone,3,9);
         if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($model->load($request->post()) && $model->save()) {
@@ -350,18 +350,20 @@ class ClientController extends AjaxCrudController
             'dataProvider' => $dataProvider,
         ]);
     }
+
     public function actionOutcomeGroup($id)
     {
         $model = $this->findModel($id);
-        $groups=$model->getOutcomeGroups();
+        $groups = $model->getOutcomeGroups();
         $searchModel = new OutcomeGroupSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$groups);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $groups);
         return $this->render('outcome-group', [
             'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
+
     public function actionAccounts($id)
     {
         $model = $this->findModel($id);
@@ -393,7 +395,7 @@ class ClientController extends AjaxCrudController
         $model = new Account([
             'client_id' => $client->id,
             'type_id' => $type_id,
-            'date'=>Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y'),
+            'date' => Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y'),
         ]);
 
         $title = $model->isIncome ? $client->fulla_name . 'dan pul olish' : $client->fulla_name . 'ga pul berish';
@@ -447,7 +449,6 @@ class ClientController extends AjaxCrudController
         }
         return $this->redirect($url);
     }
-
 
 
     /**

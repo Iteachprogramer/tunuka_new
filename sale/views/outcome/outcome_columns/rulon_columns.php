@@ -81,14 +81,7 @@ return [
         'format' => 'integer',
         'pageSummary' => true,
     ],
-    // [
-    // 'class'=>'\kartik\grid\DataColumn',
-    // 'attribute'=>'unit_id',
-    // ],
-    // [
-    // 'class'=>'\kartik\grid\DataColumn',
-    // 'attribute'=>'discount',
-    // ],
+
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

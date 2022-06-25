@@ -86,7 +86,7 @@ $print = PrintSetting::find()->one();
             <th align="right" class="head-title"><?= $model->createdBy->firstname . ' ' . $model->createdBy->lastname ?></th>
         </tr>
         <tr>
-            <td class="head-title">Telefon no'meri</td>
+            <td class="head-title">Telefon nomeri</td>
             <th align="right" class="head-title">+<?= $model->client->phone ?></th>
         </tr>
         <tr>
@@ -124,9 +124,9 @@ $print = PrintSetting::find()->one();
                     ?>
                     <tr>
                         <td style="border-bottom: 1px dotted black;"><?= $key + 1 ?></td>
-                        <td style="border-bottom: 1px dotted black;" align="center" ><?= $item->size ?></td>
-                        <td style="border-bottom: 1px dotted black;" align="center" ><?= $item->count ?></td>
-                        <td style="border-bottom: 1px dotted black;" align="center" ><?= $item->total_size ?></td>
+                        <td style="border-bottom: 1px dotted black;" align="left" ><?= $item->size ?></td>
+                        <td style="border-bottom: 1px dotted black;" align="left" ><?= $item->count ?></td>
+                        <td style="border-bottom: 1px dotted black;" align="left" ><?= $item->total_size ?></td>
                         <td style="border-bottom: 1px dotted black;" align="right"> <?= as_integer($item->cost) ?>
                         </td>
                     </tr>
@@ -163,8 +163,8 @@ $print = PrintSetting::find()->one();
                 <tr>
                     <td><?= $key + 1 ?></td>
                     <td align="left" ><?= $product->productType->product_name ?></td>
-                    <td align="center" ><?= $product->total_size ?></td>
-                    <td align="center"><?= $product->cost ?></td>
+                    <td align="left" ><?= $product->total_size ?></td>
+                    <td align="left"><?= $product->cost ?></td>
                     <td align="right"><?= as_integer($product->total) ?></td>
                 </tr>
             <?php endforeach; ?>
@@ -172,7 +172,7 @@ $print = PrintSetting::find()->one();
                 <td class="last" colspan="5"></td>
             </tr>
             <tr>
-                <td colspan="4">jami</td>
+                <td colspan="3">jami</td>
                 <th align="right"><?= as_integer($product_sum) ?></th>
             </tr>
         </table>
@@ -197,8 +197,8 @@ $print = PrintSetting::find()->one();
                 <tr>
                     <td><?= $key + 1 ?></td>
                     <td align="left" ><?= $aksessuar->productType->product_name ?></td>
-                    <td align="center" ><?= $aksessuar->count ?></td>
-                    <td align="center" ><?= $aksessuar->cost ?></td>
+                    <td align="left" ><?= $aksessuar->count ?></td>
+                    <td align="left" ><?= $aksessuar->cost ?></td>
                     <td align="right"><?= as_integer($aksessuar->total) ?></td>
                 </tr>
             <?php endforeach; ?>
@@ -206,7 +206,7 @@ $print = PrintSetting::find()->one();
                 <td class="last" colspan="5"></td>
             </tr>
             <tr>
-                <td colspan="4">jami</td>
+                <td colspan="3">jami</td>
                 <th align="right"><?= as_integer($aksessuar_sum) ?></th>
             </tr>
         </table>

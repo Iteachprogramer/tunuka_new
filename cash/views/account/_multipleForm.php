@@ -15,21 +15,22 @@ use soft\widget\dynamicform\DynamicFormWidget;
 use soft\widget\kartik\ActiveForm;
 $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
 ?>
-<p><a href="<?= to(['index']) ?>" class="btn btn-primary"> <i class="fa fa-arrow-left"></i> Ortga qaytish </a></p>
+    <p><a href="<?= to(['index']) ?>" class="btn btn-primary"> <i class="fa fa-arrow-left"></i> Ortga qaytish </a></p>
 
 <?php Card::begin() ?>
 <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
-<div class="row">
-    <div class="col-md-8"><label for="" class="float-right">Sana</label></div>
-    <div class="col-md-4">
-        <?= DatePicker::widget([
-            'name' => 'date',
-            'value' =>Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y'),
-            'options' => ['required' => true],
-        ]) ?>
+    <div class="row">
+        <div class="col-md-4"  id="client-debt"><input type="text" class="form-control" id="debt-input"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <?= DatePicker::widget([
+                'name' => 'date',
+                'value' =>Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y'),
+                'options' => ['required' => true],
+            ]) ?>
+        </div>
     </div>
-</div>
-<br>
+    <br>
 <?php DynamicFormWidget::begin([
     'form' => $form,
     'formId' => 'dynamic-form',
@@ -47,6 +48,7 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
                 return $form->field($model, $attribute)->widget(Select2::class, [
                     'data' => $clientsMap,
                     'options' => [
+                        'class' => 'client-test',
                         'placeholder' => 'Klientni tanlang...',
                     ],
                     'pluginOptions' => [
@@ -112,3 +114,24 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
 <?php DynamicFormWidget::end() ?>
 <?php ActiveForm::end(); ?>
 <?php Card::end() ?>
+<?php
+$url=to(['account/debt-client']);
+$js = <<<JS
+    $(document).on('change','.client-test',function (){
+        $('#debt-input').val('');
+        var val=$(this).val();
+        $.ajax({
+        url: '{$url}',
+        type: 'POST',
+        data: {id: val},
+        success: function(data) {
+           let debt_new= data.debt
+            $('#debt-input').val(debt_new+' / '+data.debt_dollar+' $');
+           $('#client-debt').css('display','block');
+        }
+    });
+
+})
+JS;
+$this->registerJs($js);
+?>

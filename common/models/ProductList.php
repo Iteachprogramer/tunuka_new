@@ -112,20 +112,21 @@ class ProductList extends \soft\db\ActiveRecord
     {
         return
             [
-                [['product_name','type_id'], 'required'],
+                [['product_name', 'type_id'], 'required'],
                 [['type_id', 'sort_order', 'size_type_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'status', 'price_type', 'surface_type', 'factory_expence'], 'integer'],
                 [['residue', 'selling_price_uz', 'selling_price_usd', 'selling_rentail', 'selling_rentail_usd'], 'number'],
                 [['residue', 'selling_price_uz', 'selling_price_usd', 'factory_expence'], 'checkNumber'],
                 ['surface_type', 'default', 'value' => self::SURFACE_TYPE_SMOOTH],
                 ['product_name', 'string', 'max' => 255,],
                 ['product_name', 'unique', 'message' => 'Bu nomli mahsulot omborda mavjud'],
-                [['sort_order', 'factory_expence','residue'], 'default', 'value' => 0],
+                [['sort_order', 'factory_expence', 'residue'], 'default', 'value' => 0],
                 [['selling_price_uz', 'selling_rentail', 'selling_rentail_usd'], 'default', 'value' => 0],
                 [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
                 [['size_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => Units::className(), 'targetAttribute' => ['size_type_id' => 'id']],
                 [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
             ];
     }
+
     public function checkNumber()
     {
 
@@ -143,6 +144,7 @@ class ProductList extends \soft\db\ActiveRecord
             return false;
         }
     }
+
     /**
      * {@inheritdoc}
      */
@@ -335,6 +337,16 @@ class ProductList extends \soft\db\ActiveRecord
         return $this->hasMany(MakeProduct::class, ['product_id' => 'id']);
     }
 
+    public function getFactoriesMakeProduct()
+    {
+        return MakeProduct::find()
+            ->andWhere([
+                'not in',
+                'id',
+                MakeProductItem::find()->select('make_id')
+            ])->sum('size');
+    }
+
     public function getFactoriesProduced()
     {
         return $this->hasMany(MakeProduct::class, ['produced_id' => 'id']);
@@ -354,9 +366,9 @@ class ProductList extends \soft\db\ActiveRecord
     {
         if ($this->_residual === null) {
             if ($this->incomeAmount == 0 && $this->weightSum == 0) {
-                $this->setResidual($this->residue - $this->outcomeProductSum - $this->outcomeAksessuarSum - $this->outcomeRulonSum + $this->factoriesProducedSum + $this->incomeAksessuar);
+                $this->setResidual($this->residue - $this->outcomeProductSum - $this->outcomeAksessuarSum - $this->outcomeRulonSum + $this->factoriesProducedSum + $this->incomeAksessuar - $this->factoriesMakeProduct);
             } else {
-                $this->setResidual($this->residue + $this->incomeAmount - $this->outcomeProductSum - $this->outcomeAksessuarSum + $this->factoriesProducedSum + $this->incomeAksessuar);
+                $this->setResidual($this->residue + $this->incomeAmount - $this->outcomeProductSum - $this->outcomeAksessuarSum + $this->factoriesProducedSum + $this->incomeAksessuar - $this->factoriesMakeProduct);
 
             }
         }

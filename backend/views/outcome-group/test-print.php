@@ -172,7 +172,7 @@ $print = PrintSetting::find()->one();
                 <td class="last" colspan="5"></td>
             </tr>
             <tr>
-                <td colspan="3">jami</td>
+                <td colspan="4">jami</td>
                 <th align="right"><?= as_integer($product_sum) ?></th>
             </tr>
         </table>
@@ -206,7 +206,7 @@ $print = PrintSetting::find()->one();
                 <td class="last" colspan="5"></td>
             </tr>
             <tr>
-                <td colspan="3">jami</td>
+                <td colspan="4">jami</td>
                 <th align="right"><?= as_integer($aksessuar_sum) ?></th>
             </tr>
         </table>

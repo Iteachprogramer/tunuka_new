@@ -614,6 +614,28 @@ class OutcomeController extends AjaxCrudController
         ]);
     }
 
+    public function actionProductReports()
+    {
+        $searchModel = new OutcomeSearch([
+            'type_id' => ProductList::TYPE_PRODUCT,
+        ]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('product-reports', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    public function actionAksessuarReports()
+    {
+        $searchModel = new OutcomeSearch([
+            'type_id' => ProductList::TYPE_AKSESSUAR,
+        ]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('aksessuar-reports', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
     /**
      * Finds the Outcome model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

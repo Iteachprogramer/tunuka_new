@@ -25,6 +25,7 @@ $this->registerCss($css)
 ?>
 <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
 
+<?=$this->render('info_outcome')?>
 <a id="downloadLink" onclick="exportF(this)" class="btn btn-primary fa fa-file-excel-o" style="margin-bottom: 15px;padding: 10px"> Hisobot olish</a>
 
 <div class="outcome-index">

@@ -366,9 +366,9 @@ class ProductList extends \soft\db\ActiveRecord
     {
         if ($this->_residual === null) {
             if ($this->incomeAmount == 0 && $this->weightSum == 0) {
-                $this->setResidual($this->residue - $this->outcomeProductSum - $this->outcomeAksessuarSum - $this->outcomeRulonSum + $this->factoriesProducedSum + $this->incomeAksessuar - $this->factoriesMakeProduct);
+                $this->setResidual($this->residue - $this->outcomeProductSum - $this->outcomeAksessuarSum - $this->outcomeRulonSum + $this->factoriesProducedSum + $this->incomeAksessuar);
             } else {
-                $this->setResidual($this->residue + $this->incomeAmount - $this->outcomeProductSum - $this->outcomeAksessuarSum + $this->factoriesProducedSum + $this->incomeAksessuar - $this->factoriesMakeProduct);
+                $this->setResidual($this->residue + $this->incomeAmount - $this->outcomeProductSum - $this->outcomeAksessuarSum + $this->factoriesProducedSum + $this->incomeAksessuar);
 
             }
         }

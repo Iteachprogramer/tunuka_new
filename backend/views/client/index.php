@@ -81,7 +81,7 @@ CrudAsset::register($this);
                         <td style="vertical-align: middle; text-align: center">
                             <?php
                             if ($client->finishAccountSum > 0) {
-                                echo $client->finishAccountSum;
+                                echo as_integer($client->finishAccountSum);
                             } else {
                                 echo '0';
                             }
@@ -90,7 +90,7 @@ CrudAsset::register($this);
                         <td style="vertical-align: middle; text-align: center">
                             <?php
                             if ($client->finishAccountSumDollar > 0) {
-                                echo $client->finishAccountSumDollar;
+                                echo as_integer($client->finishAccountSumDollar);
                             } else {
                                 echo '0';
                             }
@@ -99,7 +99,7 @@ CrudAsset::register($this);
                         <td style="vertical-align: middle; text-align: center">
                             <?php
                             if ($client->finishAccountSum < 0) {
-                                echo $client->finishAccountSum;
+                                echo as_integer($client->finishAccountSum);
                             } else {
                                 echo '0';
                             }
@@ -108,7 +108,7 @@ CrudAsset::register($this);
                         <td style="vertical-align: middle; text-align: center">
                             <?php
                             if ($client->finishAccountSumDollar < 0) {
-                                echo $client->finishAccountSum;
+                                echo as_integer($client->finishAccountSum);
                             } else {
                                 echo '0';
                             }

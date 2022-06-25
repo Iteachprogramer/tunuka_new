@@ -123,6 +123,9 @@ $this->registerCss($css)
                     <td style="vertical-align: middle; text-align: center">Umumiy o'lcham</td>
                     <td style="vertical-align: middle; text-align: center">Umumiy summa</td>
                 </tr>
+                <tr>
+                    <td colspan="7"></td>
+                </tr>
                 <?php
                 $rulons_summa = 0;
                 $rulons_total_size = 0;

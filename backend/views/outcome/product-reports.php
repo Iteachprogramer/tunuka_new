@@ -160,6 +160,9 @@ $product_arr = \soft\helpers\ArrayHelper::map(
                     <td style="vertical-align: middle; text-align: center">O'lchami</td>
                     <td style="vertical-align: middle; text-align: center">Umumiy summa</td>
                 </tr>
+                <tr>
+                    <td colspan="5"></td>
+                </tr>
                 <?php
                 $roducts_summa = 0;
                 $roducts_total_size = 0;

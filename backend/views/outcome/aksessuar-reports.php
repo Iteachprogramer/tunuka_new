@@ -174,6 +174,9 @@ $product_arr = \soft\helpers\ArrayHelper::map(
                     <td style="vertical-align: middle; text-align: center">Miqdori</td>
                     <td style="vertical-align: middle; text-align: center">Umumiy summa</td>
                 </tr>
+                <tr>
+                    <td colspan="5"></td>
+                </tr>
                 <?php
                 $aksessuars_summa = 0;
                $aksessuars = $dataProvider->getModels();

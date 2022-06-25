@@ -62,7 +62,6 @@ class Outcome extends \soft\db\ActiveRecord
             [['size', 'count'], 'required', 'on' => self::SCENARIO_RULON],
             [['size', 'count', 'total_size', 'discount', 'cost'], 'checkNumber',],
             [['count', 'total_size', 'size'], 'checkBeforeSold'],
-//            [['total_size','size'], 'checkBeforeSoldMetr','on'=>self::SCENARIO_RULON,],
             ['discount', 'default', 'value' => 0],
             ['date', 'safe'],
             [['client_id'], 'exist', 'skipOnError' => true, 'targetClass' => Client::className(), 'targetAttribute' => ['client_id' => 'id']],

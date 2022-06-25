@@ -67,6 +67,14 @@ $endDate = date('t.m.Y');
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="<?= Url::to(['/outcome/rulons']) ?>" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Rulon xisoboti
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="<?= Url::to(['/product-list']) ?>" class="nav-link">
                         <i class="nav-icon fas fa-store-alt"></i>
                         <p>

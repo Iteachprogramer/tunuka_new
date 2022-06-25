@@ -20,6 +20,7 @@ class OutcomeSearch extends Outcome
         return [
             [['id', 'client_id', 'product_type_id', 'unit_id','type_id','group_id'], 'integer'],
             [['size', 'count', 'total_size', 'total', 'discount','cost'], 'number'],
+            [['created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -45,6 +46,9 @@ class OutcomeSearch extends Outcome
         }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 200,
+            ],
             'sort' => [
                 'defaultOrder' => [
                     'created_at' => SORT_DESC,
@@ -52,6 +56,17 @@ class OutcomeSearch extends Outcome
             ]
         ]);
         $this->load($params);
+        if (!empty($this->created_at)) {
+            $dates = explode(' - ', $this->created_at, 2);
+            if (count($dates) == 2) {
+                $begin = strtotime($dates[0]);
+                $end = strtotime('+1 day', strtotime($dates[1]));
+                $query->andFilterWhere(['>=', 'outcome.created_at', $begin])
+                    ->andFilterWhere(['<', 'outcome.created_at', $end]);
+            }
+
+        }
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');

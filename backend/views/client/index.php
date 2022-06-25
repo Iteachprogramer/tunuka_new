@@ -20,7 +20,7 @@ CrudAsset::register($this);
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6" style="width: 100%">
-            <form action="<?= Url::to(['/client/excel-export']) ?>" class="form-inline export-form">
+            <form action="<?= Url::to(['/client/index']) ?>" class="form-inline export-form">
                 <?php
                 /** @var TYPE_NAME $model */
                 echo DateRangePicker::widget([

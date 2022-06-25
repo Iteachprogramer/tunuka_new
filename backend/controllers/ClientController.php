@@ -453,8 +453,13 @@ class ClientController extends AjaxCrudController
 
     public function actionExcelExport()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        return 1;
+//        Yii::$app->response->format = Response::FORMAT_JSON;
+//        $searchModel = new ClientSearch();
+//        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+//        return $this->render('index', [
+//            'searchModel' => $searchModel,
+//            'dataProvider' => $dataProvider,
+//        ]);
 //        header('Content-Type: application/vnd.ms-excel');
 //        header('Content-Disposition: attachment; filename="clients.xls"');
 //        $spreadsheet=new Spreadsheet();

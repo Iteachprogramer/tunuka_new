@@ -52,7 +52,6 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'size',
-        'pageSummary' => true,
         'value' => function(Outcome $model) {
             return $model->size . ' ' . $model->unity->name;
         },
@@ -71,6 +70,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'total_size',
+        'pageSummary' => true,
         'value' => function(Outcome $model) {
             return $model->total_size . ' ' . $model->unity->name;
         },

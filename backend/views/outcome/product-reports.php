@@ -148,9 +148,9 @@ $product_arr = \soft\helpers\ArrayHelper::map(
                     <tr>
                         <td style="vertical-align: middle; text-align: center"><?= $product->productType->product_name ?></td>
                         <td style="vertical-align: middle; text-align: center"><?= Yii::$app->formatter->asDatetime($product->created_at, 'php:d.m.Y H:i:s') ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= $product->cost ?></td>
+                        <td style="vertical-align: middle; text-align: center"><?= as_integer($product->cost) ?></td>
                         <td style="vertical-align: middle; text-align: center"><?= $product->total_size . ' ' . $product->unity->name ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= $product->total ?></td>
+                        <td style="vertical-align: middle; text-align: center"><?= as_integer($product->total) ?></td>
                     </tr>
                     <?php
                     $roducts_summa += $product->total;
@@ -163,7 +163,7 @@ $product_arr = \soft\helpers\ArrayHelper::map(
                     <td style="vertical-align: middle; text-align: center"></td>
 
                     <td style="vertical-align: middle; text-align: center"><?= $roducts_total_size ?> metr</td>
-                    <td style="vertical-align: middle; text-align: center"><?= $roducts_summa ?></td>
+                    <td style="vertical-align: middle; text-align: center"><?= as_integer($roducts_summa) ?></td>
                 </tr>
             </table>
 

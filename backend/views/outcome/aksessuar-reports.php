@@ -161,9 +161,9 @@ $product_arr = \soft\helpers\ArrayHelper::map(
                     <tr>
                         <td style="vertical-align: middle; text-align: center"><?= $aksessuar->productType->product_name ?></td>
                         <td style="vertical-align: middle; text-align: center"><?= Yii::$app->formatter->asDatetime($aksessuar->created_at, 'php:d.m.Y H:i:s') ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= $aksessuar->cost ?></td>
+                        <td style="vertical-align: middle; text-align: center"><?= as_integer($aksessuar->cost) ?></td>
                         <td style="vertical-align: middle; text-align: center"><?= $aksessuar->count . ' ' . $aksessuar->unity->name ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= $aksessuar->total ?></td>
+                        <td style="vertical-align: middle; text-align: center"><?= as_integer($aksessuar->total) ?></td>
                     </tr>
                     <?php
                     $aksessuars_summa += $aksessuar->total;
@@ -174,7 +174,7 @@ $product_arr = \soft\helpers\ArrayHelper::map(
                     <td style="vertical-align: middle; text-align: center"></td>
                     <td style="vertical-align: middle; text-align: center"></td>
                     <td style="vertical-align: middle; text-align: center"></td>
-                    <td style="vertical-align: middle; text-align: center"><?=$aksessuars_summa ?></td>
+                    <td style="vertical-align: middle; text-align: center"><?=as_integer($aksessuars_summa) ?></td>
                 </tr>
             </table>
 

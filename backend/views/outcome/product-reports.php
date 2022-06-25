@@ -69,6 +69,27 @@ $product_arr = \soft\helpers\ArrayHelper::map(
                         ]
                     ],
                 ],
+                [
+                    'attribute' => 'created_at',
+                    'width' => '160px',
+                    'value' => function (Outcome $model) {
+                        return Yii::$app->formatter->asDatetime($model->created_at, 'php:d.m.Y H:i:s');
+                    },
+                    'filterType' => GridView::FILTER_DATE_RANGE,
+                    'filterWidgetOptions' => [
+                        'model' => $searchModel,
+                        'convertFormat' => true,
+                        'presetDropdown' => true,
+                        'includeMonthsFilter' => true,
+                        'pluginOptions' => [
+                            'locale' => [
+                                'format' => 'd.m.Y'
+                            ]
+                        ]
+                    ]
+
+                ],
+
 
                 [
                     'class' => '\kartik\grid\DataColumn',

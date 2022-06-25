@@ -34,7 +34,7 @@ class MakeProduct extends \soft\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-
+    public $residual;
     const TYPE_FACTORY = 1;
 
     public static function tableName()
@@ -53,6 +53,7 @@ class MakeProduct extends \soft\db\ActiveRecord
             [['date'], 'safe'],
             [['comment'], 'string', 'max' => 255],
             [['size', 'factory_size'], 'number',],
+            [['size',], 'checkBeforeMakeMetr'],
             [['size', 'factory_size'], 'checkNumber',],
             ['date', 'default', 'value' => time()],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
@@ -63,6 +64,7 @@ class MakeProduct extends \soft\db\ActiveRecord
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
     }
+
     public function checkNumber()
     {
 
@@ -74,9 +76,23 @@ class MakeProduct extends \soft\db\ActiveRecord
             return false;
         }
     }
+
     /**
      * {@inheritdoc}
      */
+    public function checkBeforeMakeMetr()
+    {
+        $product = $this->product;
+        if ($product) {
+            $residual = $product->residual;
+            if ($this->size > $residual) {
+                $residual = number_format($residual, 2);
+                $this->addError('size', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  metr mavjud!");
+                return false;
+            }
+        }
+    }
+
     public function behaviors()
     {
         return [
@@ -119,7 +135,7 @@ class MakeProduct extends \soft\db\ActiveRecord
             'factory_size' => 'Tayyor mahsulot  o\'lchami',
             'per_metr_expence' => '1 metr uchun sarf harajat',
             'per_metr_cost' => '1 metr uchun narx',
-            'total_expence'=>'Usluga',
+            'total_expence' => 'Usluga',
             'type_id' => Yii::t('app', 'Type ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),

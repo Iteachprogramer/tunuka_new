@@ -79,6 +79,7 @@ class Outcome extends \soft\db\ActiveRecord
             $residual = $product->residual;
             if ($unity == 2) {
                 if ($this->size > $residual) {
+                    $residual = number_format($residual, 2);
                     $this->addError('size', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity mavjud!");
                     return false;
                 }
@@ -86,6 +87,7 @@ class Outcome extends \soft\db\ActiveRecord
                     $this->total_size = $this->count * $this->size;
                 }
                 if ($this->total_size > $residual) {
+                    $residual = number_format($residual, 2);
                     $this->addError('total_size', "Skladda buncha yuk yo'q! Hozir skladda '$product->product_name' mahsulot $residual  $unity mavjud!");
                     return false;
                 }

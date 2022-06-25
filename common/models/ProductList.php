@@ -344,7 +344,9 @@ class ProductList extends \soft\db\ActiveRecord
                 'not in',
                 'id',
                 MakeProductItem::find()->select('make_id')
-            ])->sum('size');
+            ])
+            ->andWhere(['product_id' => $this->id])
+            ->sum('size');
     }
 
     public function getFactoriesProduced()
@@ -366,9 +368,9 @@ class ProductList extends \soft\db\ActiveRecord
     {
         if ($this->_residual === null) {
             if ($this->incomeAmount == 0 && $this->weightSum == 0) {
-                $this->setResidual($this->residue - $this->outcomeProductSum - $this->outcomeAksessuarSum - $this->outcomeRulonSum + $this->factoriesProducedSum + $this->incomeAksessuar);
+                $this->setResidual($this->residue - $this->outcomeProductSum - $this->outcomeAksessuarSum - $this->outcomeRulonSum + $this->factoriesProducedSum + $this->incomeAksessuar - $this->factoriesMakeProduct);
             } else {
-                $this->setResidual($this->residue + $this->incomeAmount - $this->outcomeProductSum - $this->outcomeAksessuarSum + $this->factoriesProducedSum + $this->incomeAksessuar);
+                $this->setResidual($this->residue + $this->incomeAmount - $this->outcomeProductSum - $this->outcomeAksessuarSum + $this->factoriesProducedSum + $this->incomeAksessuar - $this->factoriesMakeProduct);
 
             }
         }

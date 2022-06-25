@@ -109,8 +109,8 @@ class MakeProductController extends Controller
                     'content' => $this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal",'tabindex'=>'-1']) .
-                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit",'tabindex'=>'5'])
+                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal", 'tabindex' => '-1']) .
+                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '5'])
 
                 ];
             } else if ($model->load($request->post()) && $model->validate()) {
@@ -144,8 +144,7 @@ class MakeProductController extends Controller
                                     $income->length = $diff;
                                     $income->save(false);
                                 }
-                            }
-                            else {
+                            } else {
                                 if ($size >= $income->length) {
                                     $diff = $size - $income->length;
                                     $outcome_item = new MakeProductItem();
@@ -156,8 +155,7 @@ class MakeProductController extends Controller
                                     $outcome_item->save();
                                     $income->length = 0;
                                     $income->save(false);
-                                }
-                                else {
+                                } else {
 
                                     $diff = $income->length - $size;
                                     $make_product_item = new MakeProductItem();
@@ -183,8 +181,16 @@ class MakeProductController extends Controller
                 }
                 $transaction->commit();
                 return [
+                    'title' => "Yangi mahsulot ishlab chiqarish",
                     'forceReload' => '#crud-datatable-pjax',
-                    'forceClose' => true,
+                    'content' => $this->renderAjax('create', [
+                        'model' => new MakeProduct([
+                            'employee_id' => $model->employee_id,
+                             'product_id' => $model->product_id,
+                        ]),
+                    ]),
+                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit", 'tabindex' => '5'])
                 ];
             } else {
                 return [
@@ -286,7 +292,7 @@ class MakeProductController extends Controller
         $transaction = \Yii::$app->db->beginTransaction();
         try {
             $makes = MakeProductItem::find()->andWhere(['make_id' => $model->id])->all();
-            if ($makes){
+            if ($makes) {
                 foreach ($makes as $make) {
                     $income = $make->income;
                     $income->length = $income->length + $make->outcome_size;
@@ -341,6 +347,7 @@ class MakeProductController extends Controller
         }
 
     }
+
     public function actionProductType()
     {
         $id = Yii::$app->request->post('id');

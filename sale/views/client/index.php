@@ -1,12 +1,13 @@
 <?php
 
+use common\models\Client;
+use kartik\daterange\DateRangePicker;
 use soft\grid\GridView;
 use soft\widget\ajaxcrud\CrudAsset;
-use yii\helpers\Url;
-use yii\helpers\Html;
 use yii\bootstrap4\Modal;
-
-use johnitvn\ajaxcrud\BulkButtonWidget;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\web\View;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\search\ClientSearch */
@@ -18,12 +19,16 @@ $this->params['breadcrumbs'][] = $this->title;
 CrudAsset::register($this);
 
 ?>
+<a id="downloadLink" onclick="exportF(this)" class="btn btn-primary fa fa-file-excel-o"
+   style="margin-bottom: 15px;padding: 10px"> Hisobot olish</a>
+
 <div class="client-index">
     <div id="ajaxCrudDatatable">
-        <?=GridView::widget([
-            'id'=>'crud-datatable',
+        <?= GridView::widget([
+            'id' => 'crud-datatable',
             'pagerDropDown' => true,
             'exportButton' => false,
+            'pjax' => true,
             'toolbarButtons' => [
                 'create' => [
                     'pjax' => false,
@@ -36,13 +41,96 @@ CrudAsset::register($this);
             ],
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
-            'columns' => require(__DIR__.'/_columns.php'),
-        ])?>
+            'columns' => require(__DIR__ . '/_columns.php'),
+        ]) ?>
     </div>
 </div>
 <?php Modal::begin([
-    "id"=>"ajaxCrudModal",
+    "id" => "ajaxCrudModal",
     "title" => '<h4 class="modal-title">Modal title</h4>',
-    "footer"=>"",// always need it for jquery plugin
-])?>
+    "footer" => "",// always need it for jquery plugin
+]) ?>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table border="1" cellspacing="0" cellpadding="3" id="myTable"
+                   style="text-align: center; align-items: center;display: none;width: 100%!important;"
+                   class="table table-bordered table-striped">
+                <tr>
+                    <td colspan="6" style="vertical-align: middle; text-align: center"> Xaqdorlar va qarizdorlar</td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="vertical-align: middle; text-align: center">Sana:</td>
+                    <td colspan="4" style="vertical-align: middle; text-align: center"><?=Yii::$app->formatter->asDate(time(),'php:d.m.Y')?></td>
+                </tr>
+                <tr>
+                    <td style="vertical-align: middle; text-align: center">№</td>
+                    <td style="vertical-align: middle; text-align: center">Mijoz nomi</td>
+                    <td style="vertical-align: middle; text-align: center">Qarzi so'mda</td>
+                    <td style="vertical-align: middle; text-align: center">Qarzi dollarda</td>
+                    <td style="vertical-align: middle; text-align: center">Xaqqi so'mda</td>
+                    <td style="vertical-align: middle; text-align: center">Xaqqi dollarda</td>
+                </tr>
+                <?php
+                $clients = $dataProvider->getModels();
+                ?>
+                <?php foreach ($clients as $key => $client): ?>
+                    <tr>
+                        <td style="vertical-align: middle; text-align: center"><?= $key + 1 ?></td>
+                        <td style="vertical-align: middle; text-align: center"><?= $client->fulla_name ?></td>
+                        <td style="vertical-align: middle; text-align: center">
+                            <?php
+                            if ($client->finishAccountSum > 0) {
+                                echo as_integer($client->finishAccountSum);
+                            } else {
+                                echo '0';
+                            }
+                            ?>
+                        </td>
+                        <td style="vertical-align: middle; text-align: center">
+                            <?php
+                            if ($client->finishAccountSumDollar > 0) {
+                                echo as_integer($client->finishAccountSumDollar);
+                            } else {
+                                echo '0';
+                            }
+                            ?>
+                        </td>
+                        <td style="vertical-align: middle; text-align: center">
+                            <?php
+                            if ($client->finishAccountSum < 0) {
+                                echo as_integer($client->finishAccountSum);
+                            } else {
+                                echo '0';
+                            }
+                            ?>
+                        </td>
+                        <td style="vertical-align: middle; text-align: center">
+                            <?php
+                            if ($client->finishAccountSumDollar < 0) {
+                                echo as_integer($client->finishAccountSum);
+                            } else {
+                                echo '0';
+                            }
+                            ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
+    </div>
+</div>
 <?php Modal::end(); ?>
+<?php
+$js = <<<JS
+        function exportF(elem) {
+        var table = document.getElementById("myTable");
+        var html = table.outerHTML;
+        var url = 'data:application/vnd.ms-excel,' + '\uFEFF' + encodeURIComponent(html); // Set your html table into url
+        elem.setAttribute("href", url);
+        elem.setAttribute("download", "Mijozlar.xls"); // Choose the file name
+        return false;
+    }
+JS;
+$this->registerJs($js, View::POS_HEAD);
+?>

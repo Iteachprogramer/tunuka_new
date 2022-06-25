@@ -28,7 +28,7 @@ CrudAsset::register($this);
             'id' => 'crud-datatable',
             'pagerDropDown' => true,
             'exportButton' => false,
-            'pjax' => false,
+            'pjax' => true,
             'toolbarButtons' => [
                 'create' => [
                     'pjax' => false,

@@ -17,32 +17,32 @@ $this->params['breadcrumbs'][] = $this->title;
 CrudAsset::register($this);
 
 ?>
-<div class="make-product-index">
-    <div id="ajaxCrudDatatable">
-        <?=GridView::widget([
-            'id'=>'crud-datatable',
-            'dataProvider' => $dataProvider,
-            'filterModel' => $searchModel,
-            'showPageSummary' => true,
-            'pjax'=>true,
-            'columns' => require(__DIR__.'/_columns.php'),
-            'toolbarButtons' => [
-                'create' => [
-                    'pjax' => false,
-                    'modal' => true,
-                    'url' => \soft\helpers\Url::to(['create']),
-                    'cssClass' => 'btn btn-outline-secondary',
-                    'icon' => 'plus',
+    <div class="make-product-index">
+        <div id="ajaxCrudDatatable">
+            <?=GridView::widget([
+                'id'=>'crud-datatable',
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'showPageSummary' => true,
+                'pjax'=>true,
+                'columns' => require(__DIR__.'/_columns.php'),
+                'toolbarButtons' => [
+                    'create' => [
+                        'pjax' => false,
+                        'modal' => true,
+                        'url' => \soft\helpers\Url::to(['create']),
+                        'cssClass' => 'btn btn-outline-secondary',
+                        'icon' => 'plus',
+                    ],
+                    'refresh'=>[
+                        'cssClass' => 'btn btn-outline-secondary',
+
+                    ]
                 ],
-                'refresh'=>[
-                    'cssClass' => 'btn btn-outline-secondary',
 
-                ]
-            ],
-
-        ])?>
+            ])?>
+        </div>
     </div>
-</div>
 <?php Modal::begin([
     "id"=>"ajaxCrudModal",
     "title" => '<h4 class="modal-title">Modal title</h4>',

@@ -72,7 +72,7 @@ return [
                 return Html::a('<i class="fa fa-print"></i>', '#', ['class' => 'printButton', 'data-id' => $model->id]);
             },
             'excel' => function ($url, $model) {
-                return Html::a('<i class="fa fa-file-excel"></i>', '#', ['id' => 'downloadLink','onclick'=>"exportExcel(this)" , 'data-id' => $model->id]);
+                return Html::a('<i class="fa fa-file-excel"></i>', '#', ['class' => 'downloadLink', 'data-id' => $model->id]);
             },
         ],
         'viewOptions' => ['role' => 'modal-remote', 'title' => 'View', 'data-toggle' => 'tooltip'],

@@ -114,11 +114,8 @@ CrudAsset::register($this);
 ]) ?>
 <?php Modal::end(); ?>
 <div id="excel">
-
 </div>
-
 <div id="table" style="display: none">
-
     <?php
     $url = Url::to(['outcome-group/check-print']);
     ?>
@@ -133,14 +130,6 @@ $js = <<< JS
         $.ajax({
             url: url, type: 'GET', data: {id: id}, success: async function (result) {
                 let data = result.message
-                let style=` <style>
-        @media print{
-          *{
-        margin: 0;
-        padding: 0;
-        }
-        }
-    </style>`;
                 $('#table').html(data);
                 w = window.open();
                 w.document.write($('#table').html());
@@ -150,11 +139,9 @@ $js = <<< JS
             }
         })
     })
-JS;
-$this->registerJs($js);
-$js2 = <<< JS
- function exportExcel(elem) {
-      id=elem.getAttribute("data-id");
+     $(document).on('click','.downloadLink',function (e){
+        var id = this.getAttribute("data-id");
+        let elem = $(this);
         $.ajax({
             url: '$excel_url',
              type: 'GET', 
@@ -163,14 +150,18 @@ $js2 = <<< JS
                 let data = result.message
                 $('#excel').html(data);
                 let excel_url=document.getElementById('excel');
-                  var html = excel_url.outerHTML;
-            var url = 'data:application/vnd.ms-excel,' + '\uFEFF' + encodeURIComponent(html); // Set your html table into url
-            elem.setAttribute("href", url);
-            elem.setAttribute("download", "Hisobot.xls"); // Choose the file name
+                var html = excel_url.outerHTML;
+                var url = 'data:application/vnd.ms-excel,' + '\uFEFF' + encodeURIComponent(html); 
+                elem.attr("href", url);
+                elem.attr("download", "Hisobot.xls"); // Choose the file name
+                elem.click(); 
              }
         })
-    }
+
+    })
+
 JS;
-$this->registerJs($js2, \yii\web\View::POS_HEAD);
+$this->registerJs($js);
+
 ?>
 

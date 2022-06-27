@@ -10,24 +10,24 @@ use common\models\ProductList;
             boder: 1px dashed black;
         }
     </style>
-    <table  cellspacing="0" cellpadding="3"
-            style="text-align: center; align-items: center;display: none;width: 100%!important;"
-            class="table table-bordered table-striped">
-        <tr>
-            <td></td>
-            <td></td>
-            <td>Xisobot sanasi:</td>
-            <td><?=Yii::$app->formatter->asDate(time(),'php:d.m.Y')?></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td>Mijoz nomi:</td>
-            <td><?=$model->client->fulla_name?></td>
-            <td></td>
-        </tr>
-    </table>
+<table  cellspacing="0" cellpadding="3"
+        style="text-align: center; align-items: center;display: none;width: 100%!important;"
+        class="table table-bordered table-striped">
+    <tr>
+        <td></td>
+        <td></td>
+        <td>Xisobot sanasi:</td>
+        <td><?=Yii::$app->formatter->asDate(time(),'php:d.m.Y')?></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td>Mijoz nomi:</td>
+        <td><?=$model->client->fulla_name?></td>
+        <td></td>
+    </tr>
+</table>
 <?php
 $outcomes = Outcome::find()->where(['group_id' => $model->id])->andWhere(['type_id' => ProductList::TYPE_RULON])->all();
 ?>

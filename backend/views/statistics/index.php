@@ -106,7 +106,7 @@ $this->title = 'Statistika';
         </div>
         <div class="card card-success">
             <div class="card-header" style="background: rgb(102, 102, 255, 1)">
-                <h3 class="card-title">Eng ko'p sotilgan Mahsulotlar</h3>
+                <h3 class="card-title">Eng ko'p sotilgan Aksessuarlar</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -177,7 +177,7 @@ $js = <<< JS
             labels  : {$outcome_products_labels},
             datasets: [
                 {
-                    label               : "Sotilgan mahsulot",
+                    label               : "Eng ko'p sotilgan mahsulot",
                             backgroundColor     : 'rgba(0, 214, 0, 1)',
                     borderColor         : 'rgba(210, 214, 222, 1)',
                     pointRadius         : false,
@@ -210,7 +210,7 @@ $js = <<< JS
             labels  : {$outcome_aksessuar_labels},
             datasets: [
                 {
-                    label               : "Sotilgan mahsulot",
+                    label               : "Eng ko'p sotilgan aksessuarlar",
                             backgroundColor     : 'rgba(102, 102, 255, 1)',
                     borderColor         : 'rgba(210, 214, 222, 1)',
                     pointRadius         : false,

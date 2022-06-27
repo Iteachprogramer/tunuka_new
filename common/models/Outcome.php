@@ -260,4 +260,19 @@ class Outcome extends \soft\db\ActiveRecord
             ->asArray()
             ->all();
     }
+    public static function getChartProducts(){
+        $today = strtotime('today');
+        $lastMonth = strtotime('-1 week');
+        return self::find()
+            ->select(['outcome.product_type_id', 'sum(outcome.total_size) as total_size'])
+            ->groupBy('outcome.product_type_id')
+            ->orderBy('total_size DESC')
+            ->andWhere(['outcome.type_id' => ProductList::TYPE_PRODUCT])
+            ->andWhere(['<=', 'outcome.date', $today])
+            ->andWhere(['>=', 'outcome.date', $lastMonth])
+            ->limit(10)
+            ->with('productType')
+            ->asArray()
+            ->all();
+    }
 }

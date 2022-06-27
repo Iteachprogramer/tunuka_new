@@ -32,7 +32,14 @@ class StatisticsController extends \yii\web\Controller
     {
         $outcome_rulons = [];
         $outcome_rulons_labels = [];
+        $outcome_products = [];
+        $outcome_products_labels = [];
         $outcomes=Outcome::getChartRulons();
+        $outcome_products_arr=Outcome::getChartProducts();
+        foreach ($outcome_products as $key => $outcome_product_arr) {
+            $outcome_products_labels[] = $outcome_product_arr['total_size'];
+            $outcome_products[] =$outcome_product_arr['productType']['product_name'];
+        }
         foreach ($outcomes as $key => $outcome) {
             $outcome_rulons[] = $outcome['total_size'];
             $outcome_rulons_labels[] = $outcome['productType']['product_name'];
@@ -40,6 +47,8 @@ class StatisticsController extends \yii\web\Controller
         return $this->render('index',[
             'outcome_rulons'=>$outcome_rulons,
             'outcome_rulons_labels'=>$outcome_rulons_labels,
+            'outcome_products'=>$outcome_products,
+            'outcome_products_labels'=>$outcome_products_labels,
         ]);
     }
 }

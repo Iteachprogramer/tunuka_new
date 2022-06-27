@@ -2,16 +2,20 @@
 <?php
 /** @var \common\models\Outcome $outcome_rulons */
 /** @var \common\models\Outcome $outcome_rulons_labels */
+/** @var \common\models\Outcome $outcome_products */
+/** @var \common\models\Outcome $outcome_products_labels */
 $outcome_rulons=json_encode($outcome_rulons);
 $outcome_rulons_labels=json_encode($outcome_rulons_labels);
+$outcome_products=json_encode($outcome_products);
+$outcome_products_labels=json_encode($outcome_products_labels);
 ?>
 <div class="row">
 
     <div class="col-md-12">
 
         <div class="card card-success">
-            <div class="card-header">
-                <h3 class="card-title">Bar Chart</h3>
+            <div class="card-header " style="background: rgba(0, 128, 255, 1)>
+                <h3 class="card-title">Eng ko'p sotilgan rulonlar</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                         <i class="fas fa-minus"></i>
@@ -32,6 +36,35 @@ $outcome_rulons_labels=json_encode($outcome_rulons_labels);
                         </div>
                     </div>
                     <canvas id="barChart"
+                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 487px;"
+                            width="487" height="250" class="chartjs-render-monitor"></canvas>
+                </div>
+            </div>
+
+        </div>
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="card-title">Eng ko'p sotilgan Mahsulotlar</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart">
+                    <div class="chartjs-size-monitor">
+                        <div class="chartjs-size-monitor-expand">
+                            <div class=""></div>
+                        </div>
+                        <div class="chartjs-size-monitor-shrink">
+                            <div class=""></div>
+                        </div>
+                    </div>
+                    <canvas id="barChart2"
                             style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 487px;"
                             width="487" height="250" class="chartjs-render-monitor"></canvas>
                 </div>
@@ -65,6 +98,37 @@ $js = <<< JS
         }
         
         var barChartCanvas = $('#barChart').get(0).getContext('2d')
+        var barChartData = $.extend(true, {}, areaChartData)
+        var temp0 = areaChartData.datasets[0]
+        barChartData.datasets[0] = temp0
+        var barChartOptions = {
+            responsive              : true,
+            maintainAspectRatio     : false,
+            datasetFill             : false
+        }
+        new Chart(barChartCanvas, {
+            type: 'bar',
+            data: barChartData,
+            options: barChartOptions
+        })
+               var areaChartCanvas = $('#barChart2').get(0).getContext('2d')
+        var areaChartData = {
+            labels  : {$outcome_products_labels},
+            datasets: [
+                {
+                    label               : "Sotilgan mahsulot",
+                            backgroundColor     : 'rgba(0, 214, 0, 1)',
+                    borderColor         : 'rgba(210, 214, 222, 1)',
+                    pointRadius         : false,
+                    pointColor          : 'rgba(210, 214, 222, 1)',
+                    pointStrokeColor    : '#c1c7d1',
+                    pointHighlightFill  : '#fff',
+                    pointHighlightStroke: 'rgba(220,220,220,1)',
+                    data                : {$outcome_products}
+                },
+            ]
+        }
+        var barChartCanvas = $('#barChart2').get(0).getContext('2d')
         var barChartData = $.extend(true, {}, areaChartData)
         var temp0 = areaChartData.datasets[0]
         barChartData.datasets[0] = temp0

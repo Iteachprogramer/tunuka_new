@@ -7,7 +7,7 @@ $outcome_rulons_labels=json_encode($outcome_rulons_labels);
 ?>
 <div class="row">
 
-    <div class="col-md-6">
+    <div class="col-md-12">
 
         <div class="card card-success">
             <div class="card-header">

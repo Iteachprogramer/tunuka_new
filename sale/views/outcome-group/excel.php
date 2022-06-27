@@ -10,24 +10,24 @@ use common\models\ProductList;
             boder: 1px dashed black;
         }
     </style>
-<table  cellspacing="0" cellpadding="3"
-        style="text-align: center; align-items: center;display: none;width: 100%!important;"
-        class="table table-bordered table-striped">
-    <tr>
-        <td></td>
-        <td></td>
-        <td>Xisobot sanasi:</td>
-        <td><?=Yii::$app->formatter->asDate(time(),'php:d.m.Y')?></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td>Mijoz nomi:</td>
-        <td><?=$model->client->fulla_name?></td>
-        <td></td>
-    </tr>
-</table>
+    <table  cellspacing="0" cellpadding="3"
+            style="text-align: center; align-items: center;display: none;width: 100%!important;"
+            class="table table-bordered table-striped">
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Xisobot sanasi:</td>
+            <td><?=Yii::$app->formatter->asDate(time(),'php:d.m.Y')?></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Mijoz nomi:</td>
+            <td><?=$model->client->fulla_name?></td>
+            <td></td>
+        </tr>
+    </table>
 <?php
 $outcomes = Outcome::find()->where(['group_id' => $model->id])->andWhere(['type_id' => ProductList::TYPE_RULON])->all();
 ?>
@@ -53,7 +53,7 @@ $outcomes = Outcome::find()->where(['group_id' => $model->id])->andWhere(['type_
                 <td style="text-align: center;align-items: center"><?= $outcome->productType->product_name ?></td>
                 <td style="text-align: center;align-items: center"><?= $outcome->size ?></td>
                 <td style="text-align: center;align-items: center"><?= $outcome->count ?></td>
-                <td style="text-align: center;align-items: center"><?= $outcome->total_size ?></td>
+                <td style="text-align: center;align-items: center"><?= number_format($outcome->total_size,2) ?></td>
                 <td style="text-align: center;align-items: center"><?= as_integer($outcome->cost) ?></td>
                 <td style="text-align: center;align-items: center"><?= as_integer($outcome->total) ?></td>
             </tr>
@@ -93,7 +93,7 @@ $outcome_products = Outcome::find()->where(['group_id' => $model->id])->andWhere
             <tr>
                 <td style="text-align: center;align-items: center"><?= $key + 1 ?></td>
                 <td style="text-align: center;align-items: center"><?= $outcome_product->productType->product_name ?></td>
-                <td style="text-align: center;align-items: center"><?= $outcome_product->total_size ?></td>
+                <td style="text-align: center;align-items: center"><?= number_format($outcome_product->total_size,2) ?></td>
                 <td style="text-align: center;align-items: center"><?= as_integer($outcome_product->cost) ?></td>
                 <td style="text-align: center;align-items: center"><?= as_integer($outcome_product->total) ?></td>
             </tr>
@@ -131,7 +131,7 @@ $outcome_aksessuars = Outcome::find()->where(['group_id' => $model->id])->andWhe
             <tr>
                 <td style="text-align: center;align-items: center"><?= $key + 1 ?></td>
                 <td style="text-align: center;align-items: center"><?= $outcome_aksessuar->productType->product_name ?></td>
-                <td style="text-align: center;align-items: center"><?= $outcome_aksessuar->count ?></td>
+                <td style="text-align: center;align-items: center"><?= number_format($outcome_aksessuar->count,2) ?></td>
                 <td style="text-align: center;align-items: center"><?= as_integer($outcome_aksessuar->cost) ?></td>
                 <td style="text-align: center;align-items: center"><?= as_integer($outcome_aksessuar->total) ?></td>
             </tr>

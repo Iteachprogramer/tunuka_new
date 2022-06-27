@@ -53,7 +53,7 @@ $outcomes = Outcome::find()->where(['group_id' => $model->id])->andWhere(['type_
                 <td style="text-align: center;align-items: center"><?= $outcome->productType->product_name ?></td>
                 <td style="text-align: center;align-items: center"><?= $outcome->size ?></td>
                 <td style="text-align: center;align-items: center"><?= $outcome->count ?></td>
-                <td style="text-align: center;align-items: center"><?= $outcome->total_size ?></td>
+                <td style="text-align: center;align-items: center"><?= number_format($outcome->total_size,2) ?></td>
                 <td style="text-align: center;align-items: center"><?= as_integer($outcome->cost) ?></td>
                 <td style="text-align: center;align-items: center"><?= as_integer($outcome->total) ?></td>
             </tr>
@@ -93,7 +93,7 @@ $outcome_products = Outcome::find()->where(['group_id' => $model->id])->andWhere
             <tr>
                 <td style="text-align: center;align-items: center"><?= $key + 1 ?></td>
                 <td style="text-align: center;align-items: center"><?= $outcome_product->productType->product_name ?></td>
-                <td style="text-align: center;align-items: center"><?= $outcome_product->total_size ?></td>
+                <td style="text-align: center;align-items: center"><?= number_format($outcome_product->total_size,2) ?></td>
                 <td style="text-align: center;align-items: center"><?= as_integer($outcome_product->cost) ?></td>
                 <td style="text-align: center;align-items: center"><?= as_integer($outcome_product->total) ?></td>
             </tr>
@@ -131,7 +131,7 @@ $outcome_aksessuars = Outcome::find()->where(['group_id' => $model->id])->andWhe
             <tr>
                 <td style="text-align: center;align-items: center"><?= $key + 1 ?></td>
                 <td style="text-align: center;align-items: center"><?= $outcome_aksessuar->productType->product_name ?></td>
-                <td style="text-align: center;align-items: center"><?= $outcome_aksessuar->count ?></td>
+                <td style="text-align: center;align-items: center"><?= number_format($outcome_aksessuar->count,2) ?></td>
                 <td style="text-align: center;align-items: center"><?= as_integer($outcome_aksessuar->cost) ?></td>
                 <td style="text-align: center;align-items: center"><?= as_integer($outcome_aksessuar->total) ?></td>
             </tr>

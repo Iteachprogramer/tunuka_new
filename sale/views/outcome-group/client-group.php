@@ -80,7 +80,7 @@ CrudAsset::register($this);
                 [
                     'class' => 'kartik\grid\ActionColumn',
                     'dropdown' => false,
-                    'template' => '{update} {view} {delete} {print}',
+                    'template' => '{update} {view} {delete} {print} {excel}',
                     'vAlign' => 'middle',
 //        'urlCreator' => function ($action, $model, $key, $index) {
 //            return Url::to([$action, 'id' => $key]);
@@ -88,6 +88,9 @@ CrudAsset::register($this);
                     'buttons' => [
                         'print' => function ($url, $model) {
                             return Html::a('<i class="fa fa-print"></i>', '#', ['class' => 'printButton', 'data-id' => $model->id]);
+                        },
+                        'excel' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-file-excel"></i>', '#', ['id' => 'downloadLink','onclick'=>"exportExcel(this)" , 'data-id' => $model->id]);
                         },
                     ],
                     'viewOptions' => ['role' => 'modal-remote', 'title' => 'View', 'data-toggle' => 'tooltip'],
@@ -110,15 +113,21 @@ CrudAsset::register($this);
     "footer" => "",// always need it for jquery plugin
 ]) ?>
 <?php Modal::end(); ?>
-<div id="table" style="display:none;">
+<div id="excel">
+
+</div>
+
+<div id="table" style="display: none">
+
     <?php
     $url = Url::to(['outcome-group/check-print']);
     ?>
 </div>
 <input type="hidden" value="<?= $url ?>" name="url_group">
 <?php
+$excel_url = Url::to(['outcome-group/excel']);
 $js = <<< JS
-    $('.printButton').click(function (e) {
+     $(document).on('click','.printButton',function (e) {
         let url = $('input[name=url_group]').val()
         var id = this.getAttribute("data-id");
         $.ajax({
@@ -143,5 +152,25 @@ $js = <<< JS
     })
 JS;
 $this->registerJs($js);
+$js2 = <<< JS
+ function exportExcel(elem) {
+      id=elem.getAttribute("data-id");
+        $.ajax({
+            url: '$excel_url',
+             type: 'GET', 
+             data: {id: id},
+             success:  function (result) {
+                let data = result.message
+                $('#excel').html(data);
+                let excel_url=document.getElementById('excel');
+                  var html = excel_url.outerHTML;
+            var url = 'data:application/vnd.ms-excel,' + '\uFEFF' + encodeURIComponent(html); // Set your html table into url
+            elem.setAttribute("href", url);
+            elem.setAttribute("download", "Hisobot.xls"); // Choose the file name
+             }
+        })
+    }
+JS;
+$this->registerJs($js2, \yii\web\View::POS_HEAD);
 ?>
 

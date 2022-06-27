@@ -342,4 +342,17 @@ class Outcome extends \soft\db\ActiveRecord
             ->all();
 
     }
+
+    public static function getSumOutcome($type_id,$group_id){
+        return self::find()
+            ->andWhere(['type_id' => $type_id])
+            ->andWhere(['group_id' => $group_id])
+            ->sum('total');
+    }
+    public static function getSumOutcomeTotalSize($type_id,$group_id){
+        return self::find()
+            ->andWhere(['type_id' => $type_id])
+            ->andWhere(['group_id' => $group_id])
+            ->sum('total_size');
+    }
 }

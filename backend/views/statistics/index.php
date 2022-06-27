@@ -132,9 +132,7 @@ $this->title = 'Statistika';
                 </div>
             </div>
         </div>
-
     </div>
-
 </div>
 <?php
 $js = <<< JS

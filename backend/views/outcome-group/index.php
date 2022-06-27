@@ -17,7 +17,6 @@ $this->title = 'Sotligan yukar';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
-
 ?>
 <style>
     * {
@@ -64,6 +63,10 @@ CrudAsset::register($this);
     "footer" => "",// always need it for jquery plugin
 ]) ?>
 <?php Modal::end(); ?>
+<div id="excel">
+
+</div>
+
 <div id="table" style="display: none">
 
     <?php
@@ -72,6 +75,7 @@ CrudAsset::register($this);
 </div>
 <input type="hidden" value="<?= $url ?>" name="url_group">
 <?php
+$excel_url = Url::to(['outcome-group/excel']);
 $js = <<< JS
      $(document).on('click','.printButton',function (e) {
         let url = $('input[name=url_group]').val()
@@ -98,4 +102,24 @@ $js = <<< JS
     })
 JS;
 $this->registerJs($js);
+$js2 = <<< JS
+ function exportExcel(elem) {
+      id=elem.getAttribute("data-id");
+        $.ajax({
+            url: '$excel_url',
+             type: 'GET', 
+             data: {id: id},
+             success:  function (result) {
+                let data = result.message
+                $('#excel').html(data);
+                let excel_url=document.getElementById('excel');
+                  var html = excel_url.outerHTML;
+            var url = 'data:application/vnd.ms-excel,' + '\uFEFF' + encodeURIComponent(html); // Set your html table into url
+            elem.setAttribute("href", url);
+            elem.setAttribute("download", "Hisobot.xls"); // Choose the file name
+             }
+        })
+    }
+JS;
+$this->registerJs($js2, \yii\web\View::POS_HEAD);
 ?>

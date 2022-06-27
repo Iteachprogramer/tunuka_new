@@ -62,7 +62,7 @@ return [
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
-        'template' => '{update} {view} {delete} {print}',
+        'template' => '{update} {view} {delete} {print} {excel}',
         'vAlign' => 'middle',
 //        'urlCreator' => function ($action, $model, $key, $index) {
 //            return Url::to([$action, 'id' => $key]);
@@ -70,6 +70,9 @@ return [
         'buttons' => [
             'print' => function ($url, $model) {
                 return Html::a('<i class="fa fa-print"></i>', '#', ['class' => 'printButton', 'data-id' => $model->id]);
+            },
+            'excel' => function ($url, $model) {
+                return Html::a('<i class="fa fa-file-excel"></i>', '#', ['id' => 'downloadLink','onclick'=>"exportExcel(this)" , 'data-id' => $model->id]);
             },
         ],
         'viewOptions' => ['role' => 'modal-remote', 'title' => 'View', 'data-toggle' => 'tooltip'],

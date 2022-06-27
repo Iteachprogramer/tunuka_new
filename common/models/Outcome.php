@@ -255,7 +255,7 @@ class Outcome extends \soft\db\ActiveRecord
             ->andWhere(['outcome.type_id' => ProductList::TYPE_RULON])
             ->andWhere(['<=', 'outcome.date', $today])
             ->andWhere(['>=', 'outcome.date', $lastMonth])
-            ->limit(7)
+            ->limit(10)
             ->with('productType')
             ->asArray()
             ->all();

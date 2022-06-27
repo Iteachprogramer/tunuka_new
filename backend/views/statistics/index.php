@@ -7,17 +7,46 @@
 /** @var \common\models\Outcome $outcome_aksessuar */
 /** @var \common\models\Outcome $outcome_aksessuar_labels */
 
+use kartik\daterange\DateRangePicker;
+use soft\helpers\Html;
+use soft\helpers\Url;
+
 $outcome_rulons=json_encode($outcome_rulons);
 $outcome_rulons_labels=json_encode($outcome_rulons_labels);
 $outcome_products=json_encode($outcome_products);
 $outcome_products_labels=json_encode($outcome_products_labels);
 $outcome_aksessuar=json_encode($outcome_aksessuar);
 $outcome_aksessuar_labels=json_encode($outcome_aksessuar_labels);
+$this->title = 'Statistika';
+
 ?>
 <div class="row">
-
+    <div class="col-md-6" style="width: 100%">
+        <form action="<?= Url::to(['/statistics/range']) ?>" class="form-inline">
+            <?php
+            /** @var Load $model */
+            echo DateRangePicker::widget([
+                'name' => 'range',
+                'attribute' => 'date_range',
+                'presetDropdown' => true,
+                'convertFormat' => true,
+                'includeMonthsFilter' => true,
+                'startAttribute' => 'datetime_min',
+                'endAttribute' => 'datetime_max',
+                'pluginOptions' => [
+                    'timePickerIncrement' => 30,
+                    'locale' => [
+                        'format' => 'Y-m-d H:i:s'
+                    ]
+                ]
+            ]);
+            ?>
+            <?= Html::submitButton('<i class="fas fa-search"></i> Qidirish', ['class' => 'btn btn-primary text-white', 'style' => 'margin-left:5px']) ?>
+        </form>
+    </div>
+</div><br>
+<div class="row">
     <div class="col-md-12">
-
         <div class="card card-success">
             <div class="card-header " style="background: rgba(0, 128, 255, 1)">
                 <h3 class="card-title">Eng ko'p sotilgan rulonlar</h3>
@@ -76,7 +105,7 @@ $outcome_aksessuar_labels=json_encode($outcome_aksessuar_labels);
             </div>
         </div>
         <div class="card card-success">
-            <div class="card-header">
+            <div class="card-header" style="background: rgb(102, 102, 255, 1)">
                 <h3 class="card-title">Eng ko'p sotilgan Mahsulotlar</h3>
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -182,7 +211,7 @@ $js = <<< JS
             datasets: [
                 {
                     label               : "Sotilgan mahsulot",
-                            backgroundColor     : 'rgba(0, 214, 0, 1)',
+                            backgroundColor     : 'rgba(102, 102, 255, 1)',
                     borderColor         : 'rgba(210, 214, 222, 1)',
                     pointRadius         : false,
                     pointColor          : 'rgba(210, 214, 222, 1)',

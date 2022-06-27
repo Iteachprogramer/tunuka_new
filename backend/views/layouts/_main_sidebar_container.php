@@ -35,6 +35,14 @@ $endDate = date('t.m.Y');
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="<?= Url::to(['/statistics']) ?>" class="nav-link">
+                        <i class="nav-icon fas fa-chart-bar"></i>
+                        <p>
+                            Statistika
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="<?= Url::to(['/client']) ?>" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>

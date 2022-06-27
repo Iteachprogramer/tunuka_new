@@ -245,7 +245,9 @@ class Outcome extends \soft\db\ActiveRecord
             ->andWhere(['group_id' => $group_id])
             ->all();
     }
-    public static function getChartRulons(){
+
+    public static function getChartRulons()
+    {
         $today = strtotime('today');
         $lastMonth = strtotime('-1 week');
         return self::find()
@@ -260,7 +262,9 @@ class Outcome extends \soft\db\ActiveRecord
             ->asArray()
             ->all();
     }
-    public static function getChartProducts(){
+
+    public static function getChartProducts()
+    {
         $today = strtotime('today');
         $lastMonth = strtotime('-1 week');
         return self::find()
@@ -275,7 +279,9 @@ class Outcome extends \soft\db\ActiveRecord
             ->asArray()
             ->all();
     }
-    public static function getChartAksessuar(){
+
+    public static function getChartAksessuar()
+    {
         $today = strtotime('today');
         $lastMonth = strtotime('-1 week');
         return self::find()
@@ -289,5 +295,51 @@ class Outcome extends \soft\db\ActiveRecord
             ->with('productType')
             ->asArray()
             ->all();
+    }
+
+    public static function getRangeRulon($begin, $end)
+    {
+        return self::find()
+            ->select(['outcome.product_type_id', 'sum(outcome.total_size) as total_size'])
+            ->groupBy('outcome.product_type_id')
+            ->orderBy('total_size DESC')
+            ->andWhere(['outcome.type_id' => ProductList::TYPE_RULON])
+            ->andWhere(['<=', 'outcome.date', $end])
+            ->andWhere(['>=', 'outcome.date', $begin])
+            ->limit(8)
+            ->with('productType')
+            ->asArray()
+            ->all();
+
+    }
+    public static function getRangeProduct($begin, $end)
+    {
+        return self::find()
+            ->select(['outcome.product_type_id', 'sum(outcome.total_size) as total_size'])
+            ->groupBy('outcome.product_type_id')
+            ->orderBy('total_size DESC')
+            ->andWhere(['outcome.type_id' => ProductList::TYPE_PRODUCT])
+            ->andWhere(['<=', 'outcome.date', $end])
+            ->andWhere(['>=', 'outcome.date', $begin])
+            ->limit(8)
+            ->with('productType')
+            ->asArray()
+            ->all();
+
+    }
+    public static function getRangeAksessuar($begin, $end)
+    {
+        return self::find()
+            ->select(['outcome.product_type_id', 'sum(outcome.count) as count'])
+            ->groupBy('outcome.product_type_id')
+            ->orderBy('count DESC')
+            ->andWhere(['outcome.type_id' => ProductList::TYPE_AKSESSUAR])
+            ->andWhere(['<=', 'outcome.date', $end])
+            ->andWhere(['>=', 'outcome.date', $begin])
+            ->limit(8)
+            ->with('productType')
+            ->asArray()
+            ->all();
+
     }
 }

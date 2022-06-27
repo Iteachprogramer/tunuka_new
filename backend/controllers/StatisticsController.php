@@ -36,9 +36,9 @@ class StatisticsController extends \yii\web\Controller
         $outcome_products_labels = [];
         $outcomes=Outcome::getChartRulons();
         $outcome_products_arr=Outcome::getChartProducts();
-        foreach ($outcome_products as $key => $outcome_product_arr) {
-            $outcome_products_labels[] = $outcome_product_arr['total_size'];
-            $outcome_products[] =$outcome_product_arr['productType']['product_name'];
+        foreach ($outcome_products_arr as $key => $outcome_product_arr) {
+            $outcome_products_labels[] =$outcome_product_arr['productType']['product_name'];
+            $outcome_products[] = $outcome_product_arr['total_size'];
         }
         foreach ($outcomes as $key => $outcome) {
             $outcome_rulons[] = $outcome['total_size'];

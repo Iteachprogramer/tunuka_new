@@ -25,6 +25,7 @@ class AppAsset extends AssetBundle
         'adminLte3/js/demo.js',
         'adminLte3/dist/js/bootstrap-iconpicker.bundle.min.js',
         'adminLte3/custom.js',
+        'js/chart.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

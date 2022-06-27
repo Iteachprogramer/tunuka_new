@@ -245,4 +245,19 @@ class Outcome extends \soft\db\ActiveRecord
             ->andWhere(['group_id' => $group_id])
             ->all();
     }
+    public static function getChartRulons(){
+        $today = strtotime('today');
+        $lastMonth = strtotime('-1 week');
+        return self::find()
+            ->select(['outcome.product_type_id', 'sum(outcome.total_size) as total_size'])
+            ->groupBy('outcome.product_type_id')
+            ->orderBy('total_size DESC')
+            ->andWhere(['outcome.type_id' => ProductList::TYPE_RULON])
+            ->andWhere(['<=', 'outcome.date', $today])
+            ->andWhere(['>=', 'outcome.date', $lastMonth])
+            ->limit(10)
+            ->with('productType')
+            ->asArray()
+            ->all();
+    }
 }

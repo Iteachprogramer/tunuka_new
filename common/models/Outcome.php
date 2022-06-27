@@ -255,7 +255,7 @@ class Outcome extends \soft\db\ActiveRecord
             ->andWhere(['outcome.type_id' => ProductList::TYPE_RULON])
             ->andWhere(['<=', 'outcome.date', $today])
             ->andWhere(['>=', 'outcome.date', $lastMonth])
-            ->limit(10)
+            ->limit(8)
             ->with('productType')
             ->asArray()
             ->all();
@@ -270,7 +270,22 @@ class Outcome extends \soft\db\ActiveRecord
             ->andWhere(['outcome.type_id' => ProductList::TYPE_PRODUCT])
             ->andWhere(['<=', 'outcome.date', $today])
             ->andWhere(['>=', 'outcome.date', $lastMonth])
-            ->limit(10)
+            ->limit(8)
+            ->with('productType')
+            ->asArray()
+            ->all();
+    }
+    public static function getChartAksessuar(){
+        $today = strtotime('today');
+        $lastMonth = strtotime('-1 week');
+        return self::find()
+            ->select(['outcome.product_type_id', 'sum(outcome.count) as count'])
+            ->groupBy('outcome.product_type_id')
+            ->orderBy('count DESC')
+            ->andWhere(['outcome.type_id' => ProductList::TYPE_AKSESSUAR])
+            ->andWhere(['<=', 'outcome.date', $today])
+            ->andWhere(['>=', 'outcome.date', $lastMonth])
+            ->limit(8)
             ->with('productType')
             ->asArray()
             ->all();

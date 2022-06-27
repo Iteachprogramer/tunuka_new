@@ -5,6 +5,7 @@ namespace cash\controllers;
 use common\models\Account;
 use common\models\Client;
 use common\models\DollarCourse;
+use common\models\Employees;
 use common\models\search\AccountSearch;
 use soft\web\AjaxCrudController;
 use soft\widget\dynamicform\DynamicFormModel;
@@ -50,7 +51,13 @@ class AccountController extends AjaxCrudController
         $debt_dollar = number_format($client->finishAccountSumDollar, 0, ' ', ' ');
         return ['debt' => $debt, 'debt_dollar' => $debt_dollar];
     }
-
+    public function actionDebtEmployee(){
+        $id = Yii::$app->request->post('id');
+        $employees = Employees::find()->where(['id' => $id])->one();
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $debt = number_format($employees->employeeFinishSum, 0, ' ', ' ');
+        return ['debt' => $debt];
+    }
     //<editor-fold desc="CRUD" defaultstate="collapsed">
 
     public function actionIndex()

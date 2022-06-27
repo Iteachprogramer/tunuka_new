@@ -13,6 +13,7 @@ use kartik\select2\Select2;
 use soft\widget\adminlte3\Card;
 use soft\widget\dynamicform\DynamicFormWidget;
 use soft\widget\kartik\ActiveForm;
+
 $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
 ?>
     <p><a href="<?= to(['index']) ?>" class="btn btn-primary"> <i class="fa fa-arrow-left"></i> Ortga qaytish </a></p>
@@ -20,12 +21,14 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
 <?php Card::begin() ?>
 <?php $form = ActiveForm::begin(['id' => 'dynamic-form']); ?>
     <div class="row">
-        <div class="col-md-4"  id="client-debt"><input type="text" class="form-control" id="debt-input"></div>
-        <div class="col-md-4"></div>
+        <div class="col-md-4" id="client-debt"><input type="text" class="form-control" id="debt-input"
+                                                      placeholder="mijoz yoki taminatchi yakuni hisob kitobi"></div>
+        <div class="col-md-4"><input type="text" class="form-control" id="employee-debt"
+                                     placeholder="Ishchilar xisobb kitobi"></div>
         <div class="col-md-4">
             <?= DatePicker::widget([
                 'name' => 'date',
-                'value' =>Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y'),
+                'value' => Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y'),
                 'options' => ['required' => true],
             ]) ?>
         </div>
@@ -62,8 +65,10 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
             'width' => '130px',
             'field' => function ($form, $model, $attribute) use ($clientsMap) {
                 return $form->field($model, $attribute)->widget(Select2::class, [
-                    'data' => ArrayHelper::map(Employees::find()->andWhere(['status'=> Employees::STATUS_ACTIVE])->all(),'id','name'),
+                    'data' => ArrayHelper::map(Employees::find()->andWhere(['status' => Employees::STATUS_ACTIVE])->all(), 'id', 'name'),
                     'options' => [
+                        'class' => 'employee-test',
+
                         'placeholder' => 'Ishchini tanlang...',
                     ],
                     'pluginOptions' => [
@@ -101,10 +106,10 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
                 return $form->field($model, $attribute, ['enableClientValidation' => false])->input('number')->label(false);
             },
         ],
-        'expense_type_id'=>[
+        'expense_type_id' => [
             'label' => "Rasxod",
             'field' => function ($form, $model, $attribute) {
-                return $form->field($model, $attribute)->dropDownList(ArrayHelper::map(ExpenseType::find()->where(['status'=> ExpenseType::STATUS_ACTIVE])->all(),'id','name'),['prompt'=>'Rasxod turini tanlang'])->label(false);
+                return $form->field($model, $attribute)->dropDownList(ArrayHelper::map(ExpenseType::find()->where(['status' => ExpenseType::STATUS_ACTIVE])->all(), 'id', 'name'), ['prompt' => 'Rasxod turini tanlang'])->label(false);
             },
         ],
         'comment',
@@ -115,7 +120,8 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
 <?php ActiveForm::end(); ?>
 <?php Card::end() ?>
 <?php
-$url=to(['account/debt-client']);
+$url = to(['account/debt-client']);
+$url2 = to(['account/debt-employee']);
 $js = <<<JS
     $(document).on('change','.client-test',function (){
         $('#debt-input').val('');
@@ -128,6 +134,20 @@ $js = <<<JS
            let debt_new= data.debt
             $('#debt-input').val(debt_new+' / '+data.debt_dollar+' $');
            $('#client-debt').css('display','block');
+        }
+    });
+
+})
+    $(document).on('change','.employee-test',function (){
+        $('#employee-debt').val('');
+        var val=$(this).val();
+        $.ajax({
+        url: '{$url2}',
+        type: 'POST',
+        data: {id: val},
+        success: function(data) {
+           let debt_new= data.debt
+            $('#employee-debt').val(debt_new);
         }
     });
 

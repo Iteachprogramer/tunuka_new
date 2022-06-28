@@ -296,7 +296,35 @@ class Outcome extends \soft\db\ActiveRecord
             ->asArray()
             ->all();
     }
+    public static function getChartClients()
+    {
+        $today = strtotime('today');
+        $lastMonth = strtotime('-1 week');
+        return self::find()
+            ->select(['outcome.client_id', 'sum(outcome.total) as total'])
+            ->groupBy('outcome.client_id')
+            ->orderBy('total DESC')
+            ->andWhere(['<=', 'outcome.date', $today])
+            ->andWhere(['>=', 'outcome.date', $lastMonth])
+            ->limit(8)
+            ->with('client')
+            ->asArray()
+            ->all();
+    }
+    public static function getRangeClient($begin, $end)
+    {
+        return self::find()
+            ->select(['outcome.client_id', 'sum(outcome.total) as total'])
+            ->groupBy('outcome.client_id')
+            ->orderBy('total DESC')
+            ->andWhere(['<=', 'outcome.date', $end])
+            ->andWhere(['>=', 'outcome.date', $begin])
+            ->limit(8)
+            ->with('client')
+            ->asArray()
+            ->all();
 
+    }
     public static function getRangeRulon($begin, $end)
     {
         return self::find()

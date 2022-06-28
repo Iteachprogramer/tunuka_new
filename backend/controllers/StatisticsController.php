@@ -33,6 +33,8 @@ class StatisticsController extends \yii\web\Controller
     {
         $outcome_rulons = [];
         $outcome_rulons_labels = [];
+        $outcome_clients = [];
+        $outcome_clients_labels = [];
         $outcome_products = [];
         $outcome_products_labels = [];
         $outcome_aksessuar = [];
@@ -40,6 +42,11 @@ class StatisticsController extends \yii\web\Controller
         $outcomes = Outcome::getChartRulons();
         $outcome_products_arr = Outcome::getChartProducts();
         $outcome_aksessuar_arr = Outcome::getChartAksessuar();
+        $outcome_clients_arr = Outcome::getChartClients();
+        foreach ($outcome_clients_arr as $key => $value) {
+            $outcome_clients[] = $value['total'];
+            $outcome_clients_labels[] = $value['client']['fulla_name'];
+        }
         foreach ($outcome_aksessuar_arr as $key => $outcome_aksessuar_arr_item) {
             $outcome_aksessuar[] = $outcome_aksessuar_arr_item['count'];
             $outcome_aksessuar_labels[] = $outcome_aksessuar_arr_item['productType']['product_name'];
@@ -59,6 +66,8 @@ class StatisticsController extends \yii\web\Controller
             'outcome_products_labels' => $outcome_products_labels,
             'outcome_aksessuar' => $outcome_aksessuar,
             'outcome_aksessuar_labels' => $outcome_aksessuar_labels,
+            'outcome_clients' => $outcome_clients,
+            'outcome_clients_labels' => $outcome_clients_labels,
         ]);
     }
 
@@ -72,6 +81,8 @@ class StatisticsController extends \yii\web\Controller
                 $end = strtotime('+1 day', strtotime($dates[1]));
                 $outcome_rulons = [];
                 $outcome_rulons_labels = [];
+                $outcome_clients = [];
+                $outcome_clients_labels = [];
                 $outcome_products = [];
                 $outcome_products_labels = [];
                 $outcome_aksessuar = [];
@@ -79,6 +90,11 @@ class StatisticsController extends \yii\web\Controller
                 $outcomes = Outcome::getRangeRulon($begin, $end);
                 $outcome_products_arr = Outcome::getRangeProduct($begin, $end);
                 $outcome_aksessuar_arr = Outcome::getRangeAksessuar($begin, $end);
+                $outcome_clients_arr = Outcome::getRangeClient($begin, $end);
+                foreach ($outcome_clients_arr as $key => $value) {
+                    $outcome_clients[] = $value['total'];
+                    $outcome_clients_labels[] = $value['client']['fulla_name'];
+                }
                 foreach ($outcome_aksessuar_arr as $key => $outcome_aksessuar_arr_item) {
                     $outcome_aksessuar[] = $outcome_aksessuar_arr_item['count'];
                     $outcome_aksessuar_labels[] = $outcome_aksessuar_arr_item['productType']['product_name'];
@@ -98,6 +114,8 @@ class StatisticsController extends \yii\web\Controller
                     'outcome_products_labels' => $outcome_products_labels,
                     'outcome_aksessuar' => $outcome_aksessuar,
                     'outcome_aksessuar_labels' => $outcome_aksessuar_labels,
+                    'outcome_clients' => $outcome_clients,
+                    'outcome_clients_labels' => $outcome_clients_labels,
                 ]);
             }
         } else {

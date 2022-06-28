@@ -17,6 +17,8 @@ $outcome_products=json_encode($outcome_products);
 $outcome_products_labels=json_encode($outcome_products_labels);
 $outcome_aksessuar=json_encode($outcome_aksessuar);
 $outcome_aksessuar_labels=json_encode($outcome_aksessuar_labels);
+$outcome_clients=json_encode($outcome_clients);
+$outcome_clients_labels=json_encode($outcome_clients_labels);
 $this->title = 'Statistika';
 
 ?>
@@ -47,6 +49,35 @@ $this->title = 'Statistika';
 </div><br>
 <div class="row">
     <div class="col-md-12">
+        <div class="card card-success">
+            <div class="card-header" style="background: rgb(102, 102, 255, 1)">
+                <h3 class="card-title">Eng ko'p mahsulot olgan mijozlar</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="chart">
+                    <div class="chartjs-size-monitor">
+                        <div class="chartjs-size-monitor-expand">
+                            <div class=""></div>
+                        </div>
+                        <div class="chartjs-size-monitor-shrink">
+                            <div class=""></div>
+                        </div>
+                    </div>
+                    <canvas id="barChart4"
+                            style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 487px;"
+                            width="487" height="250" class="chartjs-render-monitor"></canvas>
+                </div>
+            </div>
+        </div>
+
         <div class="card card-success">
             <div class="card-header " style="background: rgba(0, 128, 255, 1)">
                 <h3 class="card-title">Eng ko'p sotilgan rulonlar</h3>
@@ -234,6 +265,40 @@ $js = <<< JS
             data: barChartData,
             options: barChartOptions
         })
+        
+        //chart 4
+           var areaChartCanvas = $('#barChart4').get(0).getContext('2d')
+        var areaChartData = {
+            labels  : {$outcome_clients_labels},
+            datasets: [
+                {
+                    label               : "ko'p mahsulot olgan mijozlar",
+                            backgroundColor     : 'rgba(102, 102, 255, 1)',
+                    borderColor         : 'rgba(210, 214, 222, 1)',
+                    pointRadius         : false,
+                    pointColor          : 'rgba(210, 214, 222, 1)',
+                    pointStrokeColor    : '#c1c7d1',
+                    pointHighlightFill  : '#fff',
+                    pointHighlightStroke: 'rgba(220,220,220,1)',
+                    data                : {$outcome_clients}
+                },
+            ]
+        }
+        var barChartCanvas = $('#barChart4').get(0).getContext('2d')
+        var barChartData = $.extend(true, {}, areaChartData)
+        var temp0 = areaChartData.datasets[0]
+        barChartData.datasets[0] = temp0
+        var barChartOptions = {
+            responsive              : true,
+            maintainAspectRatio     : false,
+            datasetFill             : false
+        }
+        new Chart(barChartCanvas, {
+            type: 'bar',
+            data: barChartData,
+            options: barChartOptions
+        })
+        
     })
 JS;
 $this->registerJs($js);

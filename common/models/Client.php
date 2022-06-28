@@ -29,6 +29,11 @@ class Client extends \soft\db\ActiveRecord
     public $residue;
     private $_accountsSum;
     public $residue_dollar;
+    private $outcomeSum;
+    private $incomeSum;
+    private $discountSum;
+    private $accountsSumTotal;
+    private $accountsSumDollar;
 
     //<editor-fold desc="Parent" defaultstate="collapsed">
 
@@ -161,19 +166,74 @@ class Client extends \soft\db\ActiveRecord
         return $this->hasMany(Account::class, ['client_id' => 'id']);
     }
 
+    public function getIncomeAggregationSum()
+    {
+        return $this->getIncomes()
+            ->select(['provider_id', 'counted' => 'SUM(total)'])
+            ->groupBy('provider_id')
+            ->asArray(true);
+    }
+
     public function getIncomesSum()
     {
-        return $this->getIncomes()->sum('total');
+        if ($this->isNewRecord) {
+            return null;
+        }
+        if ($this->incomeSum === null) {
+            $sum = empty($this->incomeAggregationSum) ? 0 : $this->incomeAggregationSum[0]['counted'];
+            $this->setIncomeSum($sum);
+        }
+        return $this->incomeSum;
+    }
+
+    public function setIncomeSum($income)
+    {
+        $this->incomeSum = intval($income);
+    }
+
+    public function getOutcomeAggregationSum()
+    {
+        return $this->getOutcome()
+            ->select(['client_id', 'counted' => 'SUM(total)'])
+            ->groupBy('client_id')
+            ->asArray(true);
     }
 
     public function getOutcomeSum()
     {
-        return $this->getOutcome()->sum('total');
+        if ($this->isNewRecord) {
+            return null;
+        }
+        if ($this->outcomeSum === null) {
+            $sum = empty($this->outcomeAggregationSum) ? 0 : $this->outcomeAggregationSum[0]['counted'];
+            $this->setOutcomeSum($sum);
+        }
+        return $this->outcomeSum;
+    }
+
+    public function setOutcomeSum($outcomesum)
+    {
+        $this->outcomeSum = intval($outcomesum);
+    }
+
+    public function getDiscountAggregationSum()
+    {
+        return $this->getOutcomeGroups()
+            ->select(['client_id', 'counted' => 'SUM(discount)'])
+            ->groupBy('client_id')
+            ->asArray(true);
     }
 
     public function getOutcomeGroupDiscount()
     {
-        return $this->getOutcomeGroups()->sum('discount');
+        if ($this->isNewRecord) {
+            return null;
+        }
+        if ($this->discountSum === null) {
+            $sum = empty($this->discountAggregationSum) ? 0 : $this->discountAggregationSum[0]['counted'];
+            $this->discountSum = intval($sum);
+        }
+        return $this->discountSum;
     }
 
     public function getOutcome()
@@ -264,15 +324,46 @@ class Client extends \soft\db\ActiveRecord
         return abs(intval($this->getAccounts()->andWhere(['type_id' => Account::TYPE_OUTCOME])->sum('dollar')));
     }
 
+    public function getAccountAggregationSum()
+    {
+        return $this->getAccounts()
+            ->select(['client_id', 'counted' => 'SUM(sum)'])
+            ->groupBy('client_id')
+            ->asArray(true);
+    }
+
     public function getAccountsSum()
     {
-        return -1 * ($this->getAccounts()->sum('sum'));
+        if ($this->isNewRecord) {
+            return null;
+        }
+        if ($this->accountsSumTotal === null) {
+            $sum = empty($this->accountAggregationSum) ? 0 : $this->accountAggregationSum[0]['counted'];
+            $this->accountsSumTotal = -1 * $sum;
+        }
+        return $this->accountsSumTotal;
+    }
+
+    public function getAccountAggregationDollar()
+    {
+        return $this->getAccounts()
+            ->select(['client_id', 'counted' => 'SUM(dollar)'])
+            ->groupBy('client_id')
+            ->asArray(true);
     }
 
     public function getAccountsSumDollar()
     {
-        return -1 * ($this->getAccounts()->sum('dollar'));
+        if ($this->isNewRecord) {
+            return null;
+        }
+        if ($this->accountsSumDollar === null) {
+            $sum = empty($this->accountAggregationDollar) ? 0 : $this->accountAggregationDollar[0]['counted'];
+            $this->accountsSumDollar = -1 * $sum;
+        }
+        return $this->accountsSumDollar;
     }
+
     public function getFinishAccountSum()
     {
         return $this->getOutcomeSum() - $this->getOutcomeGroupDiscount() + $this->getAccountsSum() + $this->debt;

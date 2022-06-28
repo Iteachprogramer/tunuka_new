@@ -47,6 +47,7 @@ class Client extends \soft\db\ActiveRecord
 
     const CLIENT_TYPE_PROVIDER = 1;
     const CLIENT_TYPE_CLIENT = 2;
+    const CLIENT_TYPE_MOUTH= 3;
 
     /**
      * {@inheritdoc}
@@ -56,6 +57,7 @@ class Client extends \soft\db\ActiveRecord
         return [
             self::CLIENT_TYPE_CLIENT => 'Mijoz',
             self::CLIENT_TYPE_PROVIDER => 'Taminotchi',
+            self::CLIENT_TYPE_MOUTH => 'Usta',
         ];
     }
 
@@ -125,32 +127,26 @@ class Client extends \soft\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
-
     public function getUpdatedBy()
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
-
     public static function getProvider()
     {
         return ArrayHelper::map(Client::find()->where(['client_type_id' => self::CLIENT_TYPE_PROVIDER])->all(), 'id', 'fulla_name');
     }
-
     public static function getClient()
     {
-        return ArrayHelper::map(Client::find()->where(['client_type_id' => self::CLIENT_TYPE_CLIENT])->all(), 'id', 'fulla_name');
+        return ArrayHelper::map(Client::find()->where(['client_type_id' => self::CLIENT_TYPE_CLIENT])->orWhere(['client_type_id'=>self::CLIENT_TYPE_MOUTH])->all(), 'id', 'fulla_name');
     }
-
     public static function getClientPhone()
     {
-        return ArrayHelper::map(Client::find()->where(['client_type_id' => self::CLIENT_TYPE_CLIENT])->all(), 'id', 'phone');
+        return ArrayHelper::map(Client::find()->where(['client_type_id' => self::CLIENT_TYPE_CLIENT])->orWhere(['client_type_id'=>self::CLIENT_TYPE_MOUTH])->all(), 'id', 'phone');
     }
-
     public static function getClientOne($id)
     {
         return ArrayHelper::map(Client::find()->where(['id' => $id])->all(), 'id', 'fulla_name');
     }
-
     public function getIncomes()
     {
         return $this->hasMany(Income::class, ['provider_id' => 'id']);

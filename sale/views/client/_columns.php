@@ -14,9 +14,8 @@ return [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'fulla_name',
         'format' => 'raw',
-        'value' => function ($model)
-        {
-            return Html::a($model->fulla_name, Url::to(['client/view', 'id' => $model->id]),['data-pjax' => 0]);
+        'value' => function ($model) {
+            return Html::a($model->fulla_name, Url::to(['client/view', 'id' => $model->id]), ['data-pjax' => 0]);
         },
     ],
     [
@@ -27,19 +26,17 @@ return [
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'residue',
-        'format' => ['decimal',0],
-        'value' => function(Client $model)
-        {
-            return$model->finishAccountSum;
+        'format' => ['decimal', 0],
+        'value' => function (Client $model) {
+            return $model->finishAccountSum;
         }
     ],
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'residue_dollar',
-        'format' => ['decimal',0],
-        'value' => function(Client $model)
-        {
-            return$model->finishAccountSumDollar;
+        'format' => ['decimal', 0],
+        'value' => function (Client $model) {
+            return $model->finishAccountSumDollar;
         }
     ],
     [
@@ -49,12 +46,13 @@ return [
         'filter' => Client::clientTypes(),
         'value' => function (Client $model) {
 
-          if ($model->client_type_id == Client::CLIENT_TYPE_PROVIDER){
-              return "<span class='badge badge-success'>Taminotchi</span>";
-          }
-          else{
-              return  "<span class='badge badge-warning'>Mijoz</span>";
-          }
+            if ($model->client_type_id == Client::CLIENT_TYPE_PROVIDER) {
+                return "<span class='badge badge-success'>Taminotchi</span>";
+            } elseif ($model->client_type_id == Client::CLIENT_TYPE_CLIENT) {
+                return "<span class='badge badge-warning'>Mijoz</span>";
+            } else {
+                return "<span class='badge badge-info'>Usta</span>";
+            }
         }
     ],
     [

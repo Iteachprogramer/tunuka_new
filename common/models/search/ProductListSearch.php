@@ -42,7 +42,7 @@ class ProductListSearch extends ProductList
      */
     public function search($params)
     {
-        $query = ProductList::find();
+        $query = ProductList::find()->with('sizeType');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

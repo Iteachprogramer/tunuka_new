@@ -7,7 +7,7 @@ use yii\web\View;
 
 
 $dataProvider = new ActiveDataProvider([
-    'query' => ProductList::find(),
+    'query' => ProductList::find()->with('sizeType'),
     'pagination' => [
         'defaultPageSize' => 50,
     ]

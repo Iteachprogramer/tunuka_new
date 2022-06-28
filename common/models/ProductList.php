@@ -33,6 +33,7 @@ class ProductList extends \soft\db\ActiveRecord
     private $_soldLoadsAmount;
     private $_residual;
     public $price_type;
+    private $_weightSum;
 
     /**
      * {@inheritdoc}
@@ -322,11 +323,28 @@ class ProductList extends \soft\db\ActiveRecord
         return $this->_takenLoadsAmount;
     }
 
-    public function getWeightSum()
+    public function getWeightAggregation()
     {
-        return floatval($this->getIncome()->joinWith('productType')->andWhere(['=', 'product_list.type_id', ProductList::TYPE_AKSESSUAR])->sum('weight'));
+        return
+            floatval($this->getIncome()
+                ->joinWith('productType')
+                ->select(['product_type_id', 'weight' => 'SUM(weight)'])
+                ->andWhere(['=', 'product_list.type_id', ProductList::TYPE_AKSESSUAR])
+                ->groupBy('product_type_id')
+                ->asArray(true));
     }
 
+    public function getWeightSum()
+    {
+        if ($this->isNewRecord) {
+            return 0;
+        }
+        if ($this->_weightSum === null) {
+            $metr = empty($this->weightAggregation) ? 0 : $this->weightAggregation[0]['weight'];
+            $this->_weightSum = $metr;
+        }
+        return $this->_weightSum;
+    }
     public function setIncomeAmount($takenLoadsAmount)
     {
         $this->_takenLoadsAmount = floatval($takenLoadsAmount);

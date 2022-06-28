@@ -69,7 +69,7 @@ class Client extends \soft\db\ActiveRecord
             [['debt', 'client_type_id', 'created_at', 'updated_at', 'created_by', 'updated_by', 'debt_dollor'], 'integer'],
             [['text'], 'string'],
             ['last_updated', 'default', 'value' => time()],
-            ['phone', 'match', 'pattern' => '/\+[9][9][8] [389][0134789] [0-9][0-9][0-9] [0-9][0-9] [0-9][0-9]/'],
+            ['phone', 'match', 'pattern' => '/\+[9][9][8] [389][01345789] [0-9][0-9][0-9] [0-9][0-9] [0-9][0-9]/'],
             [['fulla_name', 'phone', 'leader'], 'string', 'max' => 255],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],

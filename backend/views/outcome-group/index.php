@@ -107,7 +107,6 @@ $js = <<< JS
                 var url = 'data:application/vnd.ms-excel,' + '\uFEFF' + encodeURIComponent(html); 
                 elem.attr("href", url);
                 elem.attr("download", "Hisobot.xls"); // Choose the file name
-                elem.click(); 
              }
         })
 

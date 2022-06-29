@@ -6,7 +6,7 @@ use soft\helpers\Html;
 use soft\widget\bs4\TabMenu;
 
 ?>
- <?php if ($model->client_type_id==Client::CLIENT_TYPE_CLIENT):?>
+ <?php if ($model->client_type_id==Client::CLIENT_TYPE_CLIENT ||$model->client_type_id==Client::CLIENT_TYPE_MOUTH ):?>
 <?= TabMenu::widget([
     'items' => [
         [

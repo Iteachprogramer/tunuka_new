@@ -42,7 +42,7 @@ class MakeProductSearch extends MakeProduct
     public function search($params,$query=null)
     {
         if ($query===null){
-            $query = MakeProduct::find();
+            $query = MakeProduct::find()->with('employee','product','produced');
         }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -137,7 +137,7 @@ $this->registerCss($css)
                         <td style="vertical-align: middle; text-align: center"><?= Yii::$app->formatter->asDatetime($rulon->created_at, 'php:d.m.Y H:i:s') ?></td>
                         <td style="vertical-align: middle; text-align: center"><?= $rulon->cost ?></td>
                         <td style="vertical-align: middle; text-align: center"><?= $rulon->size . ' ' . $rulon->unity->name ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= $rulon->count . ' ' . $rulon->unity->name ?></td>
+                        <td style="vertical-align: middle; text-align: center"><?= $rulon->count ?></td>
                         <td style="vertical-align: middle; text-align: center"><?= $rulon->total_size . ' ' . $rulon->unity->name ?></td>
                         <td style="vertical-align: middle; text-align: center"><?= $rulon->total ?></td>
                     </tr>

@@ -168,10 +168,10 @@ CrudAsset::register($this);
                     <tr>
                         <td style="text-align: center;align-items: center"><?= $key + 1 ?></td>
                         <td style="text-align: center;align-items: center"><?= $outcome->productType->product_name ?></td>
-                        <td style="text-align: center;align-items: center"><?= Yii::$app->formatter->asDatetime($group->date, 'php:d.m.Y H:i:s') ?></td>
+                        <td style="text-align: center;align-items: center"><?= Yii::$app->formatter->asDatetime($outcome->created_at, 'php:d.m.Y H:i:s') ?></td>
                         <td style="text-align: center;align-items: center"><?= $outcome->size ?></td>
                         <td style="text-align: center;align-items: center"><?= $outcome->count ?></td>
-                        <td style="text-align: center;align-items: center"><?= number_format($outcome->total_size, 2) . ' ' . $outcome->unity->name ?></td>
+                        <td style="text-align: center;align-items: center"><?= number_format($outcome->total_size, 2) ?></td>
                         <td style="text-align: center;align-items: center"><?= as_integer($outcome->cost) ?></td>
                         <td style="text-align: center;align-items: center"><?= as_integer($outcome->total) ?></td>
                     </tr>

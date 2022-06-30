@@ -247,6 +247,20 @@ class OutcomeGroupController extends AjaxCrudController
 
     }
 
+    public function actionExcel()
+    {
+        $id = Yii::$app->request->get('id');
+        $model = $this->findModel($id);
+
+        $result = [];
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $result['message'] = $this->renderAjax('excel', ['model' => $model]);
+            return $this->asJson($result);
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
     public function actionBulkdelete()
     {
         $request = Yii::$app->request;

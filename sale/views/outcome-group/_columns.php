@@ -28,7 +28,7 @@ return [
     [
         'attribute' => 'date',
         'width' => '160px',
-        'value' => function(OutcomeGroup $model){
+        'value' => function (OutcomeGroup $model) {
             return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
         },
         'filterType' => GridView::FILTER_DATE_RANGE,
@@ -54,7 +54,8 @@ return [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'total',
         'format' => 'integer',
-        'value' => function(OutcomeGroup $model){
+        'pageSummary' => true,
+        'value' => function (OutcomeGroup $model) {
             return $model->total ? $model->total : $model->outcomeSum;
         }
 
@@ -72,7 +73,7 @@ return [
                 return Html::a('<i class="fa fa-print"></i>', '#', ['class' => 'printButton', 'data-id' => $model->id]);
             },
             'excel' => function ($url, $model) {
-                return Html::a('<i class="fa fa-file-excel"></i>', '#', ['class' => 'downloadLink', 'data-id' => $model->id,'data-pjax' => '0']);
+                return Html::a('<i class="fa fa-file-excel"></i>', '#', ['class' => 'downloadLink', 'data-id' => $model->id, 'data-pjax' => '0']);
             },
         ],
         'viewOptions' => ['role' => 'modal-remote', 'title' => 'View', 'data-toggle' => 'tooltip'],

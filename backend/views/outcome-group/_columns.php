@@ -54,6 +54,7 @@ return [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'total',
         'format' => 'integer',
+        'pageSummary' => true,
         'value' => function(OutcomeGroup $model){
             return $model->total ? $model->total : $model->outcomeSum;
         }

@@ -45,6 +45,7 @@ CrudAsset::register($this);
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
             'pjax' => true,
+            'showPageSummary' => true,
             'columns' => require(__DIR__ . '/_columns.php'),
             'toolbarButtons' => [
                 'create' =>

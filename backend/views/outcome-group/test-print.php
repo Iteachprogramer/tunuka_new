@@ -106,7 +106,7 @@ $print = PrintSetting::find()->one();
                 <th style="border-bottom: 2px dotted black;">olchami</th>
                 <th style="border-bottom: 2px dotted black;">soni</th>
                 <th style="border-bottom: 2px dotted black;">metri</th>
-                <th style="border-bottom: 2px dotted black;">narxi</th>
+                <th style="border-bottom: 2px dotted black;" colspan="2">narxi</th>
             </tr>
             <?php foreach ($rulons as $rulon): ?>
                 <?php
@@ -127,7 +127,7 @@ $print = PrintSetting::find()->one();
                         <td style="border-bottom: 1px dotted black;" align="left" ><?= $item->size ?></td>
                         <td style="border-bottom: 1px dotted black;" align="left" ><?= $item->count ?></td>
                         <td style="border-bottom: 1px dotted black;" align="left" ><?= $item->total_size ?></td>
-                        <td style="border-bottom: 1px dotted black;" align="right"> <?= as_integer($item->cost) ?>
+                        <td style="border-bottom: 1px dotted black;" align="right" colspan="2"> <?= as_integer($item->cost) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -135,8 +135,8 @@ $print = PrintSetting::find()->one();
                     <td>jami</td>
                     <td></td>
                     <td></td>
-                    <td align="center"><?= $rulon_sum_metr ?></td>
-                    <td align="right"><?= as_integer($rulon_sum) ?></td>
+                    <td ><?= $rulon_sum_metr ?></td>
+                    <td align="right" colspan="2"><?= as_integer($rulon_sum) ?></td>
                 </tr>
                 <tr>
                     <td><br></td>
@@ -172,8 +172,8 @@ $print = PrintSetting::find()->one();
                 <td class="last" colspan="5"></td>
             </tr>
             <tr>
-                <td colspan="4">jami</td>
-                <td align="right"><?= as_integer($product_sum) ?></td>
+                <td colspan="3">jami</td>
+                <td align="right"  colspan="2"><?= as_integer($product_sum) ?></td>
             </tr>
         </table>
     <?php endif; ?>
@@ -206,8 +206,8 @@ $print = PrintSetting::find()->one();
                 <td class="last" colspan="5"></td>
             </tr>
             <tr>
-                <td colspan="4">jami</td>
-                <td align="right"><?= as_integer($aksessuar_sum) ?></td>
+                <td colspan="3">jami</td>
+                <td align="right" colspan="2"><?= as_integer($aksessuar_sum) ?></td>
             </tr>
         </table>
     <?php endif; ?>

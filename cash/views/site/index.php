@@ -1,7 +1,13 @@
 <?php
 
-/* @var $this yii\web\View */
+use common\models\Client;
+use soft\widget\adminlte3\Card;
 
-$this->title = Yii::$app->name;
-?>
+/* @var $this yii\web\View */
+/* @var $clientsList array List of clients  */
+/* @var $allClients Client[] */
+
+$this->title = 'Bosh sahifa';
+$this->params['breadcrumbs'][] = $this->title;
+
 

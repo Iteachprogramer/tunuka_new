@@ -18,6 +18,7 @@ $this->title = 'Kassa';
 $this->params['breadcrumbs'][] = $this->title;
 CrudAsset::register($this);
 ?>
+<?= $this->render('_totalAccountBoxes', ['allClients' => $allClients]) ?>
 <div class="account-index">
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>

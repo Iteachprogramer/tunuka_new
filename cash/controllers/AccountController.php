@@ -62,6 +62,7 @@ class AccountController extends AjaxCrudController
 
     public function actionIndex()
     {
+        $allClients = Client::find()->all();
         $searchModel = new AccountSearch();
         $query = Account::find();
         $date = $this->request->queryParams['AccountSearch']['date'];
@@ -76,6 +77,7 @@ class AccountController extends AjaxCrudController
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'allClients' => $allClients,
         ]);
     }
 

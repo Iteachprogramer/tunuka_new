@@ -272,6 +272,7 @@ class ProductList extends \soft\db\ActiveRecord
         return $this->getOutcome()
             ->joinWith('productType')
             ->andWhere(['=', 'product_list.type_id', ProductList::TYPE_AKSESSUAR])
+            ->with('productType')
             ->sum('count');
     }
 

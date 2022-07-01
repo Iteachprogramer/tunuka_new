@@ -141,6 +141,8 @@ CrudAsset::register($this);
                 'width' => '120px',
                 'pageSummary' => true,
             ],
+            'comment',
+
 //            'dollar_course',
 //            [
 //                'attribute' => 'dollarTotal',

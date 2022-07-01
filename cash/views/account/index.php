@@ -53,15 +53,13 @@ CrudAsset::register($this);
                     ]
                 ],
                 'value' => function (Account $model) {
-               if ($model->expenseType->name){
-                   return $model->expenseType->name;
-               }
-               elseif ($model->is_main){
-                   return 'Asosiy boshlang\'ich kassa';
-               }
-               else{
-                   return $model->client->fulla_name;
-               }
+                    if ($model->expenseType->name) {
+                        return $model->expenseType->name;
+                    } elseif ($model->is_main) {
+                        return 'Asosiy boshlang\'ich kassa';
+                    } else {
+                        return $model->client->fulla_name;
+                    }
                 }
             ],
             [
@@ -70,7 +68,7 @@ CrudAsset::register($this);
                 'width' => '120px',
                 'filterType' => GridView::FILTER_SELECT2,
                 'filterWidgetOptions' => [
-                    'data' => ArrayHelper::map(Employees::find()->andWhere(['status'=> Employees::STATUS_ACTIVE])->all(),'id','name'),
+                    'data' => ArrayHelper::map(Employees::find()->andWhere(['status' => Employees::STATUS_ACTIVE])->all(), 'id', 'name'),
                     'options' => [
                         'placeholder' => 'Ishchini tanlang...',
                     ],
@@ -79,7 +77,7 @@ CrudAsset::register($this);
                     ]
                 ],
                 'value' => function (Account $model) {
-                        return $model->employee->name;
+                    return $model->employee->name;
                 }
             ],
 
@@ -110,17 +108,17 @@ CrudAsset::register($this);
                 'width' => '160px',
                 'filterType' => GridView::FILTER_DATE_RANGE,
                 'filterWidgetOptions' => [
-                            'model' => $searchModel,
-                            'convertFormat' => true,
-                            'presetDropdown' => true,
-                            'includeMonthsFilter' => true,
-                            'pluginOptions' => [
-                                'locale' => [
-                                    'format' => 'd.m.Y'
-                                ]
-                            ]
-                        ],
-                'value' => function(Account $model){
+                    'model' => $searchModel,
+                    'convertFormat' => true,
+                    'presetDropdown' => true,
+                    'includeMonthsFilter' => true,
+                    'pluginOptions' => [
+                        'locale' => [
+                            'format' => 'd.m.Y'
+                        ]
+                    ]
+                ],
+                'value' => function (Account $model) {
                     return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y');
                 },
             ],
@@ -153,6 +151,7 @@ CrudAsset::register($this);
 //                'width' => '160px',
 //                'format' => 'integer',
 //            ],
+            'comment',
             [
                 'class' => 'soft\grid\ActionColumn',
                 'width' => '120px',

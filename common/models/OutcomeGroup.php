@@ -58,7 +58,7 @@ class OutcomeGroup extends \soft\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'status', 'discount', 'total', 'created_by', 'updated_by', 'order_number','phone_client_id'], 'integer'],
+            [['client_id', 'status', 'discount', 'total', 'created_by', 'updated_by', 'order_number', 'phone_client_id'], 'integer'],
             ['date', 'safe'],
             ['date', 'default', 'value' => time()],
             [['discount', 'total'], 'default', 'value' => 0],
@@ -159,6 +159,16 @@ class OutcomeGroup extends \soft\db\ActiveRecord
     public function getCreatedBy()
     {
         return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
+
+    public function getAccounts()
+    {
+        return $this->hasMany(Account::className(), ['group_id' => 'id']);
+    }
+
+    public function getAccountSum()
+    {
+        return $this->getAccounts()->sum('total');
     }
 
     /**

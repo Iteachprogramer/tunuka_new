@@ -99,7 +99,7 @@ class Account extends \soft\db\ActiveRecord
     {
         return [
             [['type_id',], 'required'],
-            [['client_id', 'type_id', 'sum', 'dollar', 'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by','employee_id'], 'integer'],
+            [['client_id', 'type_id', 'sum', 'dollar', 'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by', 'employee_id', 'group_id'], 'integer'],
             [['dollar_course'], 'number'],
             [['comment'], 'string', 'max' => 255],
             ['date', 'safe'],
@@ -138,11 +138,11 @@ class Account extends \soft\db\ActiveRecord
             'dollar' => 'Dollar',
             'dollar_course' => 'Dollar kursi',
             'bank' => 'Bank',
-            'total' => 'Umumiy summa',    'typeBadge' => 'Turi',
+            'total' => 'Umumiy summa', 'typeBadge' => 'Turi',
             'typeName' => 'Turi',
             'comment' => 'Izoh',
             'expense_type_id' => 'Rasxod turi',
-            'employee_id'=>'Hodim',
+            'employee_id' => 'Hodim',
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),
@@ -163,6 +163,11 @@ class Account extends \soft\db\ActiveRecord
         return $this->hasOne(Client::className(), ['id' => 'client_id']);
     }
 
+    public function getGroup()
+    {
+        return $this->hasOne(OutcomeGroup::className(), ['id' => 'group_id']);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -170,10 +175,12 @@ class Account extends \soft\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
+
     public function getEmployee()
     {
         return $this->hasOne(Employees::className(), ['id' => 'employee_id']);
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -181,6 +188,7 @@ class Account extends \soft\db\ActiveRecord
     {
         return $this->hasOne(ExpenseType::className(), ['id' => 'expense_type_id']);
     }
+
     const SCENARIO_MAIN = 'main';
 
     /**
@@ -218,25 +226,28 @@ class Account extends \soft\db\ActiveRecord
             $this->dollar = -1 * abs(intval($this->dollar));
             $this->bank = -1 * abs(intval($this->bank));
         }
-        $course=DollarCourse::find()->orderBy(['id' => SORT_DESC])->one();
+        $course = DollarCourse::find()->orderBy(['id' => SORT_DESC])->one();
         $this->dollar_course = abs($this->dollar_course);
         $this->total = $this->sum + $this->dollar * $this->dollar_course + $this->bank;
         if ($this->is_main) {
             $this->client_id = null;
         }
     }
+
     public function scenarios()
     {
         $scenarios = parent::scenarios();
         $scenarios[self::SCENARIO_MAIN] = ['sum', 'dollar', 'dollar_course', 'bank', 'comment', 'date'];
         return $scenarios;
     }
+
     public function getDollarTotal()
     {
         return $this->dollar * $this->dollar_course;
     }
 
-    public function getisIncome(){
+    public function getisIncome()
+    {
         return $this->type_id == self::TYPE_INCOME;
     }
 //    public function afterSave($insert, $changedAttributes)

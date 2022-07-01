@@ -36,12 +36,22 @@ CrudAsset::register($this);
             ],
             'columns' => [
                 [
-                    'attribute' => 'Mijoz',
+                    'attribute' => 'client_id',
                     'format' => 'raw',
                     'width' => '220px',
                     'value' => function (OutcomeGroup $model) {
                         return Html::a($model->client->fulla_name, Url::to(['/outcome/rulon-index', 'id' => $model->id,]), ['data-pjax' => '0']);
                     },
+                    'filterType' => GridView::FILTER_SELECT2,
+                    'filterWidgetOptions' => [
+                        'data' => Client::getClient(),
+                        'options' => [
+                            'placeholder' => 'Klientni tanlang...',
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true,
+                        ]
+                    ],
                 ],
                 [
                     'attribute' => 'date',
@@ -66,18 +76,40 @@ CrudAsset::register($this);
                 [
                     'class' => '\kartik\grid\DataColumn',
                     'attribute' => 'discount',
+                    'format' => 'integer',
                 ],
                 [
                     'class' => '\kartik\grid\DataColumn',
                     'attribute' => 'total',
+                    'format' => 'integer',
+                    'pageSummary' => true,
                     'value' => function (OutcomeGroup $model) {
                         return $model->total ? $model->total : $model->outcomeSum;
                     }
                 ],
                 [
+                    'class' => '\kartik\grid\DataColumn',
+                    'attribute' => "To'langan summa",
+                    'format' => 'integer',
+                    'pageSummary' => true,
+                    'value' => function (OutcomeGroup $model) {
+                        return $model->accountSum;
+                    }
+                ],
+                [
+                    'class' => '\kartik\grid\DataColumn',
+                    'attribute' => "Qolgan summa",
+                    'format' => 'integer',
+                    'pageSummary' => true,
+                    'value' => function (OutcomeGroup $model) {
+                        return $model->total ? $model->total : $model->outcomeSum - $model->accountSum;
+                    }
+                ],
+                [
                     'class' => 'kartik\grid\ActionColumn',
                     'dropdown' => false,
-                    'template' => '{update} {view} {delete} {print} {excel}',
+                    'template' => '{update} {view} {delete} {print} {excel} {cash}',
+                    'width' => '140px',
                     'vAlign' => 'middle',
 //        'urlCreator' => function ($action, $model, $key, $index) {
 //            return Url::to([$action, 'id' => $key]);
@@ -89,6 +121,9 @@ CrudAsset::register($this);
                         'excel' => function ($url, $model) {
                             return Html::a('<i class="fa fa-file-excel"></i>', '#', ['class' => 'downloadLink', 'data-id' => $model->id, 'data-pjax' => '0']);
                         },
+                        'cash' => function ($url, $model) {
+                            return Html::a('<i class="fa fa-dollar-sign"></i>', Url::to(['outcome-group/cash', 'id' => $model->id]), ['class' => 'cashButton', 'role' => 'modal-remote',]);
+                        }
                     ],
                     'viewOptions' => ['role' => 'modal-remote', 'title' => 'View', 'data-toggle' => 'tooltip'],
                     'updateOptions' => ['role' => 'modal-remote', 'title' => 'Update', 'data-toggle' => 'tooltip'],

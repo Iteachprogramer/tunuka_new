@@ -102,7 +102,7 @@ CrudAsset::register($this);
                     'format' => 'integer',
                     'pageSummary' => true,
                     'value' => function (OutcomeGroup $model) {
-                        return $model->total ? $model->total : $model->outcomeSum - $model->accountSum;
+                        return ($model->total ? $model->total : $model->outcomeSum) - $model->accountSum;
                     }
                 ],
                 [

@@ -21,6 +21,7 @@ use yii\helpers\Html;
             <?= $form->field($model, 'sum')->textInput() ?>
         </div>  <div class="col-md-6">
             <?= $form->field($model, 'bank')->textInput() ?>
+
         </div>
 
     </div>

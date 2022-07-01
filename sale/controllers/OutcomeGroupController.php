@@ -2,6 +2,7 @@
 
 namespace sale\controllers;
 
+use common\models\Account;
 use common\models\Client;
 use common\models\MakeProduct;
 use common\models\MakeProductItem;
@@ -60,6 +61,35 @@ class OutcomeGroupController extends AjaxCrudController
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+    public function actionCash()
+    {
+        $id = Yii::$app->request->get('id');
+        $model = $this->findModel($id);
+        $request = Yii::$app->request;
+        $model = new Account([
+            'date' => Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
+            'client_id' => $model->client_id,
+            'group_id' => $model->id,
+            'type_id' => Account::TYPE_INCOME,
+        ]);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if ($model->load($request->post()) && $model->save()) {
+            return [
+                'forceReload' => '#crud-datatable-pjax',
+                'forceClose' => true,
+            ];
+        } else {
+            return [
+                'title' => "Kassa",
+                'content' => $this->renderAjax('cash', [
+                    'model' => $model,
+                ]),
+                'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                    Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
+
+            ];
+        }
     }
 
     public function actionClientOutcomeGroup()

@@ -31,12 +31,15 @@ $client_sum = Outcome::find()
     .last {
         border-bottom: 1px dashed black;
     }
+
     .check-list table tr td {
         font-size: 30px;
     }
-    .head-title{
+
+    .head-title {
         font-size: 26px;
     }
+
     .check-list table tr th {
         font-size: 30px;
     }
@@ -77,13 +80,14 @@ $print = PrintSetting::find()->one();
             <th align="right" class="head-title"><?=
                 Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s') ?></th>
         </tr>
-        <tr  >
+        <tr>
             <td class="head-title">Mijoz</td>
             <th align="right" class="head-title"><?= $model->client->fulla_name ?></th>
         </tr>
         <tr>
             <td class="head-title">Sotuvchi</td>
-            <th align="right" class="head-title"><?= $model->createdBy->firstname . ' ' . $model->createdBy->lastname ?></th>
+            <th align="right"
+                class="head-title"><?= $model->createdBy->firstname . ' ' . $model->createdBy->lastname ?></th>
         </tr>
         <tr>
             <td class="head-title">Telefon nomeri</td>
@@ -124,10 +128,22 @@ $print = PrintSetting::find()->one();
                     ?>
                     <tr>
                         <td style="border-bottom: 1px dotted black;"><?= $key + 1 ?></td>
-                        <td style="border-bottom: 1px dotted black;" align="left" ><?= $item->size ?></td>
-                        <td style="border-bottom: 1px dotted black;" align="left" ><?= $item->count ?></td>
-                        <td style="border-bottom: 1px dotted black;" align="left" ><?= $item->total_size ?></td>
-                        <td style="border-bottom: 1px dotted black;" align="right" colspan="2"> <?= as_integer($item->cost) ?>
+                        <?php if (($item->size - (int)$item->size) > 0): ?>
+                            <td style="border-bottom: 1px dotted black;"
+                                align="left"><?= number_format($item->size, 2) ?></td>
+                        <?php else: ?>
+                            <td style="border-bottom: 1px dotted black;" align="left"><?= $item->size ?></td>
+                        <?php endif; ?>
+
+                        <td style="border-bottom: 1px dotted black;" align="left"><?= $item->count ?></td>
+                        <?php if (($item->total_size - (int)$item->total_size) > 0): ?>
+                            <td style="border-bottom: 1px dotted black;"
+                                align="left"><?= number_format($item->total_size, 2) ?></td>
+                        <?php else: ?>
+                            <td style="border-bottom: 1px dotted black;" align="left"><?= $item->total_size ?></td>
+                        <?php endif; ?>
+                        <td style="border-bottom: 1px dotted black;" align="right"
+                            colspan="2"> <?= as_integer($item->cost) ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -135,7 +151,13 @@ $print = PrintSetting::find()->one();
                     <td>jami</td>
                     <td></td>
                     <td></td>
-                    <td ><?= $rulon_sum_metr ?></td>
+                    <td>
+                        <?php if (($rulon_sum_metr - (int)$rulon_sum_metr) > 0): ?>
+                            <?= number_format($rulon_sum_metr, 2) ?>
+                        <? else: ?>
+                            <?= $rulon_sum_metr ?>
+                        <?php endif; ?>
+                    </td>
                     <td align="right" colspan="2"><?= as_integer($rulon_sum) ?></td>
                 </tr>
                 <tr>
@@ -162,8 +184,12 @@ $print = PrintSetting::find()->one();
                 ?>
                 <tr>
                     <td><?= $key + 1 ?></td>
-                    <td align="left" ><?= $product->productType->product_name ?></td>
-                    <td align="left" ><?= $product->total_size ?></td>
+                    <td align="left"><?= $product->productType->product_name ?></td>
+                    <?php if (($product->total_size - (int)$product->total_size) > 0): ?>
+                        <td align="left"><?= number_format($product->total_size, 2) ?></td>
+                    <?php else: ?>
+                        <td align="left"><?= $product->total_size ?></td>
+                    <?php endif; ?>
                     <td align="left"><?= $product->cost ?></td>
                     <td align="right"><?= as_integer($product->total) ?></td>
                 </tr>
@@ -173,7 +199,7 @@ $print = PrintSetting::find()->one();
             </tr>
             <tr>
                 <td colspan="3">jami</td>
-                <td align="right"  colspan="2"><?= as_integer($product_sum) ?></td>
+                <td align="right" colspan="2"><?= as_integer($product_sum) ?></td>
             </tr>
         </table>
     <?php endif; ?>
@@ -196,9 +222,13 @@ $print = PrintSetting::find()->one();
                 ?>
                 <tr>
                     <td><?= $key + 1 ?></td>
-                    <td align="left" ><?= $aksessuar->productType->product_name ?></td>
-                    <td align="left" ><?= $aksessuar->count ?></td>
-                    <td align="left" ><?= $aksessuar->cost ?></td>
+                    <td align="left"><?= $aksessuar->productType->product_name ?></td>
+                    <?php if (($aksessuar->count - (int)$aksessuar->count) > 0): ?>
+                        <td align="left"><?= number_format($aksessuar->count, 2) ?></td>
+                    <?php else: ?>
+                        <td align="left"><?= $aksessuar->count ?></td>
+                    <?php endif; ?>
+                    <td align="left"><?= $aksessuar->cost ?></td>
                     <td align="right"><?= as_integer($aksessuar->total) ?></td>
                 </tr>
             <?php endforeach; ?>
@@ -225,7 +255,7 @@ $print = PrintSetting::find()->one();
         </tr>
         <tr>
             <td>To'lanadigan summa</td>
-            <td align="right"><?= as_integer($model->outcomeSum -$model->discount) ?></td>
+            <td align="right"><?= as_integer($model->outcomeSum - $model->discount) ?></td>
         </tr>
         <tr>
             <td>Mijoz qoldig'i</td>

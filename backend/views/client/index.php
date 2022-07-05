@@ -72,7 +72,7 @@ CrudAsset::register($this);
                     <td style="vertical-align: middle; text-align: left">Xaqqi dollarda</td>
                 </tr>
                 <?php
-                $clients = $dataProvider->getModels();
+                $clients = Client::find()->all();
                 ?>
                 <?php foreach ($clients as $key => $client): ?>
                     <tr>

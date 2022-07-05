@@ -22,14 +22,14 @@ use common\models\Client;
                         <th>
                             <?=number_format($model->incomesCountWeight,2,'.',' ')?> tona
                         </th>
-                        <th><?=$model->incomesCountWeightSum ? $model->incomesCountWeightSum.' $':0?></th>
+                        <th><?=$model->incomesCountWeightSum ? number_format($model->incomesCountWeightSum,3,'.',' ').' $':0?></th>
                     </tr>
                     <tr>
                         <td>Jami olingan yuk kg:</td>
                         <th>
                             <?=number_format($model->incomesCountKg,2,'.',' ')?> Kg
                         </th>
-                        <th><?=$model->incomesCountKgSum ? $model->incomesCountKgSum.' $':0?></th>
+                        <th><?=$model->incomesCountKgSum ? number_format($model->incomesCountKgSum,3,'.',' ').' $':0?></th>
                     </tr>
                     <tr>
                         <td>Jami olingan yuk Dona:</td>
@@ -39,7 +39,7 @@ use common\models\Client;
                     </tr>
                     <tr class="table-warning">
                         <th colspan="2">Umumiy:</th>
-                        <th><?=$model->getIncomesSum().' $'?></th>
+                        <th><?=number_format($model->getIncomesSum(),3,'.',' ').' $'?></th>
                     </tr>
                 </table>
             </div>

@@ -210,7 +210,7 @@ class IncomeController extends Controller
         $client = Client::find()->where(['id' => $id])->one();
         Yii::$app->response->format = Response::FORMAT_JSON;
         $debt = $client->finishAccountSum;
-        $debt_dollar = $client->finishAccountSumDollar;
+        $debt_dollar = number_format($client->finishAccountSumDollar3, 2, '.', ' ');
         return ['debt' => $debt, 'debt_dollar' => $debt_dollar];
     }
 

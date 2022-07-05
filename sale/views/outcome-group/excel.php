@@ -10,52 +10,52 @@ use common\models\ProductList;
             boder: 1px dashed black;
         }
     </style>
-<table  cellspacing="0" cellpadding="3"
-        style="text-align: center; align-items: center;display: none;width: 100%!important;"
-        class="table table-bordered table-striped">
-    <tr>
-        <td></td>
-        <td></td>
-        <td>Xisobot sanasi:</td>
-        <td><?=Yii::$app->formatter->asDate(time(),'php:d.m.Y')?></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td>Mijoz nomi:</td>
-        <td><?=$model->client->fulla_name?></td>
-        <td></td>
-    </tr>
-</table>
+    <table  cellspacing="0" cellpadding="3"
+            style="text-align: left; align-items: center;display: none;width: 100%!important;"
+            class="table table-bordered table-striped">
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Xisobot sanasi:</td>
+            <td><?=Yii::$app->formatter->asDate(time(),'php:d.m.Y')?></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Mijoz nomi:</td>
+            <td><?=$model->client->fulla_name?></td>
+            <td></td>
+        </tr>
+    </table>
 <?php
 $outcomes = Outcome::find()->where(['group_id' => $model->id])->andWhere(['type_id' => ProductList::TYPE_RULON])->all();
 ?>
 <?php if ($outcomes): ?>
     <table border="1" cellspacing="0" cellpadding="3"
-           style="text-align: center; align-items: center;display: none;width: 100%!important;"
+           style="text-align: left; align-items: center;display: none;width: 100%!important;"
            class="table table-bordered table-striped">
         <tr>
             <td colspan="7" style="vertical-align: middle; text-align: center"> Rulonlar</td>
         </tr>
         <tr>
             <td>№</td>
-            <td style="text-align: center;align-items: center">Tovar nomi</td>
-            <td style="text-align: center;align-items: center">O'lchami</td>
-            <td style="text-align: center;align-items: center">soni</td>
-            <td style="text-align: center;align-items: center">Umumiy metr</td>
-            <td style="text-align: center;align-items: center">Narxi</td>
-            <td style="text-align: center;align-items: center">Umumiy summa</td>
+            <td style="text-align: left;align-items: center">Tovar nomi</td>
+            <td style="text-align: left;align-items: center">O'lchami</td>
+            <td style="text-align: left;align-items: center">soni</td>
+            <td style="text-align: left;align-items: center">Umumiy metr</td>
+            <td style="text-align: left;align-items: center">Narxi</td>
+            <td style="text-align: left;align-items: center">Umumiy summa</td>
         </tr>
         <?php foreach ($outcomes as $key => $outcome): ?>
             <tr>
-                <td style="text-align: center;align-items: center"><?= $key + 1 ?></td>
-                <td style="text-align: center;align-items: center"><?= $outcome->productType->product_name ?></td>
-                <td style="text-align: center;align-items: center"><?= $outcome->size ?></td>
-                <td style="text-align: center;align-items: center"><?= $outcome->count ?></td>
-                <td style="text-align: center;align-items: center"><?= number_format($outcome->total_size,2) ?></td>
-                <td style="text-align: center;align-items: center"><?= as_integer($outcome->cost) ?></td>
-                <td style="text-align: center;align-items: center"><?= as_integer($outcome->total) ?></td>
+                <td style="text-align: left;align-items: center"><?= $key + 1 ?></td>
+                <td style="text-align: left;align-items: center"><?= $outcome->productType->product_name ?></td>
+                <td style="text-align: left;align-items: center"><?= $outcome->size .' metr' ?></td>
+                <td style="text-align: left;align-items: center"><?= $outcome->count ?></td>
+                <td style="text-align: left;align-items: center"><?= number_format($outcome->total_size,2). ' metr' ?></td>
+                <td style="text-align: left;align-items: center"><?= as_integer($outcome->cost) ?></td>
+                <td style="text-align: left;align-items: center"><?= as_integer($outcome->total) ?></td>
             </tr>
         <?php endforeach; ?>
         <tr>
@@ -63,9 +63,9 @@ $outcomes = Outcome::find()->where(['group_id' => $model->id])->andWhere(['type_
             <td></td>
             <td></td>
             <td></td>
-            <td style="text-align: center;align-items: center"> <?= Outcome::getSumOutcomeTotalSize(ProductList::TYPE_RULON,$model->id)?></td>
+            <td style="text-align: left;align-items: center"> <?= Outcome::getSumOutcomeTotalSize(ProductList::TYPE_RULON,$model->id).'  metr'?></td>
             <td ></td>
-            <td  style="text-align: center;align-items: center" ><?= as_integer(Outcome::getSumOutcome(ProductList::TYPE_RULON,$model->id))?></td>
+            <td  style="text-align: left;align-items: center" ><?= as_integer(Outcome::getSumOutcome(ProductList::TYPE_RULON,$model->id))?></td>
         </tr>
     </table>
 <?php endif; ?>
@@ -75,7 +75,7 @@ $outcome_products = Outcome::find()->where(['group_id' => $model->id])->andWhere
 ?>
 <?php if ($outcome_products): ?>
     <table border="1" cellspacing="0" cellpadding="3"
-           style="text-align: center; align-items: center;display: none;width: 100%!important;"
+           style="text-align: left; align-items: center;display: none;width: 100%!important;"
            class="table table-bordered table-striped">
 
         <tr>
@@ -83,27 +83,27 @@ $outcome_products = Outcome::find()->where(['group_id' => $model->id])->andWhere
         </tr>
         <tr>
             <td>№</td>
-            <td style="text-align: center;align-items: center">Tovar nomi</td>
-            <td style="text-align: center;align-items: center">Umumiy metr</td>
-            <td style="text-align: center;align-items: center">Narxi</td>
-            <td style="text-align: center;align-items: center">Umumiy summa</td>
+            <td style="text-align: left;align-items: center">Tovar nomi</td>
+            <td style="text-align: left;align-items: center">Umumiy metr</td>
+            <td style="text-align: left;align-items: center">Narxi</td>
+            <td style="text-align: left;align-items: center">Umumiy summa</td>
         </tr>
 
         <?php foreach ($outcome_products as $key => $outcome_product): ?>
             <tr>
-                <td style="text-align: center;align-items: center"><?= $key + 1 ?></td>
-                <td style="text-align: center;align-items: center"><?= $outcome_product->productType->product_name ?></td>
-                <td style="text-align: center;align-items: center"><?= number_format($outcome_product->total_size,2) ?></td>
-                <td style="text-align: center;align-items: center"><?= as_integer($outcome_product->cost) ?></td>
-                <td style="text-align: center;align-items: center"><?= as_integer($outcome_product->total) ?></td>
+                <td style="text-align: left;align-items: center"><?= $key + 1 ?></td>
+                <td style="text-align: left;align-items: center"><?= $outcome_product->productType->product_name ?></td>
+                <td style="text-align: left;align-items: center"><?= number_format($outcome_product->total_size,2) .' metr' ?></td>
+                <td style="text-align: left;align-items: center"><?= as_integer($outcome_product->cost) ?></td>
+                <td style="text-align: left;align-items: center"><?= as_integer($outcome_product->total) ?></td>
             </tr>
         <?php endforeach; ?>
         <tr>
             <td></td>
             <td></td>
-            <td style="text-align: center;align-items: center"> <?= Outcome::getSumOutcomeTotalSize(ProductList::TYPE_PRODUCT,$model->id)?></td>
+            <td style="text-align: left;align-items: center"> <?= Outcome::getSumOutcomeTotalSize(ProductList::TYPE_PRODUCT,$model->id) . ' metr'?></td>
             <td ></td>
-            <td  style="text-align: center;align-items: center" ><?= as_integer(Outcome::getSumOutcome(ProductList::TYPE_PRODUCT,$model->id))?></td>
+            <td  style="text-align: left;align-items: center" ><?= as_integer(Outcome::getSumOutcome(ProductList::TYPE_PRODUCT,$model->id))?></td>
         </tr>
     </table>
 <?php endif; ?>
@@ -113,27 +113,27 @@ $outcome_aksessuars = Outcome::find()->where(['group_id' => $model->id])->andWhe
     <br>
 <?php if ($outcome_aksessuars): ?>
     <table border="1" cellspacing="0" cellpadding="3"
-           style="text-align: center; align-items: center;display: none;width: 100%!important;"
+           style="text-align: left; align-items: center;display: none;width: 100%!important;"
            class="table table-bordered table-striped">
         <tr>
             <td colspan="5" style="text-align: center;align-items: center">Aksessuarlar</td>
         </tr>
         <tr>
             <td>№</td>
-            <td style="text-align: center;align-items: center">Tovar nomi</td>
-            <td style="text-align: center;align-items: center">Umumiy metr</td>
-            <td style="text-align: center;align-items: center">Narxi</td>
-            <td style="text-align: center;align-items: center">Umumiy summa</td>
+            <td style="text-align: left;align-items: center">Tovar nomi</td>
+            <td style="text-align: left;align-items: center">Miqdori</td>
+            <td style="text-align: left;align-items: center">Narxi</td>
+            <td style="text-align: left;align-items: center">Umumiy summa</td>
         </tr>
 
 
         <?php foreach ($outcome_aksessuars as $key => $outcome_aksessuar): ?>
             <tr>
-                <td style="text-align: center;align-items: center"><?= $key + 1 ?></td>
-                <td style="text-align: center;align-items: center"><?= $outcome_aksessuar->productType->product_name ?></td>
-                <td style="text-align: center;align-items: center"><?= number_format($outcome_aksessuar->count,2) ?></td>
-                <td style="text-align: center;align-items: center"><?= as_integer($outcome_aksessuar->cost) ?></td>
-                <td style="text-align: center;align-items: center"><?= as_integer($outcome_aksessuar->total) ?></td>
+                <td style="text-align: left;align-items: center"><?= $key + 1 ?></td>
+                <td style="text-align: left;align-items: center"><?= $outcome_aksessuar->productType->product_name ?></td>
+                <td style="text-align: left;align-items: center"><?= number_format($outcome_aksessuar->count,2).' ' .$outcome_aksessuar->unity->name ?></td>
+                <td style="text-align: left;align-items: center"><?= as_integer($outcome_aksessuar->cost) ?></td>
+                <td style="text-align: left;align-items: center"><?= as_integer($outcome_aksessuar->total) ?></td>
             </tr>
         <?php endforeach; ?>
         <tr>
@@ -141,7 +141,7 @@ $outcome_aksessuars = Outcome::find()->where(['group_id' => $model->id])->andWhe
             <td></td>
             <td></td>
             <td ></td>
-            <td  style="text-align: center;align-items: center" ><?= as_integer(Outcome::getSumOutcome(ProductList::TYPE_AKSESSUAR,$model->id))?></td>
+            <td  style="text-align: left;align-items: center" ><?= as_integer(Outcome::getSumOutcome(ProductList::TYPE_AKSESSUAR,$model->id))?></td>
         </tr>
     </table>
 <?php endif; ?>

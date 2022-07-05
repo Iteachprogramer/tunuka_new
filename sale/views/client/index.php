@@ -60,25 +60,25 @@ CrudAsset::register($this);
                     <td colspan="6" style="vertical-align: middle; text-align: center"> Xaqdorlar va qarizdorlar</td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="vertical-align: middle; text-align: center">Sana:</td>
-                    <td colspan="4" style="vertical-align: middle; text-align: center"><?=Yii::$app->formatter->asDate(time(),'php:d.m.Y')?></td>
+                    <td colspan="2" style="vertical-align: middle; text-align: left">Sana:</td>
+                    <td colspan="4" style="vertical-align: middle; text-align: left"><?=Yii::$app->formatter->asDate(time(),'php:d.m.Y')?></td>
                 </tr>
                 <tr>
-                    <td style="vertical-align: middle; text-align: center">№</td>
-                    <td style="vertical-align: middle; text-align: center">Mijoz nomi</td>
-                    <td style="vertical-align: middle; text-align: center">Qarzi so'mda</td>
-                    <td style="vertical-align: middle; text-align: center">Qarzi dollarda</td>
-                    <td style="vertical-align: middle; text-align: center">Xaqqi so'mda</td>
-                    <td style="vertical-align: middle; text-align: center">Xaqqi dollarda</td>
+                    <td style="vertical-align: middle; text-align: left">№</td>
+                    <td style="vertical-align: middle; text-align: left">Mijoz nomi</td>
+                    <td style="vertical-align: middle; text-align: left">Qarzi so'mda</td>
+                    <td style="vertical-align: middle; text-align: left">Qarzi dollarda</td>
+                    <td style="vertical-align: middle; text-align: left">Xaqqi so'mda</td>
+                    <td style="vertical-align: middle; text-align: left">Xaqqi dollarda</td>
                 </tr>
                 <?php
                 $clients = $dataProvider->getModels();
                 ?>
                 <?php foreach ($clients as $key => $client): ?>
                     <tr>
-                        <td style="vertical-align: middle; text-align: center"><?= $key + 1 ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= $client->fulla_name ?></td>
-                        <td style="vertical-align: middle; text-align: center">
+                        <td style="vertical-align: middle; text-align: left"><?= $key + 1 ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= $client->fulla_name ?></td>
+                        <td style="vertical-align: middle; text-align: left">
                             <?php
                             if ($client->finishAccountSum > 0) {
                                 echo as_integer($client->finishAccountSum);
@@ -87,7 +87,7 @@ CrudAsset::register($this);
                             }
                             ?>
                         </td>
-                        <td style="vertical-align: middle; text-align: center">
+                        <td style="vertical-align: middle; text-align: left">
                             <?php
                             if ($client->finishAccountSumDollar > 0) {
                                 echo as_integer($client->finishAccountSumDollar);
@@ -96,7 +96,7 @@ CrudAsset::register($this);
                             }
                             ?>
                         </td>
-                        <td style="vertical-align: middle; text-align: center">
+                        <td style="vertical-align: middle; text-align: left">
                             <?php
                             if ($client->finishAccountSum < 0) {
                                 echo as_integer($client->finishAccountSum);
@@ -105,7 +105,7 @@ CrudAsset::register($this);
                             }
                             ?>
                         </td>
-                        <td style="vertical-align: middle; text-align: center">
+                        <td style="vertical-align: middle; text-align: left">
                             <?php
                             if ($client->finishAccountSumDollar < 0) {
                                 echo as_integer($client->finishAccountSum);

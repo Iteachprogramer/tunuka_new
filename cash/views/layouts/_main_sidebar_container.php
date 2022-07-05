@@ -42,6 +42,14 @@ $endDate = date('t.m.Y');
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?= Url::to(['/outcome-group']) ?>" class="nav-link">
+                        <i class="nav-icon fas fa-upload"></i>
+                        <p>
+                            Sotilgan yuklar
+                        </p>
+                    </a>
+                </li>
 
             </ul>
         </nav>

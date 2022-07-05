@@ -18,8 +18,8 @@ class OutcomeGroupSearch extends OutcomeGroup
     public function rules()
     {
         return [
-            [['id', 'client_id', 'status', 'discount', 'total', 'created_by', 'updated_by'], 'integer'],
-            [['date'], 'safe'],
+            [['id', 'client_id', 'status', 'discount', 'total',], 'integer'],
+            [['date', 'created_by', 'updated_by'], 'safe'],
         ];
     }
 
@@ -42,7 +42,7 @@ class OutcomeGroupSearch extends OutcomeGroup
     public function search($params, $query = null)
     {
         if ($query === null) {
-            $query = OutcomeGroup::find()->with('client');
+            $query = OutcomeGroup::find()->with('client')->joinWith('createdBy');
         }
 
         $dataProvider = new ActiveDataProvider([
@@ -78,9 +78,10 @@ class OutcomeGroupSearch extends OutcomeGroup
             'status' => $this->status,
             'discount' => $this->discount,
             'total' => $this->total,
-            'created_by' => $this->created_by,
-            'updated_by' => $this->updated_by,
         ]);
+        $query
+            ->andFilterWhere(['like', 'user.firstname', $this->created_by])
+        ;
         return $dataProvider;
     }
 }

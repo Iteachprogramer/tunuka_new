@@ -10,7 +10,7 @@ return [
     [
         'attribute' => 'client_id',
         'format' => 'raw',
-        'width' => '170px',
+        'width' => '220px',
         'value' => function (OutcomeGroup $model) {
             return Html::a($model->client->fulla_name, Url::to(['/outcome/rulon-index', 'id' => $model->id,]), ['data-pjax' => '0']);
         },
@@ -48,7 +48,6 @@ return [
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'discount',
-        'width' => '100px',
         'format' => 'integer',
     ],
     [
@@ -76,14 +75,6 @@ return [
         'pageSummary' => true,
         'value' => function (OutcomeGroup $model) {
             return ($model->total ? $model->total : $model->outcomeSum) - $model->accountSum;
-        }
-    ],
-    [
-        'attribute' => 'created_by',
-        'format' => 'raw',
-        'label' => 'Sotuvchi',
-        'value' => function (OutcomeGroup $model) {
-            return $model->createdBy->firstname .' ' . $model->createdBy->lastname;
         }
     ],
     [

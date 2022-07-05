@@ -47,7 +47,7 @@ class OutcomeSearch extends Outcome
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 200,
+                'pageSize' => 800,
             ],
             'sort' => [
                 'defaultOrder' => [

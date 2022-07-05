@@ -62,39 +62,11 @@ class OutcomeGroupController extends AjaxCrudController
             'dataProvider' => $dataProvider,
         ]);
     }
-    public function actionCash()
-    {
-        $id = Yii::$app->request->get('id');
-        $model = $this->findModel($id);
-        $request = Yii::$app->request;
-        $model = new Account([
-            'date' => Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
-            'client_id' => $model->client_id,
-            'group_id' => $model->id,
-            'type_id' => Account::TYPE_INCOME,
-        ]);
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        if ($model->load($request->post()) && $model->save()) {
-            return [
-                'forceReload' => '#crud-datatable-pjax',
-                'forceClose' => true,
-            ];
-        } else {
-            return [
-                'title' => "Kassa",
-                'content' => $this->renderAjax('cash', [
-                    'model' => $model,
-                ]),
-                'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                    Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
-
-            ];
-        }
-    }
 
     public function actionClientOutcomeGroup()
     {
         $id = Yii::$app->request->get('id');
+        $date = Yii::$app->request->get('OutcomeGroupSearch')['date'];
         $client = Client::findOne($id);
         $searchModel = new OutcomeGroupSearch([
             'client_id' => $client->id
@@ -104,7 +76,8 @@ class OutcomeGroupController extends AjaxCrudController
             return $this->render('client-group', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
-                'client_id' => $client->id
+                'client_id' => $client->id,
+                'date' => $date,
             ]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -153,6 +126,36 @@ class OutcomeGroupController extends AjaxCrudController
             return [
                 'title' => "Yangi qo'shish",
                 'content' => $this->renderAjax('create', [
+                    'model' => $model,
+                ]),
+                'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                    Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
+
+            ];
+        }
+    }
+
+    public function actionCash()
+    {
+        $id = Yii::$app->request->get('id');
+        $model = $this->findModel($id);
+        $request = Yii::$app->request;
+        $model = new Account([
+            'date' => Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
+            'client_id' => $model->client_id,
+            'group_id' => $model->id,
+            'type_id' => Account::TYPE_INCOME,
+        ]);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if ($model->load($request->post()) && $model->save()) {
+            return [
+                'forceReload' => '#crud-datatable-pjax',
+                'forceClose' => true,
+            ];
+        } else {
+            return [
+                'title' => "Kassa",
+                'content' => $this->renderAjax('cash', [
                     'model' => $model,
                 ]),
                 'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .

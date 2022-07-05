@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Account;
 use common\models\Client;
 use common\models\Outcome;
 use common\models\OutcomeGroup;
@@ -15,7 +16,8 @@ use yii\web\View;
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\search\OutcomeGroupSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-
+/** @var Client $client_id */
+/** @var Account $date */
 $this->title = 'Yuk sotish';
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -157,34 +159,34 @@ CrudAsset::register($this);
     $groups = $dataProvider->getModels();
     ?>
     <table cellspacing="0" cellpadding="3"
-           style="text-align: center; align-items: center;display: none;width: 100%!important;"
+           style="text-align: left; align-items: center;display: none;width: 100%!important;"
            class="table table-bordered table-striped">
         <tr>
-            <td colspan="4" style="text-align: center; align-items: center;">Mijoz:</td>
-            <td colspan="4" style="text-align: center; align-items: center;"><?= $groups[0]->client->fulla_name ?></td>
+            <td colspan="4" style="text-align: left; align-items: center;">Mijoz:</td>
+            <td colspan="4" style="text-align: left; align-items: center;"><?= $groups[0]->client->fulla_name ?></td>
         </tr>
         <tr>
-            <td colspan="4" style="text-align: center; align-items: center;">Xisobot chop etilgan sana</td>
+            <td colspan="4" style="text-align: left; align-items: center;">Xisobot chop etilgan sana</td>
             <td colspan="4"
-                style="text-align: center; align-items: center;"><?= Yii::$app->formatter->asDate(time(), 'php:d.m.Y') ?></td>
+                style="text-align: left; align-items: center;"><?= Yii::$app->formatter->asDate(time(), 'php:d.m.Y') ?></td>
         </tr>
     </table>
     <br>
     <table border="1" cellspacing="0" cellpadding="3"
-           style="text-align: center; align-items: center;display: none;width: 100%!important;"
+           style="text-align: left; align-items: center;display: none;width: 100%!important;"
            class="table table-bordered table-striped">
         <tr>
             <td colspan="8" style="vertical-align: middle; text-align: center"> Rulonlar</td>
         </tr>
         <tr>
             <td>№</td>
-            <td style="text-align: center;align-items: center">Tovar nomi</td>
-            <td style="text-align: center;align-items: center">Sana</td>
-            <td style="text-align: center;align-items: center">O'lchami</td>
-            <td style="text-align: center;align-items: center">soni</td>
-            <td style="text-align: center;align-items: center">Umumiy metr</td>
-            <td style="text-align: center;align-items: center">Narxi</td>
-            <td style="text-align: center;align-items: center">Umumiy summa</td>
+            <td style="text-align: left;align-items: center">Tovar nomi</td>
+            <td style="text-align: left;align-items: center">Sana</td>
+            <td style="text-align: left;align-items: center">O'lchami</td>
+            <td style="text-align: left;align-items: center">soni</td>
+            <td style="text-align: left;align-items: center">Umumiy metr</td>
+            <td style="text-align: left;align-items: center">Narxi</td>
+            <td style="text-align: left;align-items: center">Umumiy summa</td>
         </tr>
         <?php
         $rulon_sum = 0;
@@ -201,14 +203,14 @@ CrudAsset::register($this);
                     $rulon_length += $outcome->total_size;
                     ?>
                     <tr>
-                        <td style="text-align: center;align-items: center"><?= $key + 1 ?></td>
-                        <td style="text-align: center;align-items: center"><?= $outcome->productType->product_name ?></td>
-                        <td style="text-align: center;align-items: center"><?= Yii::$app->formatter->asDatetime($group->date, 'php:d.m.Y H:i:s') ?></td>
-                        <td style="text-align: center;align-items: center"><?= number_format($outcome->size, 2) . ' metr' ?></td>
-                        <td style="text-align: center;align-items: center"><?= $outcome->count ?></td>
-                        <td style="text-align: center;align-items: center"><?= number_format($outcome->total_size, 2) . ' metr' ?></td>
-                        <td style="text-align: center;align-items: center"><?= as_integer($outcome->cost) ?></td>
-                        <td style="text-align: center;align-items: center"><?= as_integer($outcome->total) ?></td>
+                        <td style="text-align: left;align-items: center"><?= $key + 1 ?></td>
+                        <td style="text-align: left;align-items: center"><?= $outcome->productType->product_name ?></td>
+                        <td style="text-align: left;align-items: center"><?= Yii::$app->formatter->asDatetime($group->date, 'php:d.m.Y H:i:s') ?></td>
+                        <td style="text-align: left;align-items: center"><?= number_format($outcome->size, 2) . ' metr' ?></td>
+                        <td style="text-align: left;align-items: center"><?= $outcome->count ?></td>
+                        <td style="text-align: left;align-items: center"><?= number_format($outcome->total_size, 2) . ' metr' ?></td>
+                        <td style="text-align: left;align-items: center"><?= as_integer($outcome->cost) ?></td>
+                        <td style="text-align: left;align-items: center"><?= as_integer($outcome->total) ?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -219,14 +221,14 @@ CrudAsset::register($this);
             <td></td>
             <td></td>
             <td></td>
-            <td style="text-align: center;align-items: center"><?= number_format($rulon_length, 2) . ' metr ' ?></td>
+            <td style="text-align: left;align-items: center"><?= number_format($rulon_length, 2) . ' metr ' ?></td>
             <td></td>
-            <td style="text-align: center;align-items: center"><?= as_integer($rulon_sum) ?></td>
+            <td style="text-align: left;align-items: center"><?= as_integer($rulon_sum) ?></td>
         </tr>
     </table>
     <br>
     <table border="1" cellspacing="0" cellpadding="3"
-           style="text-align: center; align-items: center;display: none;width: 100%!important;"
+           style="text-align: left; align-items: center;display: none;width: 100%!important;"
            class="table table-bordered table-striped">
 
         <tr>
@@ -234,11 +236,11 @@ CrudAsset::register($this);
         </tr>
         <tr>
             <td>№</td>
-            <td style="text-align: center;align-items: center">Mahsulot nomi</td>
-            <td style="text-align: center;align-items: center">Sana</td>
-            <td style="text-align: center;align-items: center">O'lchami</td>
-            <td style="text-align: center;align-items: center">Narxi</td>
-            <td style="text-align: center;align-items: center">Umumiy summa</td>
+            <td style="text-align: left;align-items: center">Mahsulot nomi</td>
+            <td style="text-align: left;align-items: center">Sana</td>
+            <td style="text-align: left;align-items: center">O'lchami</td>
+            <td style="text-align: left;align-items: center">Narxi</td>
+            <td style="text-align: left;align-items: center">Umumiy summa</td>
         </tr>
         <?php
         $outcomes_product_sum = 0;
@@ -253,12 +255,12 @@ CrudAsset::register($this);
                     $outcome_products_total_size += $outcome_product->total_size;
                     ?>
                     <tr>
-                        <td style="text-align: center;align-items: center"><?= $key + 1 ?></td>
-                        <td style="text-align: center;align-items: center"><?= $outcome_product->productType->product_name ?></td>
-                        <td style="text-align: center;align-items: center"><?= Yii::$app->formatter->asDatetime($group->date, 'php:d.m.Y H:i:s') ?></td>
-                        <td style="text-align: center;align-items: center"><?= number_format($outcome_product->total_size, 2) . ' ' . $outcome_product->unity->name ?></td>
-                        <td style="text-align: center;align-items: center"><?= as_integer($outcome_product->cost) ?></td>
-                        <td style="text-align: center;align-items: center"><?= as_integer($outcome_product->total) ?></td>
+                        <td style="text-align: left;align-items: center"><?= $key + 1 ?></td>
+                        <td style="text-align: left;align-items: center"><?= $outcome_product->productType->product_name ?></td>
+                        <td style="text-align: left;align-items: center"><?= Yii::$app->formatter->asDatetime($group->date, 'php:d.m.Y H:i:s') ?></td>
+                        <td style="text-align: left;align-items: center"><?= number_format($outcome_product->total_size, 2) . ' ' . $outcome_product->unity->name ?></td>
+                        <td style="text-align: left;align-items: center"><?= as_integer($outcome_product->cost) ?></td>
+                        <td style="text-align: left;align-items: center"><?= as_integer($outcome_product->total) ?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -267,14 +269,14 @@ CrudAsset::register($this);
             <td></td>
             <td></td>
             <td></td>
-            <td style="text-align: center;align-items: center"><?= number_format($outcome_products_total_size, 2) . ' ' . $outcome_product->unity->name ?></td>
+            <td style="text-align: left;align-items: center"><?= number_format($outcome_products_total_size, 2) . ' ' . $outcome_product->unity->name ?></td>
             <td></td>
-            <td style="text-align: center;align-items: center"><?= as_integer($outcomes_product_sum) ?></td>
+            <td style="text-align: left;align-items: center"><?= as_integer($outcomes_product_sum) ?></td>
         </tr>
     </table>
     <br>
     <table border="1" cellspacing="0" cellpadding="3"
-           style="text-align: center; align-items: center;display: none;width: 100%!important;"
+           style="text-align: left; align-items: center;display: none;width: 100%!important;"
            class="table table-bordered table-striped">
 
         <tr>
@@ -282,11 +284,11 @@ CrudAsset::register($this);
         </tr>
         <tr>
             <td>№</td>
-            <td style="text-align: center;align-items: center">Mahsulot nomi</td>
-            <td style="text-align: center;align-items: center">Sana</td>
-            <td style="text-align: center;align-items: center">Miqdori</td>
-            <td style="text-align: center;align-items: center">Narxi</td>
-            <td style="text-align: center;align-items: center">Umumiy summa</td>
+            <td style="text-align: left;align-items: center">Mahsulot nomi</td>
+            <td style="text-align: left;align-items: center">Sana</td>
+            <td style="text-align: left;align-items: center">Miqdori</td>
+            <td style="text-align: left;align-items: center">Narxi</td>
+            <td style="text-align: left;align-items: center">Umumiy summa</td>
         </tr>
         <?php
         $outcome_aksessuar_sum = 0;
@@ -299,12 +301,12 @@ CrudAsset::register($this);
                     $outcome_aksessuar_sum += $outcome_aksessuar->total;
                     ?>
                     <tr>
-                        <td style="text-align: center;align-items: center"><?= $key + 1 ?></td>
-                        <td style="text-align: center;align-items: center"><?= $outcome_aksessuar->productType->product_name ?></td>
-                        <td style="text-align: center;align-items: center"><?= Yii::$app->formatter->asDatetime($group->date, 'php:d.m.Y H:i:s') ?></td>
-                        <td style="text-align: center;align-items: center"><?= number_format($outcome_aksessuar->count, 2) . ' ' . $outcome_aksessuar->unity->name ?></td>
-                        <td style="text-align: center;align-items: center"><?= as_integer($outcome_aksessuar->cost) ?></td>
-                        <td style="text-align: center;align-items: center"><?= as_integer($outcome_aksessuar->total) ?></td>
+                        <td style="text-align: left;align-items: center"><?= $key + 1 ?></td>
+                        <td style="text-align: left;align-items: center"><?= $outcome_aksessuar->productType->product_name ?></td>
+                        <td style="text-align: left;align-items: center"><?= Yii::$app->formatter->asDatetime($group->date, 'php:d.m.Y H:i:s') ?></td>
+                        <td style="text-align: left;align-items: center"><?= number_format($outcome_aksessuar->count, 2) . ' ' . $outcome_aksessuar->unity->name ?></td>
+                        <td style="text-align: left;align-items: center"><?= as_integer($outcome_aksessuar->cost) ?></td>
+                        <td style="text-align: left;align-items: center"><?= as_integer($outcome_aksessuar->total) ?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php endif; ?>
@@ -315,9 +317,65 @@ CrudAsset::register($this);
             <td></td>
             <td></td>
             <td></td>
-            <td style="text-align: center;align-items: center"><?= as_integer($outcome_aksessuar_sum) ?></td>
+            <td style="text-align: left;align-items: center"><?= as_integer($outcome_aksessuar_sum) ?></td>
     </table>
     <br>
+    <table border="1" cellspacing="0" cellpadding="3"
+           style="text-align: left; align-items: center;display: none;width: 100%!important;"
+           class="table table-bordered table-striped">
+        <tr>
+            <td colspan="5" style="vertical-align: middle; text-align: center">Mijozdan olingan pullar</td>
+        </tr>
+        <tr>
+            <td>№</td>
+            <td style="text-align: left;align-items: center">Sana</td>
+            <td style="text-align: left;align-items: center">Sum</td>
+            <td style="text-align: left;align-items: center">Bank</td>
+            <td style="text-align: left;align-items: center">Dollar</td>
+        </tr>
+        <?php
+        if ($date) {
+            $dates = explode(' - ', $date, 2);
+            if (count($dates) == 2) {
+                $begin = strtotime($dates[0]);
+                $end = strtotime('+1 day', strtotime($dates[1]));
+                $accounts = Account::find()
+                    ->andWhere(['client_id' => $client_id])
+                    ->andFilterWhere(['>=', 'account.date', $begin])
+                    ->andFilterWhere(['<', 'account.date', $end])
+                    ->all();
+            }
+        } else {
+            $accounts = Account::find()
+                ->andWhere(['client_id' => $client_id])
+                ->all();
+        }
+        $account_sum = 0;
+        $account_dollar_sum = 0;
+        $account_bank_sum = 0;
+        ?>
+        <?php foreach ($accounts as $key => $account): ?>
+            <?php
+            $account_sum += $account->sum;
+            $account_dollar_sum += $account->dollar;
+            $account_bank_sum += $account->bank;
+            ?>
+            <tr>
+                <td style="text-align: left;align-items: center"><?= $key + 1 ?></td>
+                <td style="text-align: left;align-items: center"><?= Yii::$app->formatter->asDatetime($account->date, 'php:d.m.Y') ?></td>
+                <td style="text-align: left;align-items: center"><?= as_integer($account->sum) ?></td>
+                <td style="text-align: left;align-items: center"><?= as_integer($account->bank) ?></td>
+                <td style="text-align: left;align-items: center"><?= floatval($account->dollar) ?></td>
+            </tr>
+        <?php endforeach; ?>
+
+        <tr>
+            <td></td>
+            <td>Jami</td>
+            <td align="left"><?= $account_sum ?></td>
+            <td align="left"><?= $account_bank_sum ?></td>
+            <td align="left"><?= $account_dollar_sum ?></td>
+    </table>
 </div>
 <input type="hidden" value="<?= $url ?>" name="url_group">
 <?php

@@ -66,6 +66,7 @@ class OutcomeGroupController extends AjaxCrudController
     public function actionClientOutcomeGroup()
     {
         $id = Yii::$app->request->get('id');
+        $date = Yii::$app->request->get('OutcomeGroupSearch')['date'];
         $client = Client::findOne($id);
         $searchModel = new OutcomeGroupSearch([
             'client_id' => $client->id
@@ -75,7 +76,8 @@ class OutcomeGroupController extends AjaxCrudController
             return $this->render('client-group', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
-                'client_id' => $client->id
+                'client_id' => $client->id,
+                'date' => $date,
             ]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -99,8 +99,8 @@ class Account extends \soft\db\ActiveRecord
     {
         return [
             [['type_id',], 'required'],
-            [['client_id', 'type_id', 'sum', 'dollar', 'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by', 'employee_id', 'group_id'], 'integer'],
-            [['dollar_course'], 'number'],
+            [['client_id', 'type_id', 'sum',  'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by', 'employee_id', 'group_id'], 'integer'],
+            [['dollar_course','dollar',], 'number'],
             [['comment'], 'string', 'max' => 255],
             ['date', 'safe'],
             ['date', 'default', 'value' => time()],
@@ -109,7 +109,6 @@ class Account extends \soft\db\ActiveRecord
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employees::className(), 'targetAttribute' => ['employee_id' => 'id']],
         ];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -124,7 +123,6 @@ class Account extends \soft\db\ActiveRecord
             ]
         ];
     }
-
     /**
      * {@inheritdoc}
      */
@@ -162,12 +160,10 @@ class Account extends \soft\db\ActiveRecord
     {
         return $this->hasOne(Client::className(), ['id' => 'client_id']);
     }
-
     public function getGroup()
     {
         return $this->hasOne(OutcomeGroup::className(), ['id' => 'group_id']);
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -175,12 +171,10 @@ class Account extends \soft\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
-
     public function getEmployee()
     {
         return $this->hasOne(Employees::className(), ['id' => 'employee_id']);
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -188,9 +182,7 @@ class Account extends \soft\db\ActiveRecord
     {
         return $this->hasOne(ExpenseType::className(), ['id' => 'expense_type_id']);
     }
-
     const SCENARIO_MAIN = 'main';
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -198,7 +190,6 @@ class Account extends \soft\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
-
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {
@@ -219,11 +210,11 @@ class Account extends \soft\db\ActiveRecord
     {
         if ($this->type_id == self::TYPE_INCOME) {
             $this->sum = abs(intval($this->sum));
-            $this->dollar = abs(intval($this->dollar));
+            $this->dollar = abs(floatval($this->dollar));
             $this->bank = abs(intval($this->bank));
         } else {
             $this->sum = -1 * abs(intval($this->sum));
-            $this->dollar = -1 * abs(intval($this->dollar));
+            $this->dollar = -1 * abs(floatval($this->dollar));
             $this->bank = -1 * abs(intval($this->bank));
         }
         $course = DollarCourse::find()->orderBy(['id' => SORT_DESC])->one();

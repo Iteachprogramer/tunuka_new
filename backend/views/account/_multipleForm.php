@@ -97,7 +97,7 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
         'dollar' => [
             'label' => "Dollar",
             'field' => function ($form, $model, $attribute) {
-                return $form->field($model, $attribute, ['enableClientValidation' => false])->input('number')->label(false);
+                return $form->field($model, $attribute, ['enableClientValidation' => false])->label(false);
             },
         ],
         'bank' => [

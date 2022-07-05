@@ -113,7 +113,7 @@ return [
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'total',
-        'format' => ['decimal', 0],
+        'format' => ['decimal', 3],
         'width' => '120px',
         'pageSummary' => true,
     ],

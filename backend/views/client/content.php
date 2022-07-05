@@ -20,16 +20,16 @@ use common\models\Client;
                     <tr>
                         <td>Jami olingan yuk tona:</td>
                         <th>
-                            <?=$model->incomesCountWeight?> tona
+                            <?=number_format($model->incomesCountWeight,2,'.',' ')?> tona
                         </th>
-                        <th><?=$model->incomesCountWeightSum ? as_integer($model->incomesCountWeightSum).' $':0?></th>
+                        <th><?=$model->incomesCountWeightSum ? $model->incomesCountWeightSum.' $':0?></th>
                     </tr>
                     <tr>
                         <td>Jami olingan yuk kg:</td>
                         <th>
-                            <?=$model->incomesCountKg?> Kg
+                            <?=number_format($model->incomesCountKg,2,'.',' ')?> Kg
                         </th>
-                        <th><?=$model->incomesCountKgSum ? as_integer($model->incomesCountKgSum).' $':0?></th>
+                        <th><?=$model->incomesCountKgSum ? $model->incomesCountKgSum.' $':0?></th>
                     </tr>
                     <tr>
                         <td>Jami olingan yuk Dona:</td>
@@ -39,7 +39,7 @@ use common\models\Client;
                     </tr>
                     <tr class="table-warning">
                         <th colspan="2">Umumiy:</th>
-                        <th><?=as_integer($model->getIncomesSum()).' $'?></th>
+                        <th><?=$model->getIncomesSum().' $'?></th>
                     </tr>
                 </table>
             </div>
@@ -78,7 +78,7 @@ use common\models\Client;
                         </tr>
                         <tr class="table-warning">
                             <th colspan=1">Umumiy summa</th>
-                            <th><?=as_integer($model->getOutcomeSum())?></th>
+                            <th><?=$model->getOutcomeSum()?></th>
                         </tr>
                     </table>
                 </div>

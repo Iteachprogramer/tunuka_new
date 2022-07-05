@@ -137,23 +137,11 @@ CrudAsset::register($this);
             ],
             [
                 'attribute' => 'dollar',
-                'format' => 'integer',
+                'format' => 'decimal',
                 'width' => '120px',
                 'pageSummary' => true,
             ],
             'comment',
-
-//            'dollar_course',
-//            [
-//                'attribute' => 'dollarTotal',
-//                'format' => 'integer',
-//                'pageSummary' => true,
-//            ],
-//            [
-//                'attribute' => 'bank',
-//                'width' => '160px',
-//                'format' => 'integer',
-//            ],
             [
                 'class' => 'soft\grid\ActionColumn',
                 'width' => '120px',

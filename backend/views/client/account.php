@@ -67,7 +67,7 @@ CrudAsset::register($this);
             ],
             [
                 'attribute' => 'dollar',
-                'format' => 'integer',
+                'format' => 'decimal',
                 'pageSummary' => true,
             ],
             'dollar_course',

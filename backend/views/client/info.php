@@ -15,7 +15,7 @@
             <span class="info-box-icon bg-success"><i class="fas fa-funnel-dollar"></i></span>
             <div class="info-box-content">
                 <span class="info-box-text">Hozirgi hisob Dollarda:</span>
-                <span class="info-box-number"><?=number_format($model->finishAccountSumDollar,0,' ',' ')?></span>
+                <span class="info-box-number"><?=number_format($model->finishAccountSumDollar,3,'.',' ')?></span>
             </div>
         </div>
     </div>

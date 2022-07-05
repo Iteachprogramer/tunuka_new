@@ -34,7 +34,7 @@ return [
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'residue_dollar',
-        'format' => ['decimal', 0],
+        'format' => ['decimal', 3],
         'value' => function (Client $model) {
             return $model->finishAccountSumDollar;
         }

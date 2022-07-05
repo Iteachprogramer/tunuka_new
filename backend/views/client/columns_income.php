@@ -19,7 +19,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'cost',
-        'format' => 'integer',
+        'format' => 'decimal',
 
     ],
     [
@@ -36,7 +36,7 @@ return [
     [
         'class'=>'\kartik\grid\DataColumn',
         'attribute'=>'total',
-        'format' => 'integer',
+        'format' => 'decimal',
         'pageSummary' => true,
     ],
     [

@@ -165,14 +165,14 @@ $product_arr = \soft\helpers\ArrayHelper::map(
     <div class="card-body">
         <div class="table-responsive">
             <table border="1" cellspacing="0" cellpadding="3" id="myTable"
-                   style="text-align: center; align-items: center;display: none;width: 100%!important;"
+                   style="text-align: left; align-items: center;display: none;width: 100%!important;"
                    class="table table-bordered table-striped">
                 <tr>
-                    <td style="vertical-align: middle; text-align: center">Aksessuar</td>
-                    <td style="vertical-align: middle; text-align: center">Sana</td>
-                    <td style="vertical-align: middle; text-align: center">Narx</td>
-                    <td style="vertical-align: middle; text-align: center">Miqdori</td>
-                    <td style="vertical-align: middle; text-align: center">Umumiy summa</td>
+                    <td style="vertical-align: middle; text-align: left">Aksessuar</td>
+                    <td style="vertical-align: middle; text-align: left">Sana</td>
+                    <td style="vertical-align: middle; text-align: left">Narx</td>
+                    <td style="vertical-align: middle; text-align: left">Miqdori</td>
+                    <td style="vertical-align: middle; text-align: left">Umumiy summa</td>
                 </tr>
                 <tr>
                     <td colspan="5"></td>
@@ -183,22 +183,22 @@ $product_arr = \soft\helpers\ArrayHelper::map(
                 ?>
                 <?php foreach ($aksessuars as $aksessuar): ?>
                     <tr>
-                        <td style="vertical-align: middle; text-align: center"><?= $aksessuar->productType->product_name ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= Yii::$app->formatter->asDatetime($aksessuar->created_at, 'php:d.m.Y H:i:s') ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= as_integer($aksessuar->cost) ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= $aksessuar->count . ' ' . $aksessuar->unity->name ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= as_integer($aksessuar->total) ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= $aksessuar->productType->product_name ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= Yii::$app->formatter->asDatetime($aksessuar->created_at, 'php:d.m.Y H:i:s') ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= as_integer($aksessuar->cost) ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= $aksessuar->count . ' ' . $aksessuar->unity->name ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= as_integer($aksessuar->total) ?></td>
                     </tr>
                     <?php
                     $aksessuars_summa += $aksessuar->total;
                     ?>
                 <?php endforeach; ?>
                 <tr>
-                    <td style="vertical-align: middle; text-align: center"></td>
-                    <td style="vertical-align: middle; text-align: center"></td>
-                    <td style="vertical-align: middle; text-align: center"></td>
-                    <td style="vertical-align: middle; text-align: center"></td>
-                    <td style="vertical-align: middle; text-align: center"><?=as_integer($aksessuars_summa) ?></td>
+                    <td style="vertical-align: middle; text-align: left"></td>
+                    <td style="vertical-align: middle; text-align: left"></td>
+                    <td style="vertical-align: middle; text-align: left"></td>
+                    <td style="vertical-align: middle; text-align: left"></td>
+                    <td style="vertical-align: middle; text-align: left"><?=as_integer($aksessuars_summa) ?></td>
                 </tr>
             </table>
 

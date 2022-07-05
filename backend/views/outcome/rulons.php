@@ -115,13 +115,13 @@ $this->registerCss($css)
                    style="text-align: center; align-items: center;display: none;width: 100%!important;"
                    class="table table-bordered table-striped">
                 <tr>
-                    <td style="vertical-align: middle; text-align: center">Rulon</td>
-                    <td style="vertical-align: middle; text-align: center">Sana</td>
-                    <td style="vertical-align: middle; text-align: center">Narx</td>
-                    <td style="vertical-align: middle; text-align: center">O'lchami</td>
-                    <td style="vertical-align: middle; text-align: center">Miqdori</td>
-                    <td style="vertical-align: middle; text-align: center">Umumiy o'lcham</td>
-                    <td style="vertical-align: middle; text-align: center">Umumiy summa</td>
+                    <td style="vertical-align: middle; text-align: left">Rulon</td>
+                    <td style="vertical-align: middle; text-align: left">Sana</td>
+                    <td style="vertical-align: middle; text-align: left">Narx</td>
+                    <td style="vertical-align: middle; text-align: left">O'lchami</td>
+                    <td style="vertical-align: middle; text-align: left">Miqdori</td>
+                    <td style="vertical-align: middle; text-align: left">Umumiy o'lcham</td>
+                    <td style="vertical-align: middle; text-align: left">Umumiy summa</td>
                 </tr>
                 <tr>
                     <td colspan="7"></td>
@@ -133,13 +133,13 @@ $this->registerCss($css)
                 ?>
                 <?php foreach ($rulons as $rulon): ?>
                     <tr>
-                        <td style="vertical-align: middle; text-align: center"><?= $rulon->productType->product_name ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= Yii::$app->formatter->asDatetime($rulon->created_at, 'php:d.m.Y H:i:s') ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= $rulon->cost ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= $rulon->size . ' ' . $rulon->unity->name ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= $rulon->count ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= $rulon->total_size . ' ' . $rulon->unity->name ?></td>
-                        <td style="vertical-align: middle; text-align: center"><?= $rulon->total ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= $rulon->productType->product_name ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= Yii::$app->formatter->asDatetime($rulon->created_at, 'php:d.m.Y H:i:s') ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= $rulon->cost ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= $rulon->size . ' ' . $rulon->unity->name ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= $rulon->count ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= $rulon->total_size . ' ' . $rulon->unity->name ?></td>
+                        <td style="vertical-align: middle; text-align: left"><?= $rulon->total ?></td>
                     </tr>
                     <?php
                     $rulons_summa += $rulon->total;
@@ -147,13 +147,13 @@ $this->registerCss($css)
                     ?>
                 <?php endforeach; ?>
                 <tr>
-                    <td style="vertical-align: middle; text-align: center"></td>
-                    <td style="vertical-align: middle; text-align: center"></td>
-                    <td style="vertical-align: middle; text-align: center"></td>
-                    <td style="vertical-align: middle; text-align: center"></td>
-                    <td style="vertical-align: middle; text-align: center"></td>
-                    <td style="vertical-align: middle; text-align: center"><?= $rulons_total_size ?> metr</td>
-                    <td style="vertical-align: middle; text-align: center"><?= $rulons_summa ?></td>
+                    <td style="vertical-align: middle; text-align: left"></td>
+                    <td style="vertical-align: middle; text-align: left"></td>
+                    <td style="vertical-align: middle; text-align: left"></td>
+                    <td style="vertical-align: middle; text-align: left"></td>
+                    <td style="vertical-align: middle; text-align: left"></td>
+                    <td style="vertical-align: middle; text-align: left"><?= $rulons_total_size ?> metr</td>
+                    <td style="vertical-align: middle; text-align: left"><?= $rulons_summa ?></td>
                 </tr>
             </table>
 

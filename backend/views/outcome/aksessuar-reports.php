@@ -2,6 +2,7 @@
 
 use common\models\Outcome;
 use common\models\ProductList;
+use kartik\daterange\DateRangePicker;
 use soft\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -17,7 +18,6 @@ $this->title = 'Mahsulot';
 $this->params['breadcrumbs'][] = $this->title;
 
 CrudAsset::register($this);
-echo $this->render('info_outcome');
 
 $css = <<< CSS
 .kv-panel-before{
@@ -37,8 +37,46 @@ $product_arr = \soft\helpers\ArrayHelper::map(
     'product_name'
 );
 ?>
-<a id="downloadLink" onclick="exportF(this)" class="btn btn-primary fa fa-file-excel-o" style="margin-bottom: 15px;padding: 10px"> Hisobot olish</a>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6" style="width: 100%">
+                <form class="form-inline" action="<?= Url::to(['outcome/aksessuar-report-search']) ?>" id="aksessuar-report">
+                    <?php
+                    /** @var Load $model */
+                    echo DateRangePicker::widget([
+                        'name' => 'range',
+                        'attribute' => 'date_range',
+                        'presetDropdown' => true,
+                        'convertFormat' => true,
+                        'includeMonthsFilter' => true,
+                        'startAttribute' => 'datetime_min',
+                        'endAttribute' => 'datetime_max',
+                        'pluginOptions' => [
+                            'timePickerIncrement' => 30,
+                            'locale' => [
+                                'format' => 'Y-m-d H:i:s'
+                            ]
+                        ]
+                    ]);
+                    ?>
+                    <?= Html::submitButton('<i class="fas fa-search"></i> Qidirish ', ['class' => 'btn btn-primary text-white', 'style' => 'margin-left:5px']) ?>
+                </form>
+            </div>
+        </div>
+        <br>
 
+
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<?= $this->render('info_outcome') ?>
+<?php
+
+
+?>
+<a id="downloadLink" class="btn btn-primary fa fa-file-excel-o" style="margin-bottom: 15px;padding: 10px;display: none;width: 140px">
+    Hisobot olish</a>
 <div class="outcome-index">
     <div id="ajaxCrudDatatable">
         <?= GridView::widget([
@@ -164,58 +202,29 @@ $product_arr = \soft\helpers\ArrayHelper::map(
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table border="1" cellspacing="0" cellpadding="3" id="myTable"
-                   style="text-align: left; align-items: center;display: none;width: 100%!important;"
-                   class="table table-bordered table-striped">
-                <tr>
-                    <td style="vertical-align: middle; text-align: left">Aksessuar</td>
-                    <td style="vertical-align: middle; text-align: left">Sana</td>
-                    <td style="vertical-align: middle; text-align: left">Narx</td>
-                    <td style="vertical-align: middle; text-align: left">Miqdori</td>
-                    <td style="vertical-align: middle; text-align: left">Umumiy summa</td>
-                </tr>
-                <tr>
-                    <td colspan="5"></td>
-                </tr>
-                <?php
-                $aksessuars_summa = 0;
-               $aksessuars = $dataProvider->getModels();
-                ?>
-                <?php foreach ($aksessuars as $aksessuar): ?>
-                    <tr>
-                        <td style="vertical-align: middle; text-align: left"><?= $aksessuar->productType->product_name ?></td>
-                        <td style="vertical-align: middle; text-align: left"><?= Yii::$app->formatter->asDatetime($aksessuar->created_at, 'php:d.m.Y H:i:s') ?></td>
-                        <td style="vertical-align: middle; text-align: left"><?= as_integer($aksessuar->cost) ?></td>
-                        <td style="vertical-align: middle; text-align: left"><?= $aksessuar->count . ' ' . $aksessuar->unity->name ?></td>
-                        <td style="vertical-align: middle; text-align: left"><?= as_integer($aksessuar->total) ?></td>
-                    </tr>
-                    <?php
-                    $aksessuars_summa += $aksessuar->total;
-                    ?>
-                <?php endforeach; ?>
-                <tr>
-                    <td style="vertical-align: middle; text-align: left"></td>
-                    <td style="vertical-align: middle; text-align: left"></td>
-                    <td style="vertical-align: middle; text-align: left"></td>
-                    <td style="vertical-align: middle; text-align: left"></td>
-                    <td style="vertical-align: middle; text-align: left"><?=as_integer($aksessuars_summa) ?></td>
-                </tr>
-            </table>
 
         </div>
     </div>
 </div>
-
 <?php
-$js = <<<JS
-        function exportF(elem) {
-        var table = document.getElementById("myTable");
-        var html = table.outerHTML;
-        var url = 'data:application/vnd.ms-excel,' + '\uFEFF' + encodeURIComponent(html); // Set your html table into url
-        elem.setAttribute("href", url);
-        elem.setAttribute("download", "Aksessuar.xls"); // Choose the file name
-        return false;
-    }
+$js2 = <<< JS
+    $(document).on('submit', '#aksessuar-report', function(e){
+        e.preventDefault()
+        let rulons=$('#aksessuar-report')
+        let elem = $('#downloadLink');
+          $.ajax({
+            url: rulons.attr('action'),
+            data: rulons.serialize(),
+            success: function(result){
+            $('#downloadLink').css('display','block')
+             let data = result.message
+                var url = 'data:application/vnd.ms-excel,' + '\uFEFF' + encodeURIComponent(data); 
+                elem.attr("href", url);
+                elem.attr("download", "Aksessuar.xls"); // Choose the file name
+            }
+        })
+    })
+  
 JS;
-$this->registerJs($js, \yii\web\View::POS_HEAD);
+$this->registerJs($js2)
 ?>

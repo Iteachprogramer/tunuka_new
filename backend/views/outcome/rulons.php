@@ -1,12 +1,16 @@
 <?php
 
 use common\models\Outcome;
+
+use kartik\daterange\DateRangePicker;
+use kartik\widgets\ActiveForm;
 use soft\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;
 use yii\bootstrap4\Modal;
 use johnitvn\ajaxcrud\CrudAsset;
 use johnitvn\ajaxcrud\BulkButtonWidget;
+use yii\web\View;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\search\OutcomeSearch */
@@ -25,8 +29,46 @@ $this->registerCss($css)
 ?>
 <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
 
-<?=$this->render('info_outcome')?>
-<a id="downloadLink" onclick="exportF(this)" class="btn btn-primary fa fa-file-excel-o" style="margin-bottom: 15px;padding: 10px"> Hisobot olish</a>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6" style="width: 100%">
+                <form class="form-inline" action="<?= Url::to(['outcome/rulons-report']) ?>" id="rulons-report">
+                    <?php
+                    /** @var Load $model */
+                    echo DateRangePicker::widget([
+                        'name' => 'range',
+                        'attribute' => 'date_range',
+                        'presetDropdown' => true,
+                        'convertFormat' => true,
+                        'includeMonthsFilter' => true,
+                        'startAttribute' => 'datetime_min',
+                        'endAttribute' => 'datetime_max',
+                        'pluginOptions' => [
+                            'timePickerIncrement' => 30,
+                            'locale' => [
+                                'format' => 'Y-m-d H:i:s'
+                            ]
+                        ]
+                    ]);
+                    ?>
+                    <?= Html::submitButton('<i class="fas fa-search"></i> Qidirish ', ['class' => 'btn btn-primary text-white', 'style' => 'margin-left:5px']) ?>
+                </form>
+            </div>
+        </div>
+        <br>
+
+
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<?= $this->render('info_outcome') ?>
+<?php
+
+
+?>
+<a id="downloadLink" class="btn btn-primary fa fa-file-excel-o" style="margin-bottom: 15px;padding: 10px;display: none;width: 140px">
+    Hisobot olish</a>
 
 <div class="outcome-index">
     <div id="ajaxCrudDatatable">
@@ -110,52 +152,8 @@ $this->registerCss($css)
 </div>
 <div class="card">
     <div class="card-body">
-        <div class="table-responsive">
-            <table border="1" cellspacing="0" cellpadding="3" id="myTable"
-                   style="text-align: center; align-items: center;display: none;width: 100%!important;"
-                   class="table table-bordered table-striped">
-                <tr>
-                    <td style="vertical-align: middle; text-align: left">Rulon</td>
-                    <td style="vertical-align: middle; text-align: left">Sana</td>
-                    <td style="vertical-align: middle; text-align: left">Narx</td>
-                    <td style="vertical-align: middle; text-align: left">O'lchami</td>
-                    <td style="vertical-align: middle; text-align: left">Miqdori</td>
-                    <td style="vertical-align: middle; text-align: left">Umumiy o'lcham</td>
-                    <td style="vertical-align: middle; text-align: left">Umumiy summa</td>
-                </tr>
-                <tr>
-                    <td colspan="7"></td>
-                </tr>
-                <?php
-                $rulons_summa = 0;
-                $rulons_total_size = 0;
-                $rulons = $dataProvider->getModels();
-                ?>
-                <?php foreach ($rulons as $rulon): ?>
-                    <tr>
-                        <td style="vertical-align: middle; text-align: left"><?= $rulon->productType->product_name ?></td>
-                        <td style="vertical-align: middle; text-align: left"><?= Yii::$app->formatter->asDatetime($rulon->created_at, 'php:d.m.Y H:i:s') ?></td>
-                        <td style="vertical-align: middle; text-align: left"><?= $rulon->cost ?></td>
-                        <td style="vertical-align: middle; text-align: left"><?= $rulon->size . ' ' . $rulon->unity->name ?></td>
-                        <td style="vertical-align: middle; text-align: left"><?= $rulon->count ?></td>
-                        <td style="vertical-align: middle; text-align: left"><?= $rulon->total_size . ' ' . $rulon->unity->name ?></td>
-                        <td style="vertical-align: middle; text-align: left"><?= $rulon->total ?></td>
-                    </tr>
-                    <?php
-                    $rulons_summa += $rulon->total;
-                    $rulons_total_size += $rulon->total_size;
-                    ?>
-                <?php endforeach; ?>
-                <tr>
-                    <td style="vertical-align: middle; text-align: left"></td>
-                    <td style="vertical-align: middle; text-align: left"></td>
-                    <td style="vertical-align: middle; text-align: left"></td>
-                    <td style="vertical-align: middle; text-align: left"></td>
-                    <td style="vertical-align: middle; text-align: left"></td>
-                    <td style="vertical-align: middle; text-align: left"><?= $rulons_total_size ?> metr</td>
-                    <td style="vertical-align: middle; text-align: left"><?= $rulons_summa ?></td>
-                </tr>
-            </table>
+        <div class="table-responsive" id="rulons-excel">
+
 
         </div>
     </div>
@@ -168,15 +166,27 @@ $this->registerCss($css)
 ]) ?>
 <?php Modal::end(); ?>
 <?php
-$js = <<<JS
-        function exportF(elem) {
-        var table = document.getElementById("myTable");
-        var html = table.outerHTML;
-        var url = 'data:application/vnd.ms-excel,' + '\uFEFF' + encodeURIComponent(html); // Set your html table into url
-        elem.setAttribute("href", url);
-        elem.setAttribute("download", "Rulonlar.xls"); // Choose the file name
-        return false;
-    }
+$js2 = <<< JS
+    $(document).on('submit', '#rulons-report', function(e){
+        e.preventDefault()
+        let rulons=$('#rulons-report')
+        let elem = $('#downloadLink');
+          $.ajax({
+            url: rulons.attr('action'),
+            data: rulons.serialize(),
+            success: function(result){
+            $('#downloadLink').css('display','block')
+             let data = result.message
+                var url = 'data:application/vnd.ms-excel,' + '\uFEFF' + encodeURIComponent(data); 
+                elem.attr("href", url);
+                elem.attr("download", "Rulon.xls"); // Choose the file name
+            }
+        })
+    })
+  
 JS;
-$this->registerJs($js, \yii\web\View::POS_HEAD);
+$this->registerJs($js2)
 ?>
+<script>
+
+</script>

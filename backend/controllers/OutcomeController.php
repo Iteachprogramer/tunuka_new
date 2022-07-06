@@ -625,6 +625,7 @@ class OutcomeController extends AjaxCrudController
             'dataProvider' => $dataProvider,
         ]);
     }
+
     public function actionAksessuarReports()
     {
         $searchModel = new OutcomeSearch([
@@ -636,6 +637,7 @@ class OutcomeController extends AjaxCrudController
             'dataProvider' => $dataProvider,
         ]);
     }
+
     /**
      * Finds the Outcome model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -665,4 +667,75 @@ class OutcomeController extends AjaxCrudController
             'group' => $group
         ]);
     }
+
+    public function actionRulonsReport()
+    {
+        $date = Yii::$app->request->get('range');
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (!empty($date)) {
+            $dates = explode(' - ', $date, 2);
+            if (count($dates) == 2) {
+                $begin = strtotime($dates[0]);
+                $end = strtotime('+1 day', strtotime($dates[1]));
+                $outcome = Outcome::find()->andWhere(['type_id' => ProductList::TYPE_RULON])
+                    ->andFilterWhere(['>=', 'outcome.date', $begin])
+                    ->andFilterWhere(['<', 'outcome.date', $end])
+                    ->all();
+                if (Yii::$app->request->isAjax) {
+                    $result['message'] = $this->renderAjax('rulons-report-table', ['model' => $outcome,]);
+                    return $this->asJson($result);
+                }
+                $result = [];
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+    public function actionAksessuarReportSearch()
+    {
+        $date = Yii::$app->request->get('range');
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (!empty($date)) {
+            $dates = explode(' - ', $date, 2);
+            if (count($dates) == 2) {
+                $begin = strtotime($dates[0]);
+                $end = strtotime('+1 day', strtotime($dates[1]));
+                $outcome = Outcome::find()->andWhere(['type_id' => ProductList::TYPE_AKSESSUAR])
+                    ->andFilterWhere(['>=', 'outcome.date', $begin])
+                    ->andFilterWhere(['<', 'outcome.date', $end])
+                    ->all();
+                if (Yii::$app->request->isAjax) {
+                    $result['message'] = $this->renderAjax('aksessuar-report-table', ['model' => $outcome,]);
+                    return $this->asJson($result);
+                }
+                $result = [];
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+    public function actionProductReportSearch()
+    {
+        $date = Yii::$app->request->get('range');
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (!empty($date)) {
+            $dates = explode(' - ', $date, 2);
+            if (count($dates) == 2) {
+                $begin = strtotime($dates[0]);
+                $end = strtotime('+1 day', strtotime($dates[1]));
+                $outcome = Outcome::find()->andWhere(['type_id' => ProductList::TYPE_PRODUCT])
+                    ->andFilterWhere(['>=', 'outcome.date', $begin])
+                    ->andFilterWhere(['<', 'outcome.date', $end])
+                    ->all();
+                if (Yii::$app->request->isAjax) {
+                    $result['message'] = $this->renderAjax('product-report-table', ['model' => $outcome,]);
+                    return $this->asJson($result);
+                }
+                $result = [];
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
 }

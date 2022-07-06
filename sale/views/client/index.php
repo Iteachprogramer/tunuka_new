@@ -61,7 +61,8 @@ CrudAsset::register($this);
                 </tr>
                 <tr>
                     <td colspan="2" style="vertical-align: middle; text-align: left">Sana:</td>
-                    <td colspan="4" style="vertical-align: middle; text-align: left"><?=Yii::$app->formatter->asDate(time(),'php:d.m.Y')?></td>
+                    <td colspan="4"
+                        style="vertical-align: middle; text-align: left"><?= Yii::$app->formatter->asDate(time(), 'php:d.m.Y') ?></td>
                 </tr>
                 <tr>
                     <td style="vertical-align: middle; text-align: left">№</td>
@@ -75,46 +76,48 @@ CrudAsset::register($this);
                 $clients = Client::find()->all();
                 ?>
                 <?php foreach ($clients as $key => $client): ?>
-                    <tr>
-                        <td style="vertical-align: middle; text-align: left"><?= $key + 1 ?></td>
-                        <td style="vertical-align: middle; text-align: left"><?= $client->fulla_name ?></td>
-                        <td style="vertical-align: middle; text-align: left">
-                            <?php
-                            if ($client->finishAccountSum > 0) {
-                                echo as_integer($client->finishAccountSum);
-                            } else {
-                                echo '0';
-                            }
-                            ?>
-                        </td>
-                        <td style="vertical-align: middle; text-align: left">
-                            <?php
-                            if ($client->finishAccountSumDollar > 0) {
-                                echo as_integer($client->finishAccountSumDollar);
-                            } else {
-                                echo '0';
-                            }
-                            ?>
-                        </td>
-                        <td style="vertical-align: middle; text-align: left">
-                            <?php
-                            if ($client->finishAccountSum < 0) {
-                                echo as_integer($client->finishAccountSum);
-                            } else {
-                                echo '0';
-                            }
-                            ?>
-                        </td>
-                        <td style="vertical-align: middle; text-align: left">
-                            <?php
-                            if ($client->finishAccountSumDollar < 0) {
-                                echo as_integer($client->finishAccountSum);
-                            } else {
-                                echo '0';
-                            }
-                            ?>
-                        </td>
-                    </tr>
+                    <?php if ($client->finishAccountSum != 0 || $client->finishAccountSumDollar != 0): ?>
+                        <tr>
+                            <td style="vertical-align: middle; text-align: left"><?= $key + 1 ?></td>
+                            <td style="vertical-align: middle; text-align: left"><?= $client->fulla_name ?></td>
+                            <td style="vertical-align: middle; text-align: left">
+                                <?php
+                                if ($client->finishAccountSum > 0) {
+                                    echo as_integer($client->finishAccountSum);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+                            <td style="vertical-align: middle; text-align: left">
+                                <?php
+                                if ($client->finishAccountSumDollar > 0) {
+                                    echo as_integer($client->finishAccountSumDollar);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+                            <td style="vertical-align: middle; text-align: left">
+                                <?php
+                                if ($client->finishAccountSum < 0) {
+                                    echo as_integer($client->finishAccountSum);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+                            <td style="vertical-align: middle; text-align: left">
+                                <?php
+                                if ($client->finishAccountSumDollar < 0) {
+                                    echo as_integer($client->finishAccountSum);
+                                } else {
+                                    echo '0';
+                                }
+                                ?>
+                            </td>
+                        </tr>
+                    <?php endif;?>
                 <?php endforeach; ?>
             </table>
         </div>

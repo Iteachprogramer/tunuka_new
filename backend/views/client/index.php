@@ -57,7 +57,7 @@ CrudAsset::register($this);
                    style="text-align: center; align-items: center;display: none;width: 100%!important;"
                    class="table table-bordered table-striped">
                 <tr>
-                    <td colspan="6" style="vertical-align: middle; text-align: center"> Xaqdorlar va qarizdorlar</td>
+                    <td colspan="5" style="vertical-align: middle; text-align: center"> Xaqdorlar va qarizdorlar</td>
                 </tr>
                 <tr>
                     <td colspan="2" style="vertical-align: middle; text-align: left">Sana:</td>

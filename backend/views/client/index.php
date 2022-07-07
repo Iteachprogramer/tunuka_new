@@ -61,7 +61,7 @@ CrudAsset::register($this);
                 </tr>
                 <tr>
                     <td colspan="2" style="vertical-align: middle; text-align: left">Sana:</td>
-                    <td colspan="4"
+                    <td colspan="3"
                         style="vertical-align: middle; text-align: left"><?= Yii::$app->formatter->asDate(time(), 'php:d.m.Y') ?></td>
                 </tr>
                 <tr>

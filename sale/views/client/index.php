@@ -65,7 +65,6 @@ CrudAsset::register($this);
                         style="vertical-align: middle; text-align: left"><?= Yii::$app->formatter->asDate(time(), 'php:d.m.Y') ?></td>
                 </tr>
                 <tr>
-                    <td style="vertical-align: middle; text-align: left">№</td>
                     <td style="vertical-align: middle; text-align: left">Mijoz nomi</td>
                     <td style="vertical-align: middle; text-align: left">Qarzi so'mda</td>
                     <td style="vertical-align: middle; text-align: left">Qarzi dollarda</td>
@@ -78,7 +77,6 @@ CrudAsset::register($this);
                 <?php foreach ($clients as $key => $client): ?>
                     <?php if (($client->finishAccountSum != 0) || ($client->finishAccountSumDollar)): ?>
                         <tr>
-                            <td style="vertical-align: middle; text-align: left"><?= $key + 1 ?></td>
                             <td style="vertical-align: middle; text-align: left"><?= $client->fulla_name ?></td>
                             <td style="vertical-align: middle; text-align: left">
                                 <?php

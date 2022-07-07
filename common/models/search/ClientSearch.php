@@ -47,7 +47,7 @@ class ClientSearch extends Client
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination'=>[
-                'pageSize' => 2,
+                'pageSize' => 200,
             ],
             'sort' => [
                 'defaultOrder' => [

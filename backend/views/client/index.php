@@ -91,7 +91,7 @@ CrudAsset::register($this);
                     <td style="vertical-align: middle; text-align: left">
                         <?php
                         if ($client->finishAccountSumDollar > 0) {
-                            echo floatval($client->finishAccountSumDollar);
+                            echo number_format($client->finishAccountSumDollar,3,'.',',');
                         } else {
                             echo '0';
                         }
@@ -109,7 +109,7 @@ CrudAsset::register($this);
                     <td style="vertical-align: middle; text-align: left">
                         <?php
                         if ($client->finishAccountSumDollar < 0) {
-                            echo floatval($client->finishAccountSumDollar);
+                            echo number_format($client->finishAccountSumDollar,3,'.',',');
                         } else {
                             echo '0';
                         }

@@ -105,6 +105,7 @@ CrudAsset::register($this);
                         return ($model->total ? $model->total : $model->outcomeSum) - $model->accountSum;
                     }
                 ],
+                'order_number',
                 [
                     'class' => 'kartik\grid\ActionColumn',
                     'dropdown' => false,

@@ -27,7 +27,7 @@ return [
     ],
     [
         'attribute' => 'date',
-        'width' => '160px',
+        'width' => '140px',
         'value' => function (OutcomeGroup $model) {
             return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s');
         },
@@ -86,6 +86,7 @@ return [
             return $model->createdBy->firstname .' ' . $model->createdBy->lastname;
         }
     ],
+    'order_number',
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,

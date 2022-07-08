@@ -197,6 +197,20 @@ class Income extends \soft\db\ActiveRecord
         return $this->hasMany(MakeProductItem::className(), ['income_id' => 'id']);
     }
 
+    public function getOutcomeItemsLength()
+    {
+        return floatval($this->getOutcomeItems()->sum('outcome_size'));
+    }
+    public function getMakesLength()
+    {
+        return floatval($this->getFactories()->sum('outcome_size'));
+    }
+    public function getLengthSum()
+    {
+        return $this->length + $this->getOutcomeItemsLength() + $this->getMakesLength();
+    }
+
+
     /**
      * @return \yii\db\ActiveQuery
      */

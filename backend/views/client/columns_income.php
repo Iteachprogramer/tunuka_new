@@ -50,8 +50,8 @@ return [
         'dropdown' => false,
         'vAlign'=>'middle',
         'template' => '{update} {delete}',
-        'urlCreator' => function($action, $model, $key, $index) {
-            return Url::to([$action.'-'.'income','id'=>$key]);
+        'urlCreator' => function ($action, $model, $key, $index) {
+            return Url::to([$action . '-' . 'income', 'id' => $key]);
         },
         'viewOptions'=>['role'=>'modal-remote','title'=>'View','data-toggle'=>'tooltip'],
         'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],

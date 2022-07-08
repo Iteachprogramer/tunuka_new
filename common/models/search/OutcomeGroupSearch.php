@@ -18,7 +18,7 @@ class OutcomeGroupSearch extends OutcomeGroup
     public function rules()
     {
         return [
-            [['id', 'client_id', 'status', 'discount', 'total',], 'integer'],
+            [['id', 'client_id', 'status', 'discount', 'total','order_number'], 'integer'],
             [['date', 'created_by', 'updated_by'], 'safe'],
         ];
     }
@@ -78,6 +78,7 @@ class OutcomeGroupSearch extends OutcomeGroup
             'status' => $this->status,
             'discount' => $this->discount,
             'total' => $this->total,
+            'order_number' => $this->order_number,
         ]);
         $query
             ->andFilterWhere(['like', 'user.firstname', $this->created_by])

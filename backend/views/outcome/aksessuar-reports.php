@@ -144,11 +144,7 @@ $product_arr = \soft\helpers\ArrayHelper::map(
                         }
                     },
                 ],
-//    [
-//        'class'=>'\kartik\grid\DataColumn',
-//        'attribute'=>'total_size',
-//    ],
-                [
+       [
                     'class'=>'\kartik\grid\DataColumn',
                     'attribute'=>'total',
                     'format' => 'integer',

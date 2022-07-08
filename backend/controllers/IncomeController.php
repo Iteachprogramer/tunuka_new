@@ -308,6 +308,29 @@ class IncomeController extends Controller
             'model' => $model
         ]);
     }
+    public function actionIncomesReport()
+    {
+        $date = Yii::$app->request->get('range');
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (!empty($date)) {
+            $dates = explode(' - ', $date, 2);
+            if (count($dates) == 2) {
+                $begin = strtotime($dates[0]);
+                $end = strtotime('+1 day', strtotime($dates[1]));
+                $incomes = Income::find()->andWhere(['type_id' => ProductList::TYPE_RULON])
+                    ->andFilterWhere(['>=', 'income.date', $begin])
+                    ->andFilterWhere(['<', 'income.date', $end])
+                    ->all();
+                if (Yii::$app->request->isAjax) {
+                    $result['message'] = $this->renderAjax('rulons-report-table', ['model' => $outcome,]);
+                    return $this->asJson($result);
+                }
+                $result = [];
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 
     /**
      * Finds the Income model based on its primary key value.

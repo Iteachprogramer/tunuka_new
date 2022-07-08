@@ -391,6 +391,47 @@ class ClientController extends AjaxCrudController
         ]);
     }
 
+    public function actionIncomesReport()
+    {
+        $date = Yii::$app->request->get('range');
+        $client_id = Yii::$app->request->get('client');
+        $client = $this->findModel($client_id);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (!empty($date)) {
+            $dates = explode(' - ', $date, 2);
+            if (count($dates) == 2) {
+                $begin = strtotime($dates[0]);
+                $end = strtotime('+1 day', strtotime($dates[1]));
+                $incomes = Income::find()
+                    ->andWhere(['unity_type_id' => 2])
+                    ->andWhere(['provider_id' => $client_id])
+                    ->andFilterWhere(['>=', 'income.date', $begin])
+                    ->andFilterWhere(['<', 'income.date', $end])
+                    ->all();
+                $aksessuars = Income::find()
+                    ->andWhere(['!=','unity_type_id',2])
+                    ->andWhere(['provider_id' => $client_id])
+                    ->andFilterWhere(['>=', 'income.date', $begin])
+                    ->andFilterWhere(['<', 'income.date', $end])
+                    ->all();
+                if (Yii::$app->request->isAjax) {
+                    $result['message'] = $this->renderAjax(
+                        'income-report-table',
+                        [
+                            'model' => $incomes,
+                            'client' => $client,
+                            'aksessuars' => $aksessuars,
+                            'date' => $date,
+                        ]);
+                    return $this->asJson($result);
+                }
+                $result = [];
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
     public function actionOutcome($id)
     {
         $model = $this->findModel($id);

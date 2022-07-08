@@ -62,6 +62,7 @@ class ClientController extends AjaxCrudController
     {
         $searchModel = new ClientSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -158,16 +159,55 @@ class ClientController extends AjaxCrudController
         }
     }
 
-    public function actionUpdateIncome($id)
+    function actionUpdateIncome($id)
     {
+        $request = Yii::$app->request;
         $model = $this->findIncomeModel($id);
         $model->date = Yii::$app->formatter->asDate($model->date, 'yyyy-MM-dd');
-        $title = 'Tahrirlash';
-        return $this->ajaxCrud->createAction($model, [
-            'title' => 'Yuk olish',
-            'view' => 'client_income_form',
-            'returnUrl' => ['client/index'],
-        ], ['provider' => $model->provider, 'title' => 'Yuk olish']);
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if ($request->isGet) {
+                return [
+                    'title' => "Tahrirlash#" . $model->productType->product_name,
+                    'content' => $this->renderAjax('client_income_form', [
+                        'model' => $model,
+                    ]),
+                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
+                ];
+            } else if ($model->load($request->post())) {
+                $model->total = -1 * floatval($model->cost * $model->weight);
+                $model->unity_type_id = $model->productType->sizeType->id;
+                $model->save();
+                $product = ProductList::findOne($model->product_type_id);
+                if ($model->productType->type_id == ProductList::TYPE_AKSESSUAR) {
+                    $product->selling_price_usd = $model->cost;
+                } else {
+                    $product->selling_price_usd = $model->price_per_meter;
+                }
+                $product->save(false);
+                return [
+                    'forceReload' => '#crud-datatable-pjax',
+                    'forceClose' => true,
+                ];
+            } else {
+                return [
+                    'title' => "Tahrirlash #" . $model->productType->product_name,
+                    'forceClose' => true,
+                ];
+            }
+        } else {
+            /*
+            *   Process for non-ajax request
+            */
+            if ($model->load($request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                return $this->render('client_income_form', [
+                    'model' => $model,
+                ]);
+            }
+        }
     }
 
     /**
@@ -309,11 +349,23 @@ class ClientController extends AjaxCrudController
     public function actionDeleteIncome($id)
     {
         $model = $this->findIncomeModel($id);
-        $model->delete();
+        $request = Yii::$app->request;
         $url = ['client'];
-        if ($this->isAjax) {
-            $this->formatJson();
-            return $this->ajaxCrud->closeModal();
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $outcome = OutcomeItem::find()->andWhere(['income_id' => $id])->all();
+            if (!$outcome) {
+                $model->delete();
+                return ['forceClose' => true, 'forceReload' => '#crud-datatable-pjax'];
+            } else {
+                return [
+                    'title' => "Xatolik",
+                    'content' => "Bu qiymatni o'chirishga ruxsat etmagan. Siz ustida qiymatdan o'chirishga ruxsat etilgan qiymatlar mavjud.",
+                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]),
+                ];
+            }
+
+        } else {
         }
         return $this->redirect($url);
     }
@@ -337,6 +389,47 @@ class ClientController extends AjaxCrudController
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    public function actionIncomesReport()
+    {
+        $date = Yii::$app->request->get('range');
+        $client_id = Yii::$app->request->get('client');
+        $client = $this->findModel($client_id);
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (!empty($date)) {
+            $dates = explode(' - ', $date, 2);
+            if (count($dates) == 2) {
+                $begin = strtotime($dates[0]);
+                $end = strtotime('+1 day', strtotime($dates[1]));
+                $incomes = Income::find()
+                    ->andWhere(['unity_type_id' => 2])
+                    ->andWhere(['provider_id' => $client_id])
+                    ->andFilterWhere(['>=', 'income.date', $begin])
+                    ->andFilterWhere(['<', 'income.date', $end])
+                    ->all();
+                $aksessuars = Income::find()
+                    ->andWhere(['!=','unity_type_id',2])
+                    ->andWhere(['provider_id' => $client_id])
+                    ->andFilterWhere(['>=', 'income.date', $begin])
+                    ->andFilterWhere(['<', 'income.date', $end])
+                    ->all();
+                if (Yii::$app->request->isAjax) {
+                    $result['message'] = $this->renderAjax(
+                        'income-report-table',
+                        [
+                            'model' => $incomes,
+                            'client' => $client,
+                            'aksessuars' => $aksessuars,
+                            'date' => $date,
+                        ]);
+                    return $this->asJson($result);
+                }
+                $result = [];
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionOutcome($id)

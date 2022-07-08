@@ -232,14 +232,23 @@ class IncomeController extends Controller
     function actionDelete($id)
     {
         $request = Yii::$app->request;
-        $this->findModel($id)->delete();
+        $model=$this->findModel($id);
 
         if ($request->isAjax) {
-            /*
-            *   Process for ajax request
-            */
             Yii::$app->response->format = Response::FORMAT_JSON;
-            return ['forceClose' => true, 'forceReload' => '#crud-datatable-pjax'];
+            $outcome=OutcomeItem::find()->andWhere(['income_id'=>$id])->all();
+            if (!$outcome){
+                $model->delete();
+                return ['forceClose' => true, 'forceReload' => '#crud-datatable-pjax'];
+            }
+            else{
+               return [
+                   'title' => "Xatolik",
+                   'content' => "Bu qiymatni o'chirishga ruxsat etmagan. Siz ustida qiymatdan o'chirishga ruxsat etilgan qiymatlar mavjud.",
+                     'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]),
+               ];
+            }
+
         } else {
             /*
             *   Process for non-ajax request

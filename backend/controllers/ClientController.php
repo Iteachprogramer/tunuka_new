@@ -310,11 +310,23 @@ class ClientController extends AjaxCrudController
     public function actionDeleteIncome($id)
     {
         $model = $this->findIncomeModel($id);
-        $model->delete();
+        $request = Yii::$app->request;
         $url = ['client'];
-        if ($this->isAjax) {
-            $this->formatJson();
-            return $this->ajaxCrud->closeModal();
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $outcome = OutcomeItem::find()->andWhere(['income_id' => $id])->all();
+            if (!$outcome) {
+                $model->delete();
+                return ['forceClose' => true, 'forceReload' => '#crud-datatable-pjax'];
+            } else {
+                return [
+                    'title' => "Xatolik",
+                    'content' => "Bu qiymatni o'chirishga ruxsat etmagan. Siz ustida qiymatdan o'chirishga ruxsat etilgan qiymatlar mavjud.",
+                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]),
+                ];
+            }
+
+        } else {
         }
         return $this->redirect($url);
     }

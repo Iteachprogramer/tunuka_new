@@ -76,7 +76,6 @@ return [
         'value' => function (Income $model) {
             return $model->provider->fulla_name;
         }
-
     ],
     [
         'class' => '\kartik\grid\DataColumn',
@@ -104,12 +103,7 @@ return [
     ],
 
 
-//    [
-//        'attribute' => 'price_per_meter',
-//        'width' => '160px',
-//        'format' => ['decimal', 2],
-//
-//    ],
+
     [
         'class' => '\kartik\grid\DataColumn',
         'attribute' => 'total',
@@ -127,7 +121,7 @@ return [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign' => 'middle',
-        'template' => '{delete}',
+        'template' => '{update} {delete}',
         'urlCreator' => function ($action, $model, $key, $index) {
             return Url::to([$action, 'id' => $key]);
         },

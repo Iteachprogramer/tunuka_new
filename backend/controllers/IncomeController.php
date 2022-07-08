@@ -105,7 +105,12 @@ class IncomeController extends Controller
             'date' => date('Y-m-d'),
         ]);
         Yii::$app->response->format = Response::FORMAT_JSON;
-        if ($model->load($request->post()) && $model->save()) {
+        if ($model->load($request->post()))
+
+        {
+            $model->total = -1 * floatval($model->cost * $model->weight);
+            $model->unity_type_id = $model->productType->sizeType->id;
+            $model->save();
             $product = ProductList::findOne($model->product_type_id);
             if ($model->productType->type_id == ProductList::TYPE_AKSESSUAR) {
                 $product->selling_price_usd = $model->cost;
@@ -154,7 +159,10 @@ class IncomeController extends Controller
                     'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
                         Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
                 ];
-            } else if ($model->load($request->post()) && $model->save()) {
+            } else if ($model->load($request->post()) ) {
+                $model->total = -1 * floatval($model->cost * $model->weight);
+                $model->unity_type_id = $model->productType->sizeType->id;
+                $model->save();
                 $product = ProductList::findOne($model->product_type_id);
                 if ($model->productType->type_id == ProductList::TYPE_AKSESSUAR) {
                     $product->selling_price_usd = $model->cost;

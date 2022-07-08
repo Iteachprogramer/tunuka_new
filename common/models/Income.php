@@ -71,12 +71,6 @@ class Income extends \soft\db\ActiveRecord
                 $this->addError('length', $message);
                 return false;
             }
-            if ($this->isNewRecord) {
-                $dollar_course = DollarCourse::find()->one();
-                $this->cost_type = self::COST_TYPE_USD;
-                $this->total = -1 * floatval($this->cost * $this->weight);
-                $this->unity_type_id = $this->productType->sizeType->id;
-            }
             return true;
         }
         return parent::beforeSave($insert);

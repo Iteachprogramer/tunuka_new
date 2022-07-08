@@ -96,7 +96,7 @@ class OutcomeGroup extends \soft\db\ActiveRecord
     {
         $this->total = $this->outcomeSum - $this->discount;
         $order_number = OrderNumber::find()->one();
-        $nextDay = strtotime('+1 day', $order_number->date);
+        $nextDay = strtotime('+1 week', $order_number->date);
         if (Yii::$app->formatter->asDate($nextDay, 'dd.MM.yyyy') > Yii::$app->formatter->asDate(time(), 'dd.MM.yyyy')) {
             $next = $order_number->client_order_number + 1;
             $order_number->client_order_number = $next;

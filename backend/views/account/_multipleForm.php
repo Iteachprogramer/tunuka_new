@@ -91,7 +91,7 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
         'sum' => [
             'label' => "So'm",
             'field' => function ($form, $model, $attribute) {
-                return $form->field($model, $attribute, ['enableClientValidation' => false])->input('number')->label(false);
+                return $form->field($model, $attribute, ['enableClientValidation' => false])->textInput(['class'=>'sum'])->label(false);
             },
         ],
         'dollar' => [
@@ -123,6 +123,9 @@ $clientsMap = map(Client::find()->asArray()->all(), 'id', 'fulla_name');
 $url = to(['account/debt-client']);
 $url2 = to(['account/debt-employee']);
 $js = <<<JS
+$(document).ready(function(){
+	$('.sum').inputNumber({ allowLeadingZero: true, numericOnly: true });
+});
     $(document).on('change','.client-test',function (){
         $('#debt-input').val('');
         var val=$(this).val();

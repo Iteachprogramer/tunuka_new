@@ -125,10 +125,7 @@ $product_arr = \soft\helpers\ArrayHelper::map(
                             ]
                         ]
                     ]
-
                 ],
-
-
                 [
                     'class'=>'\kartik\grid\DataColumn',
                     'attribute'=>'cost',
@@ -138,6 +135,7 @@ $product_arr = \soft\helpers\ArrayHelper::map(
                 [
                     'class'=>'\kartik\grid\DataColumn',
                     'attribute'=>'count',
+                    'pageSummary' => true,
                     'value' => function (Outcome $model) {
                         if ($model->unit_id == 2) {
                             return $model->count ;

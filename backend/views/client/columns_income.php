@@ -49,7 +49,7 @@ return [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign'=>'middle',
-        'template' => '{delete}',
+        'template' => '{update} {delete}',
         'urlCreator' => function($action, $model, $key, $index) {
             return Url::to([$action.'-'.'income','id'=>$key]);
         },

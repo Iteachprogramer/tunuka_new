@@ -42,7 +42,7 @@ class ClientSearch extends Client
     public function search($params,$query=null)
     {
         if ($query==null){
-            $query = Client::find();
+            $query = Client::find()->with('outcome','incomes','accounts');
         }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

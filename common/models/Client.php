@@ -196,6 +196,7 @@ class Client extends \soft\db\ActiveRecord
     public function getOutcomeAggregationSum()
     {
         return $this->getOutcome()
+            ->with('outcome')
             ->select(['client_id', 'counted' => 'SUM(total)'])
             ->groupBy('client_id')
             ->asArray(true);

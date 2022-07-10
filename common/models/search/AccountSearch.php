@@ -64,7 +64,6 @@ class AccountSearch extends Account
                 $query->andFilterWhere(['>=', 'account.date', $begin])
                     ->andFilterWhere(['<', 'account.date', $end]);
             }
-
         }
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -90,7 +89,6 @@ class AccountSearch extends Account
             'updated_by' => $this->updated_by,
         ]);
         $query->andFilterWhere(['like', 'comment', $this->comment]);
-
         return $dataProvider;
     }
 }

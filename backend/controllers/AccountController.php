@@ -92,7 +92,7 @@ class AccountController extends AjaxCrudController
         $model = new Account([
             'type_id' => $type_id,
             'dollar_course' => $dollarCourse->course,
-            'date'=>Yii::$app->formatter->asDatetime(time(), 'php:Y-m-d'),
+            'date'=>Yii::$app->formatter->asDate(time(), 'php:Y-m-d'),
         ]);
         $title = $model->isIncome ? 'Kassaga kirim qilish' : 'Kassadan chiqim qilish';
         return $this->ajaxCrud->createAction($model, ['title' => $title, 'returnUrl' => ['index']]);

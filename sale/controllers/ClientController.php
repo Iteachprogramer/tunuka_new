@@ -69,6 +69,18 @@ class ClientController extends AjaxCrudController
         ]);
     }
 
+    public function actionExcel()
+    {
+        $model = Client::find()->all();
+        $result = [];
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $result['message'] = $this->renderAjax('report-excel', ['model' => $model]);
+            return $this->asJson($result);
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
     public function actionAksessuarIndex()
     {
         $type_id = Yii::$app->request->get('type_id') ?? ProductList::TYPE_AKSESSUAR;
@@ -409,7 +421,7 @@ class ClientController extends AjaxCrudController
                     ->andFilterWhere(['<', 'income.date', $end])
                     ->all();
                 $aksessuars = Income::find()
-                    ->andWhere(['!=','unity_type_id',2])
+                    ->andWhere(['!=', 'unity_type_id', 2])
                     ->andWhere(['provider_id' => $client_id])
                     ->andFilterWhere(['>=', 'income.date', $begin])
                     ->andFilterWhere(['<', 'income.date', $end])

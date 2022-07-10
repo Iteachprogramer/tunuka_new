@@ -42,7 +42,9 @@ class OutcomeGroupSearch extends OutcomeGroup
     public function search($params, $query = null)
     {
         if ($query === null) {
-            $query = OutcomeGroup::find()->with('client')->joinWith('createdBy');
+            $query = OutcomeGroup::find()
+                ->with('client')
+                ->joinWith('createdBy');
         }
 
         $dataProvider = new ActiveDataProvider([

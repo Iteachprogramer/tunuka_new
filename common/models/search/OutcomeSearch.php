@@ -42,12 +42,12 @@ class OutcomeSearch extends Outcome
     public function search($params,$query=null)
     {
         if ($query==null){
-            $query = Outcome::find();
+            $query = Outcome::find()->with(['client','productType','unity']);
         }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 800,
+                'pageSize' => 200,
             ],
             'sort' => [
                 'defaultOrder' => [

@@ -75,7 +75,7 @@ CrudAsset::register($this);
                 $clients = Client::find()->all();
                 ?>
                 <?php foreach ($clients as $key => $client): ?>
-                    <?php if (($client->finishAccountSum != 0) || ($client->finishAccountSumDollar)): ?>
+                    <?php if (($client->finishAccountSum != 0) || ($client->finishAccountSumDollar != 0)): ?>
                         <tr>
                             <td style="vertical-align: middle; text-align: left"><?= $client->fulla_name ?></td>
                             <td style="vertical-align: middle; text-align: left">

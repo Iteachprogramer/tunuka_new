@@ -29,11 +29,11 @@ class Client extends \soft\db\ActiveRecord
     public $residue;
     private $_accountsSum;
     public $residue_dollar;
-    private $outcomeSum;
-    private $incomeSum;
-    private $discountSum;
-    private $accountsSumTotal;
-    private $accountsSumDollar;
+    private $outcomeSum = null;
+    private $incomeSum = null;
+    private $discountSum = null;
+    private $accountsSumTotal = null;
+    private $accountsSumDollar = null;
 
     //<editor-fold desc="Parent" defaultstate="collapsed">
 

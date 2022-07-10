@@ -63,7 +63,7 @@ class AccountController extends AjaxCrudController
     public function actionIndex()
     {
         $searchModel = new AccountSearch();
-        $query = Account::find();
+        $query = Account::find()->with('expenseType','employee','client');
         $date = $this->request->queryParams['AccountSearch']['date'];
         $dates = explode(' - ', $date, 2);
             if (count($dates) == 2) {

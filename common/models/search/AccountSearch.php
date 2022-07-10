@@ -42,7 +42,7 @@ class AccountSearch extends Account
     public function search($params = null,$query=null)
     {
         if ($query==null) {
-            $query = Account::find();
+            $query = Account::find()->with('expenseType');
         }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -35,8 +35,6 @@ CrudAsset::register($this);
             ],
         ],
         'columns' => [
-//           / ['class' => 'yii\grid\SerialColumn'],
-            //  'id',
             [
                 'attribute' => 'client_id',
                 'format' => 'raw',

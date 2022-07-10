@@ -32,6 +32,8 @@ class OutcomeGroup extends \soft\db\ActiveRecord
 
 
     public $phone_client_id;
+    private $accountsSumTotal;
+    private $outcomeSum;
 
     public static function tableName()
     {
@@ -140,9 +142,25 @@ class OutcomeGroup extends \soft\db\ActiveRecord
         return $this->hasMany(Outcome::className(), ['group_id' => 'id']);
     }
 
+
+    public function getOutcomeAggregationSum()
+    {
+        return $this->getOutcomes()
+            ->select(['group_id', 'counted' => 'SUM(total)'])
+            ->groupBy('group_id')   
+            ->asArray(true);
+    }
+
     public function getOutcomeSum()
     {
-        return $this->getOutcomes()->sum('total');
+        if ($this->isNewRecord) {
+            return null;
+        }
+        if ($this->outcomeSum === null) {
+            $sum = empty($this->outcomeAggregationSum) ? 0 : $this->outcomeAggregationSum[0]['counted'];
+            $this->outcomeSum = floatval($sum);
+        }
+        return $this->outcomeSum;
     }
 
     /**
@@ -166,18 +184,24 @@ class OutcomeGroup extends \soft\db\ActiveRecord
         return $this->hasMany(Account::className(), ['group_id' => 'id']);
     }
 
+    public function getAccountAggregationSum()
+    {
+        return $this->getAccounts()
+            ->select(['group_id', 'counted' => 'SUM(total)'])
+            ->groupBy('group_id')
+            ->asArray(true);
+    }
+
     public function getAccountSum()
     {
-        return $this->getAccounts()->sum('total');
+        if ($this->isNewRecord) {
+            return null;
+        }
+        if ($this->accountsSumTotal === null) {
+            $sum = empty($this->accountAggregationSum) ? 0 : $this->accountAggregationSum[0]['counted'];
+            $this->accountsSumTotal = floatval(-1 * $sum);
+        }
+        return $this->accountsSumTotal;
     }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUpdatedBy()
-    {
-        return $this->hasOne(User::className(), ['id' => 'updated_by']);
-    }
-
     //</editor-fold>
 }

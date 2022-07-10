@@ -199,7 +199,7 @@ class OutcomeGroup extends \soft\db\ActiveRecord
         }
         if ($this->accountsSumTotal === null) {
             $sum = empty($this->accountAggregationSum) ? 0 : $this->accountAggregationSum[0]['counted'];
-            $this->accountsSumTotal = floatval(-1 * $sum);
+            $this->accountsSumTotal = floatval($sum);
         }
         return $this->accountsSumTotal;
     }

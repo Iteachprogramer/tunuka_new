@@ -37,6 +37,11 @@ $this->registerCss($css)
             'pjax'=>true,
             'showPageSummary' => true,
             'toolbarButtons' => [
+                    'create' => [
+                        'pjax' => false,
+                        'modal' => true,
+                    
+                    ],
                 'rulon' => [
                     'pjax' => false,
                     'modal' => true,

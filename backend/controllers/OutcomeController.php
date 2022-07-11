@@ -667,7 +667,6 @@ class OutcomeController extends AjaxCrudController
             'group' => $group
         ]);
     }
-
     public function actionRulonsReport()
     {
         $date = Yii::$app->request->get('range');

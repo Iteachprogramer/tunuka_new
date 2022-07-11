@@ -63,18 +63,18 @@ class Income extends \soft\db\ActiveRecord
     /**
      * {@inheritdoc}
      */
-    public function beforeSave($insert)
-    {
-        if (parent::beforeSave($insert)) {
-            if (empty($this->length) && $this->productType->type_id == ProductList::TYPE_RULON || ($this->length < 1 && $this->productType->type_id == ProductList::TYPE_RULON)) {
-                $message = "Siz rulon uzinligini kiritmadingiz yoki qiymati 1 dan kichkina ! Ushbu maydoni to'ldiring!";
-                $this->addError('length', $message);
-                return false;
-            }
-            return true;
-        }
-        return parent::beforeSave($insert);
-    }
+//    public function beforeSave($insert)
+//    {
+//        if (parent::beforeSave($insert)) {
+//            if (empty($this->length) && $this->productType->type_id == ProductList::TYPE_RULON) {
+//                $message = "Siz rulon uzinligini kiritmadingiz yoki! Ushbu maydoni to'ldiring!";
+//                $this->addError('length', $message);
+//                return false;
+//            }
+//            return true;
+//        }
+//        return parent::beforeSave($insert);
+//    }
 
     public function rules()
     {

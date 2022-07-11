@@ -4,6 +4,7 @@
 use common\models\Client;
 use common\models\Outcome;
 use common\models\ProductList;
+use soft\helpers\Html;
 use soft\helpers\Url;
 use soft\widget\kartik\ActiveForm;
 use soft\widget\kartik\DatePicker;
@@ -11,11 +12,11 @@ use soft\widget\kartik\Select2;
 
 /** @var Outcome $model */
 ?>
-<style>
-    #price_usd{
-        color: #f1fbe5;
-    }
-</style>
+    <style>
+        #price_usd {
+            color: #f1fbe5;
+        }
+    </style>
 <?php $form = ActiveForm::begin([
     'enableClientValidation' => true,
     'options' => [
@@ -38,12 +39,12 @@ use soft\widget\kartik\Select2;
         <div class="col-md-6">
             <label>Oldi berdi</label>
             <input type="text" id="client_debt" disabled class="form-control"
-                   value="<?=$model->client->finishAccountSum . ' / ' . $model->client->finishAccountSumDollar . ' $' ?>">
+                   value="<?= $model->client->finishAccountSum . ' / ' . $model->client->finishAccountSumDollar . ' $' ?>">
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'product_type_id',['inputOptions' => ['class' => 'form-control', 'tabindex' => '-1']])->widget(Select2::class, [
+            <?= $form->field($model, 'product_type_id', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '-1']])->widget(Select2::class, [
                 'data' => ProductList::getRulon(),
                 'options' => ['placeholder' => 'Ruloni tanlang ...'],
                 'pluginOptions' => [
@@ -68,17 +69,17 @@ use soft\widget\kartik\Select2;
     </div>
     <div class="row">
         <div class="col-md-3">
-            <?= $form->field($model, 'size',['inputOptions' => ['autofocus' => true,'class' => 'form-control', 'tabindex' => '1','required'=>true]])->textInput() ?>
+            <?= $form->field($model, 'size', ['inputOptions' => ['autofocus' => true, 'class' => 'form-control', 'tabindex' => '1', 'required' => true]])->textInput() ?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'count',['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->textInput()->label('Soni') ?>
+            <?= $form->field($model, 'count', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '2']])->textInput()->label('Soni') ?>
         </div>
         <div class="col-md-3">
-            <?= $form->field($model, 'cost',['inputOptions' => ['class' => 'form-control', 'tabindex' => '3']])->textInput() ?>
+            <?= $form->field($model, 'cost', ['inputOptions' => ['class' => 'form-control', 'tabindex' => '3']])->textInput() ?>
         </div>
         <div class="col-md-3">
             <?= $form->field($model, 'total_size')->textInput([
-                    'disabled'=>true
+                'disabled' => true
             ]) ?>
         </div>
     </div>
@@ -94,6 +95,11 @@ use soft\widget\kartik\Select2;
                    value="<?= $model->isNewRecord ? '' : $model->unity->name ?>">
         </div>
     </div>
+<?php if (!Yii::$app->request->isAjax) { ?>
+    <div class="form-group">
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'tabindex' => '7']) ?>
+    </div>
+<?php } ?>
 <?php ActiveForm::end() ?>
 <?php
 $url = Url::to(['outcome/product-type']);

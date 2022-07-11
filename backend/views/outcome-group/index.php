@@ -52,6 +52,7 @@ CrudAsset::register($this);
                     [
                         'url' => Url::to(['outcome-group/create']),
                         'modal' => true,
+                        'pjax' => false,
                     ],
             ]
 

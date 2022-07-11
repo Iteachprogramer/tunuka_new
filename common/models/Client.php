@@ -381,6 +381,7 @@ class Client extends \soft\db\ActiveRecord
 
     public function getFinishAccountSumDollar()
     {
+
         return $this->getIncomesSum() + $this->getAccountsSumDollar() + $this->debt_dollor;
     }
 

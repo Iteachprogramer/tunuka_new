@@ -17,11 +17,11 @@ $this->registerCss('
 ?>
 
 <?= $this->render('_totalAccountBoxes', ['allClients' => $allClients]) ?>
-    <div class="row">
-        <div class="col-12">
-            <?= $this->render('_skladData') ?>
-        </div>
-    </div>
+<!--    <div class="row">-->
+<!--        <div class="col-12">-->
+<!--            --><?//= $this->render('_skladData') ?>
+<!--        </div>-->
+<!--    </div>-->
 <?php
 
 $js = <<<JS

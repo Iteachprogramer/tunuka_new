@@ -106,7 +106,7 @@ class Client extends \soft\db\ActiveRecord
     public function labels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
+            'id' => "id",
             'fulla_name' => 'To\'liq ism familyasi',
             'phone' => 'Telefon no\'meri',
             'debt' => 'Qarzi',
@@ -116,10 +116,10 @@ class Client extends \soft\db\ActiveRecord
             'residue' => 'Yakuni hisob kitob so\'mda',
             'residue_dollar' => 'Yakuni hisob kitob dollarda',
             'text' => 'Izoh',
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'created_by' => Yii::t('app', 'Created By'),
-            'updated_by' => Yii::t('app', 'Updated By'),
+            'created_at' => 'Yaratilgan vaqti',
+            'updated_at' =>'Yangilangan vaqti',
+            'created_by' => 'Yaratgan',
+            'updated_by' =>'Yangilayotgan',
         ];
     }
 

@@ -80,7 +80,7 @@ return [
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
-        'template' => '{update} {view} {delete} {print} {excel} {cash}',
+        'template' => '{print} {excel} {cash}',
         'width' => '140px',
         'vAlign' => 'middle',
 //        'urlCreator' => function ($action, $model, $key, $index) {

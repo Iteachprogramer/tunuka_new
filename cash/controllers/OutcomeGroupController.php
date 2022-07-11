@@ -139,7 +139,7 @@ class OutcomeGroupController extends AjaxCrudController
         $model = $this->findModel($id);
         $request = Yii::$app->request;
         $model = new Account([
-            'date' => Yii::$app->formatter->asDatetime(time(), 'php:d.m.Y H:i:s'),
+            'date' => Yii::$app->formatter->asDate(time(), 'php:Y-m-d'),
             'client_id' => $model->client_id,
             'group_id' => $model->id,
             'type_id' => Account::TYPE_INCOME,

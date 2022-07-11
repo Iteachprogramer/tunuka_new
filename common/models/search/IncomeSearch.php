@@ -42,7 +42,7 @@ class IncomeSearch extends Income
     public function search($params,$query=null)
     {
         if ($query===null){
-            $query = Income::find();
+            $query = Income::find()->with('provider','unityType','productType');
         }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

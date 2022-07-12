@@ -43,7 +43,7 @@ CrudAsset::register($this);
                         'pluginOptions' => [
                             'timePickerIncrement' => 30,
                             'locale' => [
-                                'format' => 'Y-m-d H:i:s'
+                                'format' => 'Y-m-d'
                             ]
                         ]
                     ]);

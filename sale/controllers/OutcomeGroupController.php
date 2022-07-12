@@ -99,7 +99,7 @@ class OutcomeGroupController extends AjaxCrudController
                 $group = OutcomeGroup::find()
                     ->andWhere(['client_id' => $client_id])
                     ->andWhere(['>=', 'date', $begin])
-                    ->andWhere(['<=', 'date', $end])
+                    ->andWhere(['<', 'date', $end])
                     ->all();
                 if (Yii::$app->request->isAjax) {
                     $result['message'] = $this->renderAjax('table', ['groups' => $group,'date'=>$date,'client_id'=>$client_id]);

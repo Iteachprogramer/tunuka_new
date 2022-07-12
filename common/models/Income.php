@@ -60,21 +60,6 @@ class Income extends \soft\db\ActiveRecord
         return 'income';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-//    public function beforeSave($insert)
-//    {
-//        if (parent::beforeSave($insert)) {
-//            if (empty($this->length) && $this->productType->type_id == ProductList::TYPE_RULON) {
-//                $message = "Siz rulon uzinligini kiritmadingiz yoki! Ushbu maydoni to'ldiring!";
-//                $this->addError('length', $message);
-//                return false;
-//            }
-//            return true;
-//        }
-//        return parent::beforeSave($insert);
-//    }
 
     public function rules()
     {
@@ -218,12 +203,5 @@ class Income extends \soft\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
-//    public function afterSave($insert, $changedAttributes)
-//    {
-//        if ($insert) {
-//            if ($this->provider) {
-//                $this->provider->updateLastAction();
-//            }
-//        }
-//    }
+
 }

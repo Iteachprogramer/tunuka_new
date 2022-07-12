@@ -73,6 +73,7 @@ class OutcomeGroupController extends AjaxCrudController
         ]);
         if ($client) {
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
             return $this->render('client-group', [
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
@@ -83,6 +84,30 @@ class OutcomeGroupController extends AjaxCrudController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
+    }
+
+    public function actionClientReports()
+    {
+        $date = Yii::$app->request->get('range');
+        $client_id = Yii::$app->request->get('client_id');
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if (!empty($date)) {
+            $dates = explode(' - ', $date, 2);
+            if (count($dates) == 2) {
+                $begin = strtotime($dates[0]);
+                $end = strtotime('+1 day', strtotime($dates[1]));
+                $group = OutcomeGroup::find()->andWhere(['>=', 'date', $begin])
+                    ->andWhere(['<', 'date', $end])
+                    ->all();
+                if (Yii::$app->request->isAjax) {
+                    $result['message'] = $this->renderAjax('table', ['groups' => $group,'date'=>$date,'client_id'=>$client_id]);
+                    return $this->asJson($result);
+                }
+                $result = [];
+                return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionView($id)

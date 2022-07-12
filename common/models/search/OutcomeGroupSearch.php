@@ -43,7 +43,7 @@ class OutcomeGroupSearch extends OutcomeGroup
     {
         if ($query === null) {
             $query = OutcomeGroup::find()
-                ->with('client')
+                ->with(['client'])
                 ->joinWith('createdBy');
         }
 

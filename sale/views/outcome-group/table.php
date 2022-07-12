@@ -1,13 +1,41 @@
 <?php
+
 use common\models\Account;
 use common\models\Client;
 use common\models\Outcome;
 use common\models\OutcomeGroup;
 use common\models\ProductList;
+
 /** @var Client $client_id */
 /** @var Account $date */
 /* @var $this \yii\web\View */
 /* @var $groups array */
+$sum_group = 0;
+foreach ($groups as $group) {
+    $sum_group += Outcome::find()->where(['group_id' => $group->id])->sum('total') - $group->discount;
+}
+if ($date) {
+    $dates = explode(' - ', $date, 2);
+    if (count($dates) == 2) {
+        $begin = strtotime($dates[0]);
+        $end = strtotime('+1 day', strtotime($dates[1]));
+        $accounts = Account::find()
+            ->andWhere(['client_id' => $client_id])
+            ->andFilterWhere(['>=', 'account.date', $begin])
+            ->andFilterWhere(['<', 'account.date', $end])
+            ->all();
+    }
+} else {
+    $accounts = Account::find()
+        ->andWhere(['client_id' => $client_id])
+        ->all();
+}
+$finish_account_sum= 0;
+$finish_account_dollar= 0;
+foreach ($accounts as $account) {
+    $finish_account_sum += $account->sum;
+}
+$finish_sum = $sum_group - $finish_account_sum;
 ?>
 <table cellspacing="0" cellpadding="3"
        style="text-align: left; align-items: center;display: none;width: 100%!important;"
@@ -20,6 +48,11 @@ use common\models\ProductList;
         <td colspan="4" style="text-align: left; align-items: center;">Xisobot chop etilgan sana</td>
         <td colspan="4"
             style="text-align: left; align-items: center;"><?= Yii::$app->formatter->asDate(time(), 'php:d.m.Y') ?></td>
+    </tr>
+    <tr>
+        <td colspan="4" style="text-align: left; align-items: center;">Xisobot kitob</td>
+        <td colspan="4"
+            style="text-align: left; align-items: center;"><?= as_integer($finish_sum) ?></td>
     </tr>
 </table>
 <br>
@@ -45,7 +78,7 @@ use common\models\ProductList;
     ?>
     <?php foreach ($groups as $group): ?>
         <?php
-        $outcomes = Outcome::find()->andWhere(['group_id' => $group->id])->andWhere(['type_id' => ProductList::TYPE_RULON])->with('productType', 'unity')->all();
+        $outcomes = Outcome::find()->andWhere(['group_id' => $group->id])->andWhere(['type_id' => ProductList::TYPE_RULON])->all();
         ?>
         <?php if ($outcomes): ?>
             <?php foreach ($outcomes as $key => $outcome): ?>
@@ -81,7 +114,6 @@ use common\models\ProductList;
 <table border="1" cellspacing="0" cellpadding="3"
        style="text-align: left; align-items: center;display: none;width: 100%!important;"
        class="table table-bordered table-striped">
-
     <tr>
         <td colspan="6" style="vertical-align: middle; text-align: center">Mahsulotlar</td>
     </tr>
@@ -98,7 +130,7 @@ use common\models\ProductList;
     $outcome_products_total_size = 0;
     ?>
     <?php foreach ($groups as $group): ?>
-        <?php $outcome_products = Outcome::find()->andWhere(['group_id' => $group->id])->andWhere(['type_id' => ProductList::TYPE_PRODUCT])->with('productType', 'unity')->all() ?>
+        <?php $outcome_products = Outcome::find()->andWhere(['group_id' => $group->id])->andWhere(['type_id' => ProductList::TYPE_PRODUCT])->with(['productType', 'unity'])->all() ?>
         <?php if ($outcome_products): ?>
             <?php foreach ($outcome_products as $key => $outcome_product): ?>
                 <?php
@@ -129,7 +161,6 @@ use common\models\ProductList;
 <table border="1" cellspacing="0" cellpadding="3"
        style="text-align: left; align-items: center;display: none;width: 100%!important;"
        class="table table-bordered table-striped">
-
     <tr>
         <td colspan="6" style="vertical-align: middle; text-align: center">Aksessuar</td>
     </tr>
@@ -185,22 +216,6 @@ use common\models\ProductList;
         <td style="text-align: left;align-items: center">Dollar</td>
     </tr>
     <?php
-    if ($date) {
-        $dates = explode(' - ', $date, 2);
-        if (count($dates) == 2) {
-            $begin = strtotime($dates[0]);
-            $end = strtotime('+1 day', strtotime($dates[1]));
-            $accounts = Account::find()
-                ->andWhere(['client_id' => $client_id])
-                ->andFilterWhere(['>=', 'account.date', $begin])
-                ->andFilterWhere(['<', 'account.date', $end])
-                ->all();
-        }
-    } else {
-        $accounts = Account::find()
-            ->andWhere(['client_id' => $client_id])
-            ->all();
-    }
     $account_sum = 0;
     $account_dollar_sum = 0;
     $account_bank_sum = 0;

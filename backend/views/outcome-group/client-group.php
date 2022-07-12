@@ -3,6 +3,7 @@
 use common\models\Account;
 use common\models\Client;
 use common\models\OutcomeGroup;
+use kartik\daterange\DateRangePicker;
 use soft\grid\GridView;
 use yii\helpers\Url;
 use yii\helpers\Html;
@@ -22,8 +23,44 @@ $this->params['breadcrumbs'][] = $this->title;
 CrudAsset::register($this);
 
 ?>
-<a id="downloadLink" onclick="exportF(this)" class="btn btn-primary fa fa-file-excel-o"
-   style="margin-bottom: 15px;padding: 10px"> Hisobot olish</a>
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6" style="width: 100%">
+                <form class="form-inline" action="<?= Url::to(['outcome-group/client-reports']) ?>" id="client-reports">
+                    <?php
+                    /** @var Load $model */
+                    echo DateRangePicker::widget([
+                        'name' => 'range',
+                        'attribute' => 'date_range',
+                        'presetDropdown' => true,
+                        'convertFormat' => true,
+                        'includeMonthsFilter' => true,
+                        'startAttribute' => 'datetime_min',
+                        'endAttribute' => 'datetime_max',
+                        'pluginOptions' => [
+                            'timePickerIncrement' => 30,
+                            'locale' => [
+                                'format' => 'Y-m-d H:i:s'
+                            ]
+                        ]
+                    ]);
+                    ?>
+                    <?= Html::submitButton('<i class="fas fa-search"></i> Qidirish ', ['class' => 'btn btn-primary text-white', 'style' => 'margin-left:5px']) ?>
+                    <input type="hidden" name="client_id" value="<?=$client_id?>">
+                </form>
+            </div>
+        </div>
+        <br>
+
+
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<a id="downloadLink" class="btn btn-primary fa fa-file-excel-o" style="margin-bottom: 15px;padding: 10px;display: none;width: 140px">
+    Hisobot olish</a>
 <div class="outcome-group-index">
     <div id="ajaxCrudDatatable">
         <?= GridView::widget([
@@ -153,12 +190,7 @@ CrudAsset::register($this);
     $url = Url::to(['outcome-group/check-print']);
     ?>
 </div>
-<div id="report-client-all">
-    <?php
-    $groups = $dataProvider->getModels();
-    ?>
-    <?=$this->render('table',['groups'=>$groups,'client_id'=>$client_id,'date'=>$date])?>
-</div>
+
 <input type="hidden" value="<?= $url ?>" name="url_group">
 <?php
 $excel_url = Url::to(['outcome-group/excel']);
@@ -197,15 +229,29 @@ $js = <<< JS
         })
 
     })
-      function exportF(elem) {
-        var table = document.getElementById("report-client-all");
-        var html = table.outerHTML;
-        var url = 'data:application/vnd.ms-excel,' + '\uFEFF' + encodeURIComponent(html); // Set your html table into url
-        elem.setAttribute("href", url);
-        elem.setAttribute("download", "Mijozlar.xls"); // Choose the file name
-        return false;
-    }
 JS;
 $this->registerJs($js, View::POS_END);
+
+$js2 = <<< JS
+    $(document).on('submit', '#client-reports', function(e){
+        e.preventDefault()
+        let rulons=$('#client-reports')
+        let elem = $('#downloadLink');
+          $.ajax({
+            url: rulons.attr('action'),
+            data: rulons.serialize(),
+            success: function(result){
+            $('#downloadLink').css('display','block')
+             let data = result.message
+                var url = 'data:application/vnd.ms-excel,' + '\uFEFF' + encodeURIComponent(data); 
+                elem.attr("href", url);
+                elem.attr("download", "Mijoz.xls"); // Choose the file name
+            }
+        })
+    })
+  
+JS;
+$this->registerJs($js2)
+
 ?>
 

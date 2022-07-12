@@ -95,9 +95,11 @@ class OutcomeGroupController extends AjaxCrudController
             $dates = explode(' - ', $date, 2);
             if (count($dates) == 2) {
                 $begin = strtotime($dates[0]);
-                $end = strtotime('+1 day', strtotime($dates[1]));
-                $group = OutcomeGroup::find()->andWhere(['>=', 'date', $begin])
-                    ->andWhere(['<', 'date', $end])
+                $end = strtotime(strtotime($dates[1]));
+                $group = OutcomeGroup::find()
+                    ->andWhere(['client_id' => $client_id])
+                    ->andWhere(['>=', 'date', $begin])
+                    ->andWhere(['<=', 'date', $end])
                     ->all();
                 if (Yii::$app->request->isAjax) {
                     $result['message'] = $this->renderAjax('table', ['groups' => $group,'date'=>$date,'client_id'=>$client_id]);

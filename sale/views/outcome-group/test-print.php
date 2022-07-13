@@ -70,10 +70,10 @@ $print = PrintSetting::find()->one();
             <th colspan="2" style="font-size: 20px;">AS-PROFILE</th>
         </tr>
         <tr>
-            <td align="center" colspan="2" style="font-size: 30px">Tel:55 500 18 18</td>
+            <td align="center" colspan="2" style="font-size: 35px;">Tel:<span style="font-weight: bold">55 500 18 18</span></td>
         </tr>
         <tr>
-            <td align="center" colspan="2" style="font-size: 30px">Buyurtma nomeri:<?= $model->order_number ?></td>
+            <td align="center" colspan="2" style="font-size: 35px;">Buyurtma nomeri:<span style="font-weight: bold"><?= $model->order_number ?></span></td>
         </tr>
         <tr>
             <td class="head-title"> Sanasi va vaqti</td>

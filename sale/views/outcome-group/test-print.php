@@ -73,6 +73,9 @@ $print = PrintSetting::find()->one();
             <td align="center" colspan="2" style="font-size: 30px">Tel:55 500 18 18</td>
         </tr>
         <tr>
+            <td align="center" colspan="2" style="font-size: 30px">Buyurtma nomeri:<?= $model->order_number ?></td>
+        </tr>
+        <tr>
             <td class="head-title"> Sanasi va vaqti</td>
             <th align="right" class="head-title"><?=
                 Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y H:i:s') ?></th>
@@ -89,10 +92,7 @@ $print = PrintSetting::find()->one();
             <td class="head-title">Telefon nomeri</td>
             <th align="right" class="head-title">+<?= $model->client->phone ?></th>
         </tr>
-        <tr>
-            <td class="head-title">Buyurtma nomeri</td>
-            <th align="right" class="head-title"><?= $model->order_number ?></th>
-        </tr>
+
         <tr>
             <td class="head-title">Manzil</td>
             <th align="right" class="head-title"><?= $model->where ?></th>

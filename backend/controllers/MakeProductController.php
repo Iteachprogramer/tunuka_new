@@ -117,7 +117,7 @@ class MakeProductController extends Controller
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     $model->save();
-                    $incomes = Income::find()->andWhere(['!=', 'length', 0])->andWhere(['product_type_id' => $model->product->id])->all();
+                    $incomes = Income::find()->andWhere(['!=', 'length', 0])->andWhere(['product_type_id' => $model->product->id])->orderBy('id ASC')->all();
                     $size = floatval($model->size);
                     foreach ($incomes as $income) {
                         if ($size > 0) {

@@ -150,11 +150,19 @@ class OutcomeController extends AjaxCrudController
                     'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
                         Html::button('Save', ['class' => 'btn btn-primary', 'type' => "submit"])
                 ];
-            } else if ($model->load($request->post())) {
+            } else if ($model->load($request->post()) && $model->save()) {
+                $old_items = OutcomeItem::find()->andWhere(['outcome_id' => $model->id])->all();
+                if ($old_items) {
+                    foreach ($old_items as $old_item) {
+                        $old_income = Income::find()->andWhere(['id' => $old_item->income_id])->one();
+                        $old_income->length = $old_income->length + $old_item->outcome_size;
+                        $old_income->save(false);
+                        $old_item->delete();
+                    }
+                }
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
-                    $incomes = Income::find()->andWhere(['!=', 'length', 0])->all();
-                    $model->save();
+                    $incomes = Income::find()->andWhere(['!=', 'length', 0])->andWhere(['product_type_id' => $model->productType->id])->orderBy('id ASC')->all();
                     $size = floatval($model->total_size);
                     foreach ($incomes as $income) {
                         if ($size > 0) {
@@ -436,8 +444,7 @@ class OutcomeController extends AjaxCrudController
                     foreach ($incomes as $income) {
                         if ($size > 0) {
                             $outcome_item_residue = OutcomeItem::find()->andWhere(['income_id' => $income->id])->andWhere(['!=', 'residue_size', 0])->one();
-                            if ($outcome_item_residue)
-                            {
+                            if ($outcome_item_residue) {
                                 if ($outcome_item_residue >= $income->length) {
                                     $diff = $outcome_item_residue - $income->length;
                                     $outcome_item = new OutcomeItem();
@@ -667,6 +674,7 @@ class OutcomeController extends AjaxCrudController
             'group' => $group
         ]);
     }
+
     public function actionRulonsReport()
     {
         $date = Yii::$app->request->get('range');
@@ -690,6 +698,7 @@ class OutcomeController extends AjaxCrudController
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
+
     public function actionAksessuarReportSearch()
     {
         $date = Yii::$app->request->get('range');
@@ -713,6 +722,7 @@ class OutcomeController extends AjaxCrudController
         }
         return $this->redirect(Yii::$app->request->referrer);
     }
+
     public function actionProductReportSearch()
     {
         $date = Yii::$app->request->get('range');

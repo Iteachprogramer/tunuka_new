@@ -431,12 +431,13 @@ class OutcomeController extends AjaxCrudController
             } else if ($model->load($request->post()) && $model->validate() && $model->save()) {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
-                    $incomes = Income::find()->andWhere(['!=', 'length', 0])->andWhere(['product_type_id' => $model->productType->id])->all();
+                    $incomes = Income::find()->andWhere(['!=', 'length', 0])->andWhere(['product_type_id' => $model->productType->id])->orderBy('id ASC')->all();
                     $size = floatval($model->total_size);
                     foreach ($incomes as $income) {
                         if ($size > 0) {
                             $outcome_item_residue = OutcomeItem::find()->andWhere(['income_id' => $income->id])->andWhere(['!=', 'residue_size', 0])->one();
-                            if ($outcome_item_residue) {
+                            if ($outcome_item_residue)
+                            {
                                 if ($outcome_item_residue >= $income->length) {
                                     $diff = $outcome_item_residue - $income->length;
                                     $outcome_item = new OutcomeItem();

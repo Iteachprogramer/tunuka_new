@@ -533,7 +533,6 @@ class OutcomeController extends AjaxCrudController
                 'group_id' => $group->id,
                 'client_id' => $group->client_id,
             ]);
-
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [

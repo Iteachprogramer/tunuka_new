@@ -39,11 +39,14 @@ class AccountController extends AjaxCrudController
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+
                 ],
             ],
         ];
     }
-    public function actionDebtClient(){
+
+    public function actionDebtClient()
+    {
         $id = Yii::$app->request->post('id');
         $client = Client::find()->where(['id' => $id])->one();
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -51,19 +54,22 @@ class AccountController extends AjaxCrudController
         $debt_dollar = number_format($client->finishAccountSumDollar, 0, ' ', ' ');
         return ['debt' => $debt, 'debt_dollar' => $debt_dollar];
     }
-    public function actionDebtEmployee(){
+
+    public function actionDebtEmployee()
+    {
         $id = Yii::$app->request->post('id');
         $employees = Employees::find()->where(['id' => $id])->one();
         Yii::$app->response->format = Response::FORMAT_JSON;
         $debt = number_format($employees->employeeFinishSum, 0, ' ', ' ');
         return ['debt' => $debt];
     }
+
     //<editor-fold desc="CRUD" defaultstate="collapsed">
 
     public function actionIndex()
     {
         $searchModel = new AccountSearch();
-        $query = Account::find();
+        $query = Account::find()->andWhere(['status' => Account::STATUS_ACTIVE])->with('expenseType', 'employee', 'client');
         $date = $this->request->queryParams['AccountSearch']['date'];
         $dates = explode(' - ', $date, 2);
         if (count($dates) == 2) {
@@ -74,6 +80,25 @@ class AccountController extends AjaxCrudController
         }
         $dataProvider = $searchModel->search($this->request->queryParams, $query);
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    public function actionBasket()
+    {
+        $searchModel = new AccountSearch();
+        $query = Account::find()->andWhere(['status' => Account::STATUS_DELETED])->with('expenseType', 'employee', 'client');
+        $date = $this->request->queryParams['AccountSearch']['date'];
+        $dates = explode(' - ', $date, 2);
+        if (count($dates) == 2) {
+            $begin = strtotime($dates[0]);
+            $end = strtotime($dates[1]);
+            $query->andFilterWhere(['<=', 'date', $end])
+                ->andFilterWhere(['>=', 'date', $begin]);
+        }
+        $dataProvider = $searchModel->search($this->request->queryParams, $query);
+        return $this->render('basket', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -92,7 +117,7 @@ class AccountController extends AjaxCrudController
         $model = new Account([
             'type_id' => $type_id,
             'dollar_course' => $dollarCourse->course,
-            'date'=>Yii::$app->formatter->asDatetime(time(), 'php:Y-m-d'),
+            'date' => Yii::$app->formatter->asDate(time(), 'php:Y-m-d'),
         ]);
         $title = $model->isIncome ? 'Kassaga kirim qilish' : 'Kassadan chiqim qilish';
         return $this->ajaxCrud->createAction($model, ['title' => $title, 'returnUrl' => ['index']]);
@@ -116,6 +141,32 @@ class AccountController extends AjaxCrudController
      * @throws \yii\web\NotFoundHttpException
      */
     public function actionDelete($id)
+    {
+        $this->checkIfRequestMethodIsPost();
+
+        $model = $this->findModel($id);
+        if ($model->is_main) {
+            forbidden("Ushbu kassa asosiy boshlang'ich kassa bo'lganligi uchun o'chirishga ruxsat berilmaydi!");
+        }
+        $model->status = Account::STATUS_DELETED;
+        $model->save(false);
+        return $this->ajaxCrud->closeModalResponse();
+    }
+
+    public function actionRefresh($id)
+    {
+        $this->checkIfRequestMethodIsPost();
+
+        $model = $this->findModel($id);
+        if ($model->is_main) {
+            forbidden("Ushbu kassa asosiy boshlang'ich kassa bo'lganligi uchun o'chirishga ruxsat berilmaydi!");
+        }
+        $model->status = Account::STATUS_ACTIVE;
+        $model->save(false);
+        return $this->ajaxCrud->closeModalResponse();
+    }
+
+    public function actionDeleteBasket($id)
     {
         $this->checkIfRequestMethodIsPost();
 

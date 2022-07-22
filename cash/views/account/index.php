@@ -18,7 +18,6 @@ $this->title = 'Kassa';
 $this->params['breadcrumbs'][] = $this->title;
 CrudAsset::register($this);
 ?>
-<?= $this->render('_totalAccountBoxes', ['allClients' => $allClients]) ?>
 <div class="account-index">
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -36,8 +35,6 @@ CrudAsset::register($this);
             ],
         ],
         'columns' => [
-//           / ['class' => 'yii\grid\SerialColumn'],
-            //  'id',
             [
                 'attribute' => 'client_id',
                 'format' => 'raw',
@@ -53,11 +50,13 @@ CrudAsset::register($this);
                     ]
                 ],
                 'value' => function (Account $model) {
-                    if ($model->expenseType->name) {
+                    if ($model->expenseType->name){
                         return $model->expenseType->name;
-                    } elseif ($model->is_main) {
+                    }
+                    elseif ($model->is_main){
                         return 'Asosiy boshlang\'ich kassa';
-                    } else {
+                    }
+                    else{
                         return $model->client->fulla_name;
                     }
                 }
@@ -68,7 +67,7 @@ CrudAsset::register($this);
                 'width' => '120px',
                 'filterType' => GridView::FILTER_SELECT2,
                 'filterWidgetOptions' => [
-                    'data' => ArrayHelper::map(Employees::find()->andWhere(['status' => Employees::STATUS_ACTIVE])->all(), 'id', 'name'),
+                    'data' => ArrayHelper::map(Employees::find()->andWhere(['status'=> Employees::STATUS_ACTIVE])->all(),'id','name'),
                     'options' => [
                         'placeholder' => 'Ishchini tanlang...',
                     ],
@@ -118,7 +117,7 @@ CrudAsset::register($this);
                         ]
                     ]
                 ],
-                'value' => function (Account $model) {
+                'value' => function(Account $model){
                     return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y');
                 },
             ],
@@ -136,21 +135,10 @@ CrudAsset::register($this);
             ],
             [
                 'attribute' => 'dollar',
-                'format' => 'integer',
+                'format' => 'decimal',
                 'width' => '120px',
                 'pageSummary' => true,
             ],
-//            'dollar_course',
-//            [
-//                'attribute' => 'dollarTotal',
-//                'format' => 'integer',
-//                'pageSummary' => true,
-//            ],
-//            [
-//                'attribute' => 'bank',
-//                'width' => '160px',
-//                'format' => 'integer',
-//            ],
             'comment',
             [
                 'class' => 'soft\grid\ActionColumn',

@@ -8,7 +8,9 @@ use common\models\MakeProduct;
 use common\models\MakeProductItem;
 use common\models\Outcome;
 use common\models\OutcomeItem;
+use common\models\Prasent;
 use common\models\ProductList;
+use common\modules\point\models\PointSystem;
 use soft\helpers\Url;
 use soft\web\AjaxCrudController;
 use Yii;
@@ -95,14 +97,14 @@ class OutcomeGroupController extends AjaxCrudController
             $dates = explode(' - ', $date, 2);
             if (count($dates) == 2) {
                 $begin = strtotime($dates[0]);
-                $end = strtotime('+1 day',strtotime($dates[1]));
+                $end = strtotime('+1 day', strtotime($dates[1]));
                 $group = OutcomeGroup::find()
                     ->andWhere(['client_id' => $client_id])
                     ->andFilterWhere(['>=', 'outcome_group.date', $begin])
                     ->andFilterWhere(['<', 'outcome_group.date', $end])
                     ->all();
                 if (Yii::$app->request->isAjax) {
-                    $result['message'] = $this->renderAjax('table', ['groups' => $group,'date'=>$date,'client_id'=>$client_id]);
+                    $result['message'] = $this->renderAjax('table', ['groups' => $group, 'date' => $date, 'client_id' => $client_id]);
                     return $this->asJson($result);
                 }
                 $result = [];
@@ -274,19 +276,26 @@ class OutcomeGroupController extends AjaxCrudController
         $outcomes = Outcome::find()->andWhere(['group_id' => $model->id])->all();
         $transaction = \Yii::$app->db->beginTransaction();
         try {
-            foreach ($outcomes as $outcome) {
-                if ($outcomes) {
-                    $outcome_items = OutcomeItem::find()->andWhere(['outcome_id' => $outcome->id])->all();
-                    if ($outcome_items) {
-                        foreach ($outcome_items as $outcome_item) {
-                            $income = $outcome_item->income;
-                            $income->length = $income->length + $outcome_item->outcome_size;
-                            $income->save();
-                            $outcome_item->delete();
+            if ($outcomes){
+                foreach ($outcomes as $outcome) {
+                    if ($outcomes) {
+                        $outcome_items = OutcomeItem::find()->andWhere(['outcome_id' => $outcome->id])->all();
+                        if ($outcome_items) {
+                            foreach ($outcome_items as $outcome_item) {
+                                $income = $outcome_item->income;
+                                $income->length = $income->length + $outcome_item->outcome_size;
+                                $income->save();
+                                $outcome_item->delete();
+                            }
                         }
+                        $outcome->delete();
                     }
-                    $outcome->delete();
                 }
+            }
+            $point = PointSystem::find()->andWhere(['client_id' => $model->client->id])->one();
+            if ($point){
+                $point->point = $point->point - $model->prasent_sum;
+                $point->save(false);
             }
             $model->delete();
         } catch (\Exception $e) {
@@ -336,6 +345,31 @@ class OutcomeGroupController extends AjaxCrudController
         } else {
 
             return $this->redirect(['index']);
+        }
+
+    }
+
+    public function actionPoint()
+    {
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            $id = Yii::$app->request->get('id');
+            $model = $this->findModel($id);
+            $prasent = Prasent::find()->one();
+            $point = PointSystem::find()->andWhere(['client_id' => $model->client_id])->one();
+            if ($point) {
+                $point->point += $model->outcomeSum * $prasent->prasent;
+                $point->save(false);
+            } else {
+                $point = new PointSystem();
+                $point->client_id = $model->client_id;
+                $point->point = $model->outcomeSum * $prasent->prasent;
+                $point->save(false);
+            }
+            $model->prasent_status = OutcomeGroup::PRASENT_POINT;
+            $model->prasent_sum = $model->outcomeSum * $prasent->prasent;
+            $model->save(false);
+            return $this->redirect(Yii::$app->request->referrer);
         }
 
     }

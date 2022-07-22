@@ -54,6 +54,9 @@ class Account extends \soft\db\ActiveRecord
      */
     const TYPE_EXPEND = 3;
 
+    const STATUS_ACTIVE = 1;
+    const STATUS_DELETED = 0;
+
     public function getTypeName()
     {
         return ArrayHelper::getArrayValue(self::types(), $this->type_id);
@@ -99,8 +102,8 @@ class Account extends \soft\db\ActiveRecord
     {
         return [
             [['type_id',], 'required'],
-            [['client_id', 'type_id', 'sum',  'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by', 'employee_id', 'group_id'], 'integer'],
-            [['dollar_course','dollar',], 'number'],
+            [['client_id', 'type_id', 'sum', 'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by', 'employee_id', 'group_id', 'status'], 'integer'],
+            [['dollar_course', 'dollar',], 'number'],
             [['comment'], 'string', 'max' => 255],
             ['date', 'safe'],
             ['date', 'default', 'value' => time()],
@@ -109,6 +112,7 @@ class Account extends \soft\db\ActiveRecord
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employees::className(), 'targetAttribute' => ['employee_id' => 'id']],
         ];
     }
+
     /**
      * {@inheritdoc}
      */
@@ -123,6 +127,7 @@ class Account extends \soft\db\ActiveRecord
             ]
         ];
     }
+
     /**
      * {@inheritdoc}
      */
@@ -145,7 +150,7 @@ class Account extends \soft\db\ActiveRecord
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),
             'updated_by' => Yii::t('app', 'Updated By'),
-
+            'status' => 'Holati',
             'date' => 'Sana',
         ];
     }
@@ -160,10 +165,12 @@ class Account extends \soft\db\ActiveRecord
     {
         return $this->hasOne(Client::className(), ['id' => 'client_id']);
     }
+
     public function getGroup()
     {
         return $this->hasOne(OutcomeGroup::className(), ['id' => 'group_id']);
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -171,10 +178,12 @@ class Account extends \soft\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'created_by']);
     }
+
     public function getEmployee()
     {
         return $this->hasOne(Employees::className(), ['id' => 'employee_id']);
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -182,7 +191,9 @@ class Account extends \soft\db\ActiveRecord
     {
         return $this->hasOne(ExpenseType::className(), ['id' => 'expense_type_id']);
     }
+
     const SCENARIO_MAIN = 'main';
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -190,6 +201,7 @@ class Account extends \soft\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'updated_by']);
     }
+
     public function beforeSave($insert)
     {
         if (!parent::beforeSave($insert)) {
@@ -241,15 +253,4 @@ class Account extends \soft\db\ActiveRecord
     {
         return $this->type_id == self::TYPE_INCOME;
     }
-//    public function afterSave($insert, $changedAttributes)
-//    {
-//        if ($insert) {
-//            if ($this->client) {
-//                $this->client->updateLastAction();
-//            }
-//        }
-//
-//    }
-
-    //</editor-fold>
 }

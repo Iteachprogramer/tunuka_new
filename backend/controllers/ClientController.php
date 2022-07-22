@@ -464,7 +464,7 @@ class ClientController extends AjaxCrudController
             'is_main' => Null,
 
         ]);
-        $query = Account::find();
+        $query = Account::find()->andWhere(['status' => Account::STATUS_ACTIVE]);
         $date = $this->request->queryParams['AccountSearch']['date'];
         $dates = explode(' - ', $date, 2);
         if (count($dates) == 2) {
@@ -504,13 +504,7 @@ class ClientController extends AjaxCrudController
         $model->sum = abs($model->sum);
         $model->dollar = abs($model->dollar);
         $model->bank = abs($model->bank);
-
         $title = 'Tahrirlash';
-
-//        if ($model->loadPost()){
-//            dd($model->attributes);
-//        }
-
         return $this->ajaxCrud->updateAction($model, [
             'title' => $title,
             'view' => 'accountFormView',
@@ -521,7 +515,8 @@ class ClientController extends AjaxCrudController
     public function actionDeleteAccount($id)
     {
         $model = $this->findAccountModel($id);
-        $model->delete();
+        $model->status = Account::STATUS_DELETED;
+        $model->save(false);
         $url = ['account', 'id' => $model->client_id];
         if ($this->isAjax) {
             $this->formatJson();

@@ -9,7 +9,6 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\Outcome */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
 <div class="outcome-form">
 
     <?php $form = ActiveForm::begin(); ?>

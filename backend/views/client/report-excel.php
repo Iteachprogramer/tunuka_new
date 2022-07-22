@@ -33,7 +33,7 @@
                             <td style="vertical-align: middle; text-align: left">
                                 <?php
                                 if ($client->finishAccountSum > 0) {
-                                    echo as_integer($client->finishAccountSum);
+                                    echo "<span style='color: red'>".as_integer($client->finishAccountSum)."</span>";
                                 } else {
                                     echo '0';
                                 }
@@ -42,7 +42,7 @@
                             <td style="vertical-align: middle; text-align: left">
                                 <?php
                                 if ($client->finishAccountSumDollar > 0) {
-                                    echo number_format($client->finishAccountSumDollar, 3, '.', ' ');
+                                    echo "<span style='color: red'>".number_format($client->finishAccountSumDollar, 3, '.', ' ')."</span>";
                                 } else {
                                     echo '0';
                                 }

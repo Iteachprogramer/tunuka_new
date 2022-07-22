@@ -33,7 +33,7 @@ class OutcomeGroup extends \soft\db\ActiveRecord
 
     public $phone_client_id;
     private $accountsSumTotal;
-    private ?float $outcome_Sum=null;
+    private ?float $outcome_Sum = null;
 
     public static function tableName()
     {
@@ -42,6 +42,10 @@ class OutcomeGroup extends \soft\db\ActiveRecord
 
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
+
+
+    const PRASENT_POINT = 1;
+    const PRASENT_NOT_POINT = 0;
 
     /**
      * {@inheritdoc}
@@ -60,9 +64,10 @@ class OutcomeGroup extends \soft\db\ActiveRecord
     public function rules()
     {
         return [
-            [['client_id', 'status', 'discount', 'total', 'created_by', 'updated_by', 'order_number', 'phone_client_id'], 'integer'],
+            [['client_id', 'status', 'discount', 'total', 'created_by', 'updated_by', 'order_number', 'phone_client_id', 'prasent_status'], 'integer'],
             ['date', 'safe'],
             ['date', 'default', 'value' => time()],
+            ['prasent_sum', 'number'],
             [['discount', 'total'], 'default', 'value' => 0],
             [['discount'], 'checkNumber'],
             [['where'], 'string', 'max' => 255],
@@ -99,7 +104,7 @@ class OutcomeGroup extends \soft\db\ActiveRecord
         if (parent::beforeSave($insert)) {
 
             $this->total = $this->outcomeSum - $this->discount;
-            if ($this->isNewRecord){
+            if ($this->isNewRecord) {
                 $order_number = OrderNumber::find()->one();
                 $nextDay = strtotime('+1 week', $order_number->date);
                 if (Yii::$app->formatter->asDate($nextDay, 'dd.MM.yyyy') > Yii::$app->formatter->asDate(time(), 'dd.MM.yyyy')) {
@@ -111,7 +116,6 @@ class OutcomeGroup extends \soft\db\ActiveRecord
                 }
                 $order_number->save(false);
                 $this->order_number = $order_number->client_order_number;
-
             }
             return true;
         }

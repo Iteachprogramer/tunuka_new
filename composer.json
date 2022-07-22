@@ -28,7 +28,8 @@
         "kartik-v/yii2-date-range": "@dev",
 
         "wbraganca/yii2-dynamicform": "*",
-        "phpoffice/phpspreadsheet": "dev-master"
+        "phpoffice/phpspreadsheet": "dev-master",
+        "nesbot/carbon": "2.x-dev"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

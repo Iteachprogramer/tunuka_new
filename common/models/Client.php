@@ -338,6 +338,7 @@ class Client extends \soft\db\ActiveRecord
     {
         return $this->getAccounts()
             ->select(['client_id', 'counted' => 'SUM(sum)'])
+            ->andWhere(['status' => Account::STATUS_ACTIVE])
             ->groupBy('client_id')
             ->asArray(true);
     }
@@ -358,6 +359,7 @@ class Client extends \soft\db\ActiveRecord
     {
         return $this->getAccounts()
             ->select(['client_id', 'counted' => 'SUM(dollar)'])
+            ->andWhere(['status' => Account::STATUS_ACTIVE])
             ->groupBy('client_id')
             ->asArray(true);
     }

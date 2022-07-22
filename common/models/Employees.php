@@ -133,7 +133,7 @@ class Employees extends \soft\db\ActiveRecord
 
     public function getAccountSum()
     {
-        return intval($this->getAccounts()->sum('sum'));
+        return intval($this->getAccounts()->andWhere(['status'=>Account::STATUS_ACTIVE])->sum('sum'));
     }
 
     public static function getMap()

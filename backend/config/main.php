@@ -24,7 +24,12 @@ return [
         'gridview' => [
             'class' => 'kartik\grid\Module'
         ],
-
+        'point' => [
+            'class' => 'common\modules\point\Module',
+        ],
+        'report' => [
+            'class' => 'common\modules\report\Module',
+        ],
     ],
     'components' => [
         'request' => [

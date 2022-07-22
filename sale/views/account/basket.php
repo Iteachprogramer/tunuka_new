@@ -1,0 +1,173 @@
+<?php
+
+use common\models\Account;
+use common\models\Client;
+use common\models\Employees;
+use soft\grid\GridView;
+use soft\helpers\ArrayHelper;
+use soft\helpers\Url;
+use soft\widget\ajaxcrud\CrudAsset;
+use yii\helpers\Html;
+use yii\widgets\Pjax;
+
+/* @var $this yii\web\View */
+/* @var $searchModel common\models\search\AccountSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'Kassa korzinka';
+$this->params['breadcrumbs'][] = $this->title;
+CrudAsset::register($this);
+?>
+<div class="account-index">
+    <?php Pjax::begin(); ?>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'showPageSummary' => true,
+        'toolbarButtons' => [
+            'create' => [
+                'pjax' => false,
+                'modal' => false,
+                'url' => Url::to(['account/create-multiple']),
+                'cssClass' => 'btn btn-outline-secondary',
+                'icon' => 'plus',
+            ],
+        ],
+        'columns' => [
+            [
+                'attribute' => 'client_id',
+                'format' => 'raw',
+                'width' => '200px',
+                'filterType' => GridView::FILTER_SELECT2,
+                'filterWidgetOptions' => [
+                    'data' => Client::getMap(),
+                    'options' => [
+                        'placeholder' => 'Klientni tanlang...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ]
+                ],
+                'value' => function (Account $model) {
+                    if ($model->expenseType->name){
+                        return $model->expenseType->name;
+                    }
+                    elseif ($model->is_main){
+                        return 'Asosiy boshlang\'ich kassa';
+                    }
+                    else{
+                        return $model->client->fulla_name;
+                    }
+                }
+            ],
+            [
+                'attribute' => 'employee_id',
+                'format' => 'raw',
+                'width' => '120px',
+                'filterType' => GridView::FILTER_SELECT2,
+                'filterWidgetOptions' => [
+                    'data' => ArrayHelper::map(Employees::find()->andWhere(['status'=> Employees::STATUS_ACTIVE])->all(),'id','name'),
+                    'options' => [
+                        'placeholder' => 'Ishchini tanlang...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ]
+                ],
+                'value' => function (Account $model) {
+                    return $model->employee->name;
+                }
+            ],
+
+            [
+                'attribute' => 'type_id',
+                'format' => 'raw',
+                'value' => 'typeBadge',
+                'filter' => Account::types(),
+                'width' => '100px',
+            ],
+            [
+                'attribute' => 'expense_type_id',
+                'value' => function ($model) {
+                    return $model->expenseType->name ?? '';
+                },
+                'format' => 'raw',
+                'filterType' => GridView::FILTER_SELECT2,
+                'filterWidgetOptions' => [
+                    'data' => \common\models\ExpenseType::getMapExpense(),
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'placeholder' => 'Rasxodni tanlang...'
+                    ]
+                ]
+            ],
+            [
+                'attribute' => 'date',
+                'width' => '160px',
+                'filterType' => GridView::FILTER_DATE_RANGE,
+                'filterWidgetOptions' => [
+                    'model' => $searchModel,
+                    'convertFormat' => true,
+                    'presetDropdown' => true,
+                    'includeMonthsFilter' => true,
+                    'pluginOptions' => [
+                        'locale' => [
+                            'format' => 'd.m.Y'
+                        ]
+                    ]
+                ],
+                'value' => function(Account $model){
+                    return Yii::$app->formatter->asDatetime($model->date, 'php:d.m.Y');
+                },
+            ],
+            [
+                'attribute' => 'total',
+                'format' => 'integer',
+                'width' => '190px',
+                'pageSummary' => true,
+            ],
+            [
+                'attribute' => 'sum',
+                'width' => '160px',
+                'format' => 'integer',
+                'pageSummary' => true,
+            ],
+            [
+                'attribute' => 'dollar',
+                'format' => 'decimal',
+                'width' => '120px',
+                'pageSummary' => true,
+            ],
+            'comment',
+            [
+                'class' => 'soft\grid\ActionColumn',
+                'width' => '120px',
+                'template' => '{refresh} {delete}',
+                'viewOptions' => [
+                    'role' => 'modal-remote'
+                ],
+                'buttons' => [
+                    'refresh' => function ($url, $model) {
+                        return Html::a('<i class="fa fa-retweet"></i>', $url, [
+                            'data-pjax' => '0',
+                            'data-method' => 'post',
+                        ]);
+                    },
+                    'delete' => function ($url, $model) {
+                        return Html::a('<i class="fa fa-trash"></i>', [Url::to('account/delete-basket'),'id'=>$model->id], [
+                            'data-pjax' => '0',
+                            'data-confirm' => 'Rostan o\'chirishni xoxlaysizmi?',
+                            'data-method' => 'post',
+                        ]);
+                    },
+                ],
+
+
+            ],
+        ],
+    ]); ?>
+
+    <?php Pjax::end(); ?>
+
+</div>

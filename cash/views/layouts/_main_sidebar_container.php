@@ -35,13 +35,34 @@ $endDate = date('t.m.Y');
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="<?= Url::to(['/account']) ?>" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-coins"></i>
                         <p>
                             Kassa
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['/account']) ?>" class="nav-link">
+                                <i class="nav-icon fas fa-coins"></i>
+                                <p>
+                                    Kassa
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['/account/basket']) ?>" class="nav-link">
+                                <i class="nav-icon fas fa-coins"></i>
+                                <p>
+                                    Kassa korzinka
+                                </p>
+                            </a>
+                        </li>
+
+                    </ul>
                 </li>
+
                 <li class="nav-item">
                     <a href="<?= Url::to(['/outcome-group']) ?>" class="nav-link">
                         <i class="nav-icon fas fa-upload"></i>

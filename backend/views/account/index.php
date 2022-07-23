@@ -127,12 +127,12 @@ CrudAsset::register($this);
                 'width' => '190px',
                 'pageSummary' => true,
             ],
-            [
-                'attribute' => 'sum',
-                'width' => '160px',
-                'format' => 'integer',
-                'pageSummary' => true,
-            ],
+//            [
+//                'attribute' => 'sum',
+//                'width' => '160px',
+//                'format' => 'integer',
+//                'pageSummary' => true,
+//            ],
             [
                 'attribute' => 'dollar',
                 'format' => 'decimal',
@@ -140,6 +140,7 @@ CrudAsset::register($this);
                 'pageSummary' => true,
             ],
             'comment',
+            'order_number',
             [
                 'class' => 'soft\grid\ActionColumn',
                 'width' => '120px',

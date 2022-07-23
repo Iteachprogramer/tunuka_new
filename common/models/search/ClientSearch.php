@@ -39,14 +39,19 @@ class ClientSearch extends Client
      *
      * @return ActiveDataProvider
      */
-    public function search($params,$query=null)
+    public function search($params, $query = null)
     {
-        if ($query==null){
-            $query = Client::find()->with(['outcome','incomes','accounts']);
+        if ($query == null) {
+            $query = Client::find()
+                ->with('outcomeAggregationSum')
+                ->with('discountAggregationSum')
+                ->with('accountAggregationSum')
+                ->with('accountAggregationDollar')
+                ->with('incomeAggregationSum');;
         }
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination'=>[
+            'pagination' => [
                 'pageSize' => 25,
             ],
             'sort' => [

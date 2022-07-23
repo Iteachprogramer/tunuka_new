@@ -72,10 +72,15 @@ return [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
         'vAlign' => 'middle',
-        'template' => '{update} {view}',
+        'template' => '{update} {view} {qrcode}',
         'urlCreator' => function ($action, $model, $key, $index) {
             return Url::to([$action, 'id' => $key]);
         },
+        'buttons' => [
+            'qrcode' => function ($url, $model) {
+                return Html::a('<i class="fa fa-qrcode"></i>', $url, ['data-pjax' => '0']);
+            },
+        ],
         'viewOptions' => ['role' => 'modal-remote', 'title' => 'View', 'data-toggle' => 'tooltip'],
         'updateOptions' => ['role' => 'modal-remote', 'title' => 'Update', 'data-toggle' => 'tooltip'],
     ],

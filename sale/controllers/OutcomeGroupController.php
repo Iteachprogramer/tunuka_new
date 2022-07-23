@@ -174,6 +174,8 @@ class OutcomeGroupController extends AjaxCrudController
             'client_id' => $model->client_id,
             'group_id' => $model->id,
             'type_id' => Account::TYPE_INCOME,
+            'order_number'=>$model->order_number,
+
         ]);
         Yii::$app->response->format = Response::FORMAT_JSON;
         if ($model->load($request->post()) && $model->save()) {

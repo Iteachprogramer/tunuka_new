@@ -570,11 +570,30 @@ class ClientController extends AjaxCrudController
     public function actionExcel()
     {
         $id = Yii::$app->request->get('id');
-        $model = Client::find()->all();
+        $query = Client::find()
+            ->with('outcomeAggregationSum')
+            ->with('discountAggregationSum')
+            ->with('accountAggregationSum')
+            ->with('accountAggregationDollar')
+            ->with('incomeAggregationSum');
+        $clients = $query->all();
+        $clientsList = [];
+        foreach ($clients as $client) {
+            $finishAccountSum = $client->finishAccountSum;
+            $finishAccountSumDollar = $client->finishAccountSumDollar;
+            if ($finishAccountSum != 0 || $finishAccountSumDollar != 0) {
+                $clientsList[] = [
+                    'id' => $client->id,
+                    'name' => $client->fulla_name,
+                    'finishAccountSum' => $client->finishAccountSum ?? 0,
+                    'finishAccountDollar' => $client->finishAccountSumDollar ?? 0,
+                ];
+            }
+        }
         $result = [];
         if (Yii::$app->request->isAjax) {
             Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            $result['message'] = $this->renderAjax('report-excel', ['model' => $model]);
+            $result['message'] = $this->renderAjax('report-excel', ['clientsList' => $clientsList]);
             return $this->asJson($result);
         }
         return $this->redirect(Yii::$app->request->referrer);

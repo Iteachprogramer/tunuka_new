@@ -102,7 +102,7 @@ class Account extends \soft\db\ActiveRecord
     {
         return [
             [['type_id',], 'required'],
-            [['client_id', 'type_id', 'sum', 'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by', 'employee_id', 'group_id', 'status'], 'integer'],
+            [['client_id', 'order_number', 'type_id', 'sum', 'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by', 'employee_id', 'group_id', 'status'], 'integer'],
             [['dollar_course', 'dollar',], 'number'],
             [['comment'], 'string', 'max' => 255],
             ['date', 'safe'],
@@ -152,6 +152,7 @@ class Account extends \soft\db\ActiveRecord
             'updated_by' => Yii::t('app', 'Updated By'),
             'status' => 'Holati',
             'date' => 'Sana',
+            'order_number' => 'Buyurtma raqami',
         ];
     }
     //</editor-fold>

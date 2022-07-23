@@ -17,7 +17,7 @@ class AccountSearch extends Account
     public function rules()
     {
         return [
-            [['id', 'client_id', 'type_id', 'sum', 'dollar', 'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by','employee_id'], 'integer'],
+            [['id', 'client_id', 'type_id', 'sum', 'dollar', 'bank', 'total', 'expense_type_id', 'is_main', 'created_at', 'updated_at', 'created_by', 'updated_by','employee_id','order_number'], 'integer'],
             [['dollar_course'], 'number'],
             [['comment', 'date'], 'safe'],
         ];
@@ -87,6 +87,7 @@ class AccountSearch extends Account
             'updated_at' => $this->updated_at,
             'created_by' => $this->created_by,
             'updated_by' => $this->updated_by,
+            'order_number' => $this->order_number,
         ]);
         $query->andFilterWhere(['like', 'comment', $this->comment]);
         return $dataProvider;

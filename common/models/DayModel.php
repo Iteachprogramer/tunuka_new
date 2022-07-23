@@ -11,8 +11,10 @@ namespace common\models;
 use common\models\traits\DayModelFilterTrait;
 use common\modules\report\models\Report;
 use soft\helpers\ArrayHelper;
+use soft\helpers\Url;
 use yii\base\Model;
 use soft\helpers\Carbon;
+use yii\helpers\Html;
 
 /**
  *
@@ -102,13 +104,13 @@ class DayModel extends Model
     public static function weeks()
     {
         return [
-            1 => "Душанба",
-            2 => "Сешанба",
-            3 => 'Чоршанба',
-            4 => 'Пайшанба',
-            5 => 'Жума',
-            6 => 'Шанба',
-            0 => 'Якшанба'
+            1 => "Душ",
+            2 => "Сеш",
+            3 => 'Чорш',
+            4 => 'Пайш',
+            5 => 'Жум',
+            6 => 'Шан',
+            0 => 'Якш'
         ];
     }
 
@@ -285,5 +287,49 @@ class DayModel extends Model
             $this->_values = $values;
         }
         return $this->_values;
+    }
+    /**
+     * @param $options array
+     * @param $url mixed
+     * @param $text string
+     * @return string
+     */
+    public function renderNextMonthLink($options = [], $url = null, $text = null)
+    {
+
+        if ($url == null) {
+            $next = $this->getNextMonth();
+            $url = Url::current(['year' => $next['year'], 'month' => $next['month']]);
+        }
+
+        $options = ArrayHelper::merge($options, ['class' => 'btn bg-primary btn-flat']);
+
+        if ($text == null) {
+            $text = '<i class="fa fa-chevron-right"></i>';
+        }
+
+        return Html::a($text, $url, $options);
+
+    }
+
+    /**
+     * @param $options array
+     * @param $url mixed
+     * @param $text string
+     * @return string
+     */
+    public function renderPrevMonthLink($options = [], $url = null, $text = null)
+    {
+
+        if ($url == null) {
+            $prev = $this->getPrevMonth();
+            $url = Url::current(['year' => $prev['year'], 'month' => $prev['month']]);
+        }
+        $options = ArrayHelper::merge($options, ['class' => 'btn bg-primary btn-flat mr-1']);
+        if ($text == null) {
+            $text = '<i class="fa fa-chevron-left"></i>';
+        }
+        return Html::a($text, $url, $options);
+
     }
 }

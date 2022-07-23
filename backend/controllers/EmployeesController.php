@@ -199,24 +199,27 @@ class EmployeesController extends Controller
     }
 
 
-
     public function actionMakeProduct($employee_id)
     {
-        $model=$this->findModel($employee_id);
+        $model = $this->findModel($employee_id);
         $searchModel = new MakeProductSearch();
-        $query=$model->getMakes();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams,$query);
+        $query = $model->getMakes();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams, $query);
         return $this->render(
             'employee_make_product',
             [
-                'searchModel'=>$searchModel,
-                'dataProvider'=>$dataProvider
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider
             ]
         );
 
     }
 
-
+    public function actionQrcode($id)
+    {
+        $model = $this->findModel($id);
+        return $this->render('qrcode', ['model' => $model]);
+    }
 
     /**
      * Finds the Employees model based on its primary key value.

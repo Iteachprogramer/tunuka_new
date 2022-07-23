@@ -46,6 +46,11 @@ class ReportSearch extends Report
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort'=>[
+                'defaultOrder'=>[
+                    'id'=>SORT_DESC,
+                ],
+            ],
         ]);
 
         $this->load($params);

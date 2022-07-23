@@ -5,38 +5,26 @@ use common\modules\point\models\PointSystem;
 use yii\helpers\Url;
 
 return [
-    [
-        'class' => 'kartik\grid\CheckboxColumn',
-        'width' => '20px',
+    ['class' => '\yii\grid\CheckboxColumn',
+        'checkboxOptions' => function ($model, $key, $index, $column) {
+            if ($model->point != 0) {
+                return ['value' => $key];
+            }
+            return ['style' => ['display' => 'none']]; // OR ['disabled' => true]
+        },
     ],
-//    [
-//        'class' => 'kartik\grid\SerialColumn',
-//        'width' => '30px',
-//    ],
-        // [
-        // 'class'=>'\kartik\grid\DataColumn',
-        // 'attribute'=>'id',
-    // ],
+
     [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'client_id',
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'client_id',
         'format' => 'raw',
-        'value' => function (PointSystem $model){
-          return $model->client->fulla_name;
+        'value' => function (PointSystem $model) {
+            return $model->client->fulla_name;
         }
     ],
     [
-        'class'=>'\kartik\grid\DataColumn',
-        'attribute'=>'point',
+        'class' => '\kartik\grid\DataColumn',
+        'attribute' => 'point',
     ],
-    [
-        'class' => 'kartik\grid\ActionColumn',
-        'dropdown' => false,
-        'vAlign'=>'middle',
-        'template' => '{update}',
-        'urlCreator' => function($action, $model, $key, $index) {
-                return Url::to([$action,'id'=>$key]);
-        },
-        'updateOptions'=>['role'=>'modal-remote','title'=>'Update', 'data-toggle'=>'tooltip'],
-    ],
+
 ];

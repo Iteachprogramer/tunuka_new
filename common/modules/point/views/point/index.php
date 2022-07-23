@@ -1,11 +1,10 @@
 <?php
 
 use soft\grid\GridView;
+use soft\widget\ajaxcrud\CrudAsset;
+use yii\bootstrap4\Modal;
 use yii\helpers\Url;
 use yii\helpers\Html;
-use yii\bootstrap4\Modal;
-use johnitvn\ajaxcrud\CrudAsset;
-use johnitvn\ajaxcrud\BulkButtonWidget;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\modules\point\models\search\PointSystemSearch */
@@ -27,6 +26,16 @@ CrudAsset::register($this);
             'columns' => require(__DIR__.'/_columns.php'),
             'toolbarButtons' => [
                     'create'=>false,
+            ],
+            'bulkButtonsTemplate' => '{point-refresh}',
+            'bulkButtons' => [
+                'point-refresh' => [
+                    'content' => 'Boshlang\'ich qiymatga qaytarish',
+                    'icon' => 'check',
+                    'url' => ['point-refresh'],
+                    'cssClass' => 'btn btn-outline-secondary',
+
+                ],
             ],
         ])?>
     </div>

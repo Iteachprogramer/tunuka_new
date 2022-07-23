@@ -33,9 +33,12 @@ class Report extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['employee_id', 'date'], 'required'],
+            [['employee_id', ], 'required'],
             [['date', 'employee_id'], 'integer'],
             [['start_day', 'end_day'], 'safe'],
+            [['date'],'default','value'=>strtotime(date('Y-m-d'))],
+            [['work_time'], 'number'],
+            [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employees::className(), 'targetAttribute' => ['employee_id' => 'id']],
             [['work_time'], 'number'],
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employees::className(), 'targetAttribute' => ['employee_id' => 'id']],
         ];
@@ -48,11 +51,11 @@ class Report extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'employee_id' => 'Employee ID',
-            'date' => 'Date',
+            'employee_id' => 'Hodimlar royhati',
+            'date' => 'Sana',
             'work_time' => 'Work Time',
-            'start_day' => 'Start Day',
-            'end_day' => 'End Day',
+            'start_day' => 'Ish boshlangan vaqt',
+            'end_day' => 'Ish yakunlangan vaqt',
         ];
     }
 

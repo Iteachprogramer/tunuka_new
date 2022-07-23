@@ -2,14 +2,16 @@
 
 namespace common\modules\report\controllers;
 
+use common\models\DayModel;
 use common\models\Employees;
 use Yii;
 use common\modules\report\models\Report;
 use common\modules\report\models\search\ReportSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use \yii\web\Response;
+use yii\web\Response;
 use yii\helpers\Html;
 
 /**
@@ -23,13 +25,21 @@ class ReportController extends Controller
     public function behaviors()
     {
         return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                    'bulkdelete' => ['post'],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
+            'verbs' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'delete' => ['POST'],
+                ]
+            ]
         ];
     }
 
@@ -60,12 +70,12 @@ class ReportController extends Controller
         if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
-                'title' => "Report #" . $id,
+                'title' => 'Ko\'rish',
                 'content' => $this->renderAjax('view', [
                     'model' => $this->findModel($id),
                 ]),
-                'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                    Html::a('Edit', ['update', 'id' => $id], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                    Html::a('Tahrirlash', ['update', 'id' => $id], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
             ];
         } else {
             return $this->render('view', [
@@ -82,37 +92,33 @@ class ReportController extends Controller
      */
     public function actionCreate()
     {
-
+        $request = Yii::$app->request;
         $model = new Report();
         if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
-                    'title' => "Create new Report",
+                    'title' => "Yangi xisobot yaratish",
                     'content' => $this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Save', ['class' => 'btn btn-primary', 'type' => "submit"])
+                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
 
                 ];
             } else if ($model->load($request->post()) && $model->save()) {
                 return [
                     'forceReload' => '#crud-datatable-pjax',
-                    'title' => "Create new Report",
-                    'content' => '<span class="text-success">Create Report success</span>',
-                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::a('Create More', ['create'], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
-
+                    'forceClose' => true,
                 ];
             } else {
                 return [
-                    'title' => "Create new Report",
+                    'title' => "Yangi xisobot yaratish",
                     'content' => $this->renderAjax('create', [
                         'model' => $model,
                     ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Save', ['class' => 'btn btn-primary', 'type' => "submit"])
+                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
 
                 ];
             }
@@ -159,6 +165,10 @@ class ReportController extends Controller
             $report->start_day = date('H:i:s');
             $report->save(false);
         }
+        $month = new DayModel([
+            'month' => date('m'),
+            'year' => date('Y'),
+        ]);
         return $this->redirect(['report/list']);
     }
 
@@ -181,31 +191,26 @@ class ReportController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             if ($request->isGet) {
                 return [
-                    'title' => "Update Report #" . $id,
+                    'title' => "Tahrirlash",
                     'content' => $this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Save', ['class' => 'btn btn-primary', 'type' => "submit"])
+                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
                 ];
             } else if ($model->load($request->post()) && $model->save()) {
                 return [
                     'forceReload' => '#crud-datatable-pjax',
-                    'title' => "Report #" . $id,
-                    'content' => $this->renderAjax('view', [
-                        'model' => $model,
-                    ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::a('Edit', ['update', 'id' => $id], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                    'forceClose' => true,
                 ];
             } else {
                 return [
-                    'title' => "Update Report #" . $id,
+                    'title' => "Tahrirlash",
                     'content' => $this->renderAjax('update', [
                         'model' => $model,
                     ]),
-                    'footer' => Html::button('Close', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
-                        Html::button('Save', ['class' => 'btn btn-primary', 'type' => "submit"])
+                    'footer' => Html::button('Jarayoni tugatish', ['class' => 'btn btn-secondary float-left', 'data-dismiss' => "modal"]) .
+                        Html::button('Saqlash', ['class' => 'btn btn-primary', 'type' => "submit"])
                 ];
             }
         } else {
@@ -283,9 +288,18 @@ class ReportController extends Controller
 
     public function actionList()
     {
+        $request = Yii::$app->request;
+        $month = $request->get('month', date('m'));
+        $year = $request->get('year', date('Y'));
+
+        $month = new DayModel([
+            'month' => $month,
+            'year' => $year,
+        ]);
         $employees = Employees::find()->andWhere(['status' => Employees::STATUS_ACTIVE])->all();
         return $this->render('report', [
-            'employees' => $employees
+            'employees' => $employees,
+            'month' => $month,
         ]);
     }
 

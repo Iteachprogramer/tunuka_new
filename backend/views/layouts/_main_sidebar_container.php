@@ -106,33 +106,6 @@ $endDate = date('t.m.Y');
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-upload"></i>
-                        <p>
-                            Yuk oldi berdi
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="<?= Url::to(['/income']) ?>" class="nav-link">
-                                <i class="nav-icon fas fa-download"></i>
-                                <p>
-                                    Yuk sotib olish
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= Url::to(['/outcome-group']) ?>" class="nav-link">
-                                <i class="nav-icon fas fa-upload"></i>
-                                <p>
-                                    Yuk sotish
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
                     <a href="<?= Url::to(['/outcome/rulons']) ?>" class="nav-link">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
@@ -180,14 +153,43 @@ $endDate = date('t.m.Y');
                         </p>
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a href="<?= Url::to(['/employees']) ?>" class="nav-link">
-                        <i class="nav-icon fas fa-home"></i>
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user"></i>
                         <p>
                             Xodimlar
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['/employees']) ?>" class="nav-link">
+                                <i class="nav-icon fas fa-home"></i>
+                                <p>
+                                    Xodimlar
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['/report/report']) ?>" class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Xodimlar hisoboti
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= Url::to(['/report/report/list']) ?>" class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                   Oylik hisoboti
+                                </p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

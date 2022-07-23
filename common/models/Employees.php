@@ -63,6 +63,7 @@ class Employees extends \soft\db\ActiveRecord
         return [
             [['salary', 'is_factory', 'status', 'created_at', 'updated_at', 'created_by', 'updated_by'], 'integer'],
             [['name'], 'string', 'max' => 255],
+            [['start_day', 'end_day'], 'safe'],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
             [['updated_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updated_by' => 'id']],
         ];
@@ -90,6 +91,8 @@ class Employees extends \soft\db\ActiveRecord
             'salary' => 'Oylik',
             'is_factory' => 'Ishlabchiqarish',
             'status' => 'Holati',
+            'start_day' => 'Ish vaqti',
+            'end_day' => 'Tugash vaqti',
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'created_by' => Yii::t('app', 'Created By'),
@@ -133,7 +136,7 @@ class Employees extends \soft\db\ActiveRecord
 
     public function getAccountSum()
     {
-        return intval($this->getAccounts()->andWhere(['status'=>Account::STATUS_ACTIVE])->sum('sum'));
+        return intval($this->getAccounts()->andWhere(['status' => Account::STATUS_ACTIVE])->sum('sum'));
     }
 
     public static function getMap()

@@ -90,7 +90,7 @@ return [
     [
         'class' => 'kartik\grid\ActionColumn',
         'dropdown' => false,
-        'template' => '{update}  {delete} {print} {excel} {cash}',
+        'template' => '{update} {print} {excel} {cash} {point}  {delete} ',
         'width' => '140px',
         'vAlign' => 'middle',
 //        'urlCreator' => function ($action, $model, $key, $index) {
@@ -105,7 +105,15 @@ return [
             },
             'cash' => function ($url, $model) {
                 return Html::a('<i class="fa fa-dollar-sign"></i>', Url::to(['outcome-group/cash', 'id' => $model->id]), ['class' => 'cashButton', 'role' => 'modal-remote',]);
-            }
+            },
+            'point' => function ($url, $model) {
+                return Html::a('<i class="fa fa-hand-holding-usd"></i>', Url::to(['outcome-group/point', 'id' => $model->id]), ['class' => 'pointButton', ]);
+            },
+        ],
+        'visibleButtons'=>[
+            'point' => function ($model) {
+                return $model->prasent_status == OutcomeGroup::PRASENT_NOT_POINT;
+            },
         ],
         'viewOptions' => ['role' => 'modal-remote', 'title' => 'View', 'data-toggle' => 'tooltip'],
         'updateOptions' => ['role' => 'modal-remote', 'title' => 'Update', 'data-toggle' => 'tooltip'],

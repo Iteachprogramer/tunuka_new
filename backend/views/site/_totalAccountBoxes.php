@@ -18,8 +18,6 @@ use soft\widget\adminlte3\InfoBoxWidget;
 $accountsSum = intval(Account::find()->andWhere(['status'=>Account::STATUS_ACTIVE])->sum('sum'));
 $accountsDollar = intval(Account::find()->andWhere(['status'=>Account::STATUS_ACTIVE])->sum('dollar'));
 $accountsBank = intval(Account::find()->andWhere(['status'=>Account::STATUS_ACTIVE])->sum('bank'));
-$accountsTotal = intval(Account::find()->andWhere(['status'=>Account::STATUS_ACTIVE])->sum('total'));
-$Skladresidualsum = ProductList::getResidualSum();
 ?>
 
 <div class="row">

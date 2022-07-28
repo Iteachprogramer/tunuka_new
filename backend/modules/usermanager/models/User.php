@@ -25,7 +25,7 @@ class User extends \common\models\User
         }
 
         $auth = Yii::$app->authManager;
-        $permissions = ['admin', 'factory','sale','cash'];
+        $permissions = ['admin', 'factory','sale','cash','client'];
         foreach ($permissions as $permissionName) {
             $role = $auth->getRole($permissionName);
             if ($role){

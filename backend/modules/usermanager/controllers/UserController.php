@@ -55,6 +55,7 @@ class UserController extends Controller
                 $authorRole = $auth->getRole('factory');
                 $authorRole2 = $auth->getRole('sale');
                 $authorRole3 = $auth->getRole('cash');
+                $authorRole4 = $auth->getRole('client');
                 if ($model->type_id == User::TYPE_ADMIN) {
                     $auth->assign($authorRole1, $model->getId());
                 } elseif ($model->type_id == User::TYPE_FACTORY) {
@@ -64,6 +65,9 @@ class UserController extends Controller
                 }
                 elseif ($model->type_id == User::TYPE_CASH) {
                     $auth->assign($authorRole3, $model->getId());
+                }
+                elseif ($model->type_id == User::TYPE_CLIENT) {
+                    $auth->assign($authorRole4, $model->getId());
                 }
                 return $this->redirect(['index']);
             }

@@ -54,6 +54,7 @@ if (!$model->isNewRecord) {
                     User::TYPE_FACTORY => 'Ishlab chiqarish',
                     User::TYPE_SALE => 'Sotuvchi',
                     User::TYPE_CASH => 'Kassa',
+                    User::TYPE_CLIENT => 'Klient',
                 ]) ?>
             </div>
             <div class="col-6">

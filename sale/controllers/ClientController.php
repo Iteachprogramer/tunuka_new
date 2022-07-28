@@ -62,23 +62,10 @@ class ClientController extends AjaxCrudController
     {
         $searchModel = new ClientSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
-    }
-
-    public function actionExcel()
-    {
-        $model = Client::find()->all();
-        $result = [];
-        if (Yii::$app->request->isAjax) {
-            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-            $result['message'] = $this->renderAjax('report-excel', ['model' => $model]);
-            return $this->asJson($result);
-        }
-        return $this->redirect(Yii::$app->request->referrer);
     }
 
     public function actionAksessuarIndex()
@@ -477,7 +464,7 @@ class ClientController extends AjaxCrudController
             'is_main' => Null,
 
         ]);
-        $query = Account::find();
+        $query = Account::find()->andWhere(['status' => Account::STATUS_ACTIVE]);
         $date = $this->request->queryParams['AccountSearch']['date'];
         $dates = explode(' - ', $date, 2);
         if (count($dates) == 2) {
@@ -517,13 +504,7 @@ class ClientController extends AjaxCrudController
         $model->sum = abs($model->sum);
         $model->dollar = abs($model->dollar);
         $model->bank = abs($model->bank);
-
         $title = 'Tahrirlash';
-
-//        if ($model->loadPost()){
-//            dd($model->attributes);
-//        }
-
         return $this->ajaxCrud->updateAction($model, [
             'title' => $title,
             'view' => 'accountFormView',
@@ -534,7 +515,8 @@ class ClientController extends AjaxCrudController
     public function actionDeleteAccount($id)
     {
         $model = $this->findAccountModel($id);
-        $model->delete();
+        $model->status = Account::STATUS_DELETED;
+        $model->save(false);
         $url = ['account', 'id' => $model->client_id];
         if ($this->isAjax) {
             $this->formatJson();
@@ -585,6 +567,37 @@ class ClientController extends AjaxCrudController
 //        exit;
     }
 
+    public function actionExcel()
+    {
+        $id = Yii::$app->request->get('id');
+        $query = Client::find()
+            ->with('outcomeAggregationSum')
+            ->with('discountAggregationSum')
+            ->with('accountAggregationSum')
+            ->with('accountAggregationDollar')
+            ->with('incomeAggregationSum');
+        $clients = $query->all();
+        $clientsList = [];
+        foreach ($clients as $client) {
+            $finishAccountSum = $client->finishAccountSum;
+            $finishAccountSumDollar = $client->finishAccountSumDollar;
+            if ($finishAccountSum != 0 || $finishAccountSumDollar != 0) {
+                $clientsList[] = [
+                    'id' => $client->id,
+                    'name' => $client->fulla_name,
+                    'finishAccountSum' => $client->finishAccountSum ?? 0,
+                    'finishAccountDollar' => $client->finishAccountSumDollar ?? 0,
+                ];
+            }
+        }
+        $result = [];
+        if (Yii::$app->request->isAjax) {
+            Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            $result['message'] = $this->renderAjax('report-excel', ['clientsList' => $clientsList]);
+            return $this->asJson($result);
+        }
+        return $this->redirect(Yii::$app->request->referrer);
+    }
 
     /**
      * Finds the Client model based on its primary key value.

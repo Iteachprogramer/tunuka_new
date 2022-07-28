@@ -42,7 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                         elseif ($model->type_id == User::TYPE_FACTORY) {
                             return '<span class="badge badge-warning">' . 'Ishlab chiqarish' . '</span>';
-
+                        }
+                        elseif ($model->type_id == User::TYPE_CLIENT) {
+                            return '<span class="badge badge-primary">' . 'Klient' . '</span>';
                         }
                     }
                 ],

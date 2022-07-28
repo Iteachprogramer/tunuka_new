@@ -31,10 +31,10 @@ $daysCount = count($days);
                         <div class="col-md-6" style="margin-top: 20px">
                             <?= Html::beginForm(['report/list'], 'get', ['id' => 'filter-form', 'class' => 'form-inline']) ?>
                             <div class="form-group" style="width: 100%;justify-content: end">
-                                <?=$month->renderPrevMonthLink()?>
+                                <?= $month->renderPrevMonthLink() ?>
                                 <?= Html::dropDownList('year', $month->year, DayModel::years(), ['class' => 'form-control select']) ?>
                                 <?= Html::dropDownList('month', $substr, DayModel::months(), ['class' => 'form-control select']) ?>
-                                <?=$month->renderNextMonthLink()?>
+                                <?= $month->renderNextMonthLink() ?>
                             </div>
                             <?= Html::endForm() ?>
                         </div>
@@ -91,9 +91,10 @@ $daysCount = count($days);
                                 <?php
                                 $valueIndex = strtotime($date) . '_' . $employee->id;
                                 $value = ArrayHelper::getValue($month->getValues(), [$valueIndex, 'start_day'], '');
+                                $employe_working_time = ArrayHelper::getValue($month->getValues(), [$valueIndex, 'employe_working_time'], '');
                                 ?>
                                 <?php $count_employee_days += $value ? 1 : 0 ?>
-                                <td style="background: <?= $value > $employee->start_day ? '#FFB266' : '' ?>"><?= $value?date('H:i',strtotime($value)):'' ?></td>
+                                <td style="background: <?= $value > $employe_working_time ? '#FFB266' : '' ?>" ><span data-toggle=\"tooltip\" data-placement=\"top\" title="Ishga kelishi kerak bo'lgan vaqt:<?= $employe_working_time ? date('H:i', strtotime($employe_working_time)) : '' ?>"><?= $value ? date('H:i', strtotime($value)) : '' ?></span></td>
                             <?php endforeach; ?>
                             <td><?= $count_employee_days ?></td>
                         </tr>
@@ -110,6 +111,33 @@ $daysCount = count($days);
 $css = <<<CSS
 .select {
     margin-right: 4px;
+}
+span:hover {
+    color: red;
+    position: relative;
+}
+
+span[title]:hover:after {
+    content: attr(title);
+    padding: 4px 8px;
+    color: #333;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 10;
+    white-space: nowrap;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow: 0px 0px 4px #222;
+    -webkit-box-shadow: 0px 0px 4px #222;
+    box-shadow: 0px 0px 4px #222;
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #eeeeee),color-stop(1, #cccccc));
+    background-image: -webkit-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -moz-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -ms-linear-gradient(top, #eeeeee, #cccccc);
+    background-image: -o-linear-gradient(top, #eeeeee, #cccccc);
 }
 CSS;
 $this->registerCss($css);

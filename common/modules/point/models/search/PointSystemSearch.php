@@ -41,7 +41,7 @@ class PointSystemSearch extends PointSystem
      */
     public function search($params)
     {
-        $query = PointSystem::find();
+        $query = PointSystem::find()->with('client');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

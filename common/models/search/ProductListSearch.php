@@ -42,7 +42,11 @@ class ProductListSearch extends ProductList
      */
     public function search($params)
     {
-        $query = ProductList::find()->with('sizeType');
+        $query = ProductList::find()
+            ->with('sizeType')
+            ->with('incomeAggregation')
+
+        ;
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

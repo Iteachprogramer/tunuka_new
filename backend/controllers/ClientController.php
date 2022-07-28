@@ -12,6 +12,7 @@ use common\models\search\AccountSearch;
 use common\models\search\IncomeSearch;
 use common\models\search\OutcomeGroupSearch;
 use common\models\search\OutcomeSearch;
+use common\models\SendMessage;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use soft\web\AjaxCrudController;
 use Yii;
@@ -625,6 +626,42 @@ class ClientController extends AjaxCrudController
 
     }
 
+    public function actionSend($id)
+    {
+        $client = $this->findModel($id);
+        $model = new SendMessage();
+        if ($model->load(Yii::$app->request->post())) {
+            Yii::$app->sms->send($client->phone, $model->message);
+            return $this->redirect(['client/index']);
+        }
+        return $this->render('send', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionSelectClients()
+    {
+        $selects = Yii::$app->request->post('selection');
+        Yii::$app->session->set('selects', $selects);
+        $model = new SendMessage();
+        return $this->render('send-message-all', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionSendMessageCheck()
+    {
+        $model = new SendMessage();
+        $selects = Yii::$app->session->get('selects');
+        if ($model->load(Yii::$app->request->post())) {
+            foreach ($selects as $select) {
+                $client = $this->findModel($select);
+                Yii::$app->sms->send($client->phone, $model->message);
+            }
+            Yii::$app->session->remove('selects');
+            return $this->redirect(['client/index']);
+        }
+    }
 
     private function findAccountModel($id)
     {

@@ -43,7 +43,9 @@ class OutcomeGroupSearch extends OutcomeGroup
     {
         if ($query === null) {
             $query = OutcomeGroup::find()
-                ->with(['client'])
+                ->with('client')
+                ->with('accountAggregationSum')
+                ->with('createdBy')
                 ->joinWith('createdBy');
         }
 

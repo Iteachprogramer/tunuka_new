@@ -142,6 +142,7 @@ class ReportController extends Controller
         $request = Yii::$app->request;
         $date = strtotime(date('Y-m-d'));
         $id = $request->get('id');
+        $employee = Employees::findOne($id);
         $report = Report::find()
             ->andWhere(['employee_id' => $id])
             ->andWhere(['date' => $date])
@@ -162,6 +163,8 @@ class ReportController extends Controller
             $report = new Report();
             $report->employee_id = $id;
             $report->date = $date;
+            $report->employe_working_time_end = $employee->end_day;
+            $report->employe_working_time= $employee->start_day;
             $report->start_day = date('H:i:s');
             $report->save(false);
         }

@@ -35,7 +35,7 @@ class Report extends \yii\db\ActiveRecord
         return [
             [['employee_id', ], 'required'],
             [['date', 'employee_id'], 'integer'],
-            [['start_day', 'end_day'], 'safe'],
+            [['start_day', 'end_day','employe_working_time','employe_working_time_end'], 'safe'],
             [['date'],'default','value'=>strtotime(date('Y-m-d'))],
             [['work_time'], 'number'],
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employees::className(), 'targetAttribute' => ['employee_id' => 'id']],
@@ -56,6 +56,8 @@ class Report extends \yii\db\ActiveRecord
             'work_time' => 'Work Time',
             'start_day' => 'Ish boshlangan vaqt',
             'end_day' => 'Ish yakunlangan vaqt',
+            'employe_working_time' => 'Ish boshlash kerak bo\'lgan vaqt',
+            'employe_working_time_end' => 'Ish yakunlash kerak bo\'lgan vaqt',
         ];
     }
 

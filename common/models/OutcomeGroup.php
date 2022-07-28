@@ -107,10 +107,11 @@ class OutcomeGroup extends \soft\db\ActiveRecord
             if ($this->isNewRecord) {
                 $order_number = OrderNumber::find()->one();
                 $nextDay = strtotime('+1 week', $order_number->date);
-                if (Yii::$app->formatter->asDate($nextDay, 'dd.MM.yyyy') > Yii::$app->formatter->asDate(time(), 'dd.MM.yyyy')) {
+                if ($nextDay > time()) {
                     $next = $order_number->client_order_number + 1;
                     $order_number->client_order_number = $next;
                 } else {
+                    dd('salom');
                     $order_number->client_order_number = 1;
                     $order_number->date = time();
                 }

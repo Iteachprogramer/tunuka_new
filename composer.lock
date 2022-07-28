@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "354673460c3de3f09a8bf8a5a76be19c",
+    "content-hash": "ab5fe2e8b528e4dcedf962c50b426a67",
     "packages": [
         {
             "name": "2amigos/yii2-file-input-widget",
@@ -3970,6 +3970,60 @@
             "time": "2022-06-08T22:44:29+00:00"
         },
         {
+            "name": "ulugbek/playmobile",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Ulugbek-Muhammadjonov/playmobile.git",
+                "reference": "5a1e00fa5d5833e6836eb575686360cdcbe27737"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Ulugbek-Muhammadjonov/playmobile/zipball/5a1e00fa5d5833e6836eb575686360cdcbe27737",
+                "reference": "5a1e00fa5d5833e6836eb575686360cdcbe27737",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.0",
+                "yiisoft/yii2-httpclient": "^2.0"
+            },
+            "default-branch": true,
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "ulugbek\\playmobile\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Muhammadjonov Ulugbek",
+                    "email": "muhammadjonovulugbek98@gmail.com"
+                }
+            ],
+            "description": "Playmobile sms service",
+            "keywords": [
+                "SMS Service",
+                "extension",
+                "muhammadjonov",
+                "playmobile",
+                "send",
+                "sms",
+                "ulugbek",
+                "uz",
+                "widget",
+                "yii2"
+            ],
+            "support": {
+                "issues": "https://github.com/Ulugbek-Muhammadjonov/playmobile/issues",
+                "source": "https://github.com/Ulugbek-Muhammadjonov/playmobile/tree/v1.0.1"
+            },
+            "time": "2022-05-26T04:42:08+00:00"
+        },
+        {
             "name": "wbraganca/yii2-dynamicform",
             "version": "dev-master",
             "source": {
@@ -4522,6 +4576,90 @@
                 "wiki": "http://www.yiiframework.com/wiki/"
             },
             "time": "2020-01-17T13:33:30+00:00"
+        },
+        {
+            "name": "yiisoft/yii2-httpclient",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-httpclient.git",
+                "reference": "3fc9b07b413ddddc4f74822b58df9b18f639f6f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-httpclient/zipball/3fc9b07b413ddddc4f74822b58df9b18f639f6f0",
+                "reference": "3fc9b07b413ddddc4f74822b58df9b18f639f6f0",
+                "shasum": ""
+            },
+            "require": {
+                "paragonie/random_compat": ">=1",
+                "yiisoft/yii2": "~2.0.13"
+            },
+            "require-dev": {
+                "cweagans/composer-patches": "^1.7",
+                "phpunit/phpunit": "4.8.34"
+            },
+            "default-branch": true,
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                },
+                "composer-exit-on-patch-failure": true,
+                "patches": {
+                    "phpunit/phpunit-mock-objects": {
+                        "Fix PHP 7 and 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_mock_objects.patch"
+                    },
+                    "phpunit/phpunit": {
+                        "Fix PHP 7 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php7.patch",
+                        "Fix PHP 8 compatibility": "https://yiisoft.github.io/phpunit-patches/phpunit_php8.patch"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\httpclient\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Paul Klimov",
+                    "email": "klimov.paul@gmail.com"
+                }
+            ],
+            "description": "HTTP client extension for the Yii framework",
+            "keywords": [
+                "curl",
+                "http",
+                "httpclient",
+                "yii2"
+            ],
+            "support": {
+                "forum": "http://www.yiiframework.com/forum/",
+                "irc": "irc://irc.freenode.net/yii",
+                "issues": "https://github.com/yiisoft/yii2-httpclient/issues",
+                "source": "https://github.com/yiisoft/yii2-httpclient",
+                "wiki": "http://www.yiiframework.com/wiki/"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/yiisoft",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/yiisoft",
+                    "type": "open_collective"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/yiisoft/yii2-httpclient",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-10-21T17:16:15+00:00"
         },
         {
             "name": "yiisoft/yii2-jui",

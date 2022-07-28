@@ -30,11 +30,17 @@ return [
         'report' => [
             'class' => 'common\modules\report\Module',
         ],
+        'playmobile' => [
+            'class' => 'ulugbek\playmobile\Modul',
+        ],
     ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-common',
             'baseUrl' => '/admin',
+        ],
+        'sms' => [
+            'class' => \ulugbek\playmobile\components\Sms::class,
         ],
 
         'user' => [

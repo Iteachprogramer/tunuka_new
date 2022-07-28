@@ -21,6 +21,7 @@ CrudAsset::register($this);
        style="margin-bottom: 15px;padding: 10px"> Hisobot olish</a>
     <div class="client-index">
         <div id="ajaxCrudDatatable">
+            <?= Html::beginForm(['client/select-clients'], 'post') ?>
             <?= GridView::widget([
                 'id' => 'crud-datatable',
                 'pagerDropDown' => true,
@@ -40,6 +41,11 @@ CrudAsset::register($this);
                 'filterModel' => $searchModel,
                 'columns' => require(__DIR__ . '/_columns.php'),
             ]) ?>
+            <div style="display: flex;justify-content: end">
+                <?= Html::submitButton('<i class="fas fa-sms"></i> Xabar yuborish', ['class' => 'btn btn-primary']) ?>
+
+            </div>
+            <?php Html::endForm() ?>
         </div>
     </div>
 <?php Modal::begin([

@@ -278,7 +278,7 @@ class DayModel extends Model
                 ->andWhere(['>=', 'date', $this->firstDay])
                 ->andWhere(['<', 'date', $this->nextMonthFirstDay])
                 ->asArray()
-                ->select(['id', 'date', 'end_day', 'start_day','employee_id'])
+                ->select(['id', 'date', 'end_day', 'start_day','employee_id','employe_working_time','employe_working_time_end'])
                 ->indexBy(function ($row) {
                     return $row['date'] . '_' . $row['employee_id'];
                 })

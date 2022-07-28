@@ -97,6 +97,7 @@ class User extends ActiveRecord implements IdentityInterface
     const TYPE_SALE = 2;
     const TYPE_FACTORY = 3;
     const TYPE_CASH = 4;
+    const TYPE_CLIENT = 5;
 
     /**
      * Admin tomonidan filiallar uchun xodim (menejer va konsultantlar)
@@ -386,6 +387,7 @@ class User extends ActiveRecord implements IdentityInterface
             self::TYPE_SALE => 'Sotuvchi',
             self::TYPE_FACTORY => 'Ishlab chiqarish',
             self::TYPE_CASH => 'Kassa',
+            self::TYPE_CLIENT => 'Klient',
         ];
     }
 
